@@ -11,6 +11,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MysqlPeriodicalDao implements PeriodicalDao {
     private final static Logger LOGGER = LogManager.getLogger(MysqlPeriodicalDao.class);
@@ -29,6 +31,22 @@ public class MysqlPeriodicalDao implements PeriodicalDao {
 
     static MysqlPeriodicalDao getInstance() {
         return PERIODICALS_DAO;
+    }
+
+    @Override
+    public List<PeriodicalEdition> findAll() {
+        try {
+            connection = MysqlDatasource.getConnection();
+            statement = connection.prepareStatement(
+                    "SELECT * FROM periodical_editions");
+            ResultSet resultSet = statement.executeQuery();
+            return resultToList(resultSet);
+        } catch (SQLException e) {
+            LOGGER.log(Level.ERROR, e.getMessage());
+        } finally {
+            MysqlDatasource.close(connection, statement);
+        }
+        return null;
     }
 
     @Override
@@ -114,6 +132,15 @@ public class MysqlPeriodicalDao implements PeriodicalDao {
             LOGGER.log(Level.ERROR, e.getMessage());
         }
         return false;
+    }
+
+    private List<PeriodicalEdition> resultToList(ResultSet resultSet) throws SQLException {
+        List<PeriodicalEdition> list = new ArrayList<>();
+        while (resultSet.next()) {
+            PeriodicalEdition subscription = createPeriodicalFromResult(resultSet);
+            list.add(subscription);
+        }
+        return list;
     }
 
     private PeriodicalEdition createPeriodicalFromResult(ResultSet resultSet) throws SQLException {
