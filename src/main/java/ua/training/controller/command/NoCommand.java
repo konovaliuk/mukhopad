@@ -10,6 +10,6 @@ import java.io.IOException;
 public class NoCommand implements Command {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        return Config.getInstance().getProperty(Config.ERROR);
+        return Config.getInstance().getProperty(Config.LOGIN);
     }
 }

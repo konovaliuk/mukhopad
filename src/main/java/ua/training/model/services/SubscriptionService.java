@@ -22,7 +22,7 @@ public class SubscriptionService {
         return instance;
     }
 
-    private static final String USERNAME = "username";
+    private static final String USERNAME = "user";
     private static final String EDITION = "edition";
     private static final String PLAN = "plan";
 

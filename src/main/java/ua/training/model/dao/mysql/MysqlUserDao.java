@@ -21,7 +21,7 @@ public class MysqlUserDao implements UserDao {
     private final static int COLUMN_USER_GROUP_NAME = 5;
 
     private final static String BASE_SQL_USER_QUERY
-            = "SELECT username, password, email, group_name FROM users, groups WHERE user_group_id = group_id ";
+            = "SELECT users.username, users.password, users.email, groups.group_name FROM users, groups WHERE users.user_group_id = groups.group_id ";
 
     private final static MysqlUserDao USER_DAO = new MysqlUserDao();
 
@@ -161,9 +161,9 @@ public class MysqlUserDao implements UserDao {
         String username = resultSet.getString(COLUMN_USERNAME);
         String password = resultSet.getString(COLUMN_PASSWORD);
         String email = resultSet.getString(COLUMN_EMAIL);
-        String groupName = resultSet.getString(COLUMN_USER_GROUP_NAME);
+        String groupName = resultSet.getString(4);
 
-        UserGroup group = UserGroup.valueOf(groupName);
+        UserGroup group = UserGroup.valueOf(groupName.toUpperCase());
 
         resultSet.close();
         return new User(username, password, email, group);

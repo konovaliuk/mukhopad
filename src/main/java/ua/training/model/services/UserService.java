@@ -25,50 +25,46 @@ public class UserService {
 
     private static final String LOGIN = "login";
     private static final String PASSWORD = "password";
+    private static final String CONFIRM_PASSWORD = "confirmPassword";
     private static final String EMAIL = "email";
 
     public String login(HttpServletRequest request, HttpServletResponse response) {
-        HttpSession session = request.getSession();
-        String login = (String) session.getAttribute(LOGIN);
-        String password = (String) session.getAttribute(PASSWORD);
+        String login = request.getParameter(LOGIN);
+        String password = request.getParameter(PASSWORD);
         password = hashPassword(password);
 
         User user = DAO.findByUsername(login);
 
         String page;
-        if (user.getPassword() == password) {
-            request.setAttribute("user", login);
+        if (user != null && user.getPassword().equals(password)) {
+            request.getSession().setAttribute("user", login);
             page = Config.getInstance().getProperty(Config.MAIN);
         } else {
             request.setAttribute("error", Message.getInstance().getProperty(Message.LOGIN_ERROR));
-            page = Config.getInstance().getProperty(Config.ERROR);
+            page = Config.getInstance().getProperty(Config.LOGIN);
         }
         return page;
     }
 
     public String register(HttpServletRequest request, HttpServletResponse response) {
-        HttpSession session = request.getSession();
-
-        String login = (String) session.getAttribute(LOGIN);
-        User user = DAO.findByUsername(login);
-
-        if(user != null) {
-            return Config.getInstance().getProperty(Config.ERROR);
+        String login = request.getParameter(LOGIN);
+        String password = request.getParameter(PASSWORD);
+        if (!password.equals(request.getParameter(CONFIRM_PASSWORD))) {
+            request.setAttribute("error", Message.getInstance().getProperty(Message.PASSWORD_MISMATCH_ERROR));
+            return Config.getInstance().getProperty(Config.REGISTRATION);
         }
-
-        String password = (String) session.getAttribute(PASSWORD);
         password = hashPassword(password);
 
-        String email = (String) session.getAttribute(EMAIL);
-        user = new User(login, password, email, UserGroup.USER);
+        String email = request.getParameter(EMAIL);
+        User user = new User(login, password, email, UserGroup.USER);
 
         String page;
         if (DAO.insert(user)) {
-            request.setAttribute("user", login);
+            request.getSession().setAttribute("user", login);
             page = Config.getInstance().getProperty(Config.MAIN);
         } else {
             request.setAttribute("error", Message.getInstance().getProperty(Message.REGISTRATION_ERROR));
-            page = Config.getInstance().getProperty(Config.ERROR);
+            page = Config.getInstance().getProperty(Config.REGISTRATION);
         }
         return page;
     }

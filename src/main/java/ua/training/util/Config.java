@@ -6,12 +6,12 @@ public class Config {
 
     private static Config instance;
     private ResourceBundle resource;
-    private static final String BUNDLE_NAME = "com.bionic.login.manager.config";
-    public static final String DRIVER = "DRIVER";
-    public static final String URL = "URL";
+    private static final String BUNDLE_NAME = "config";
     public static final String MAIN = "MAIN";
     public static final String ERROR = "ERROR";
     public static final String LOGIN = "LOGIN";
+    public static final String REGISTRATION = "REGISTRATION";
+    public static final String SUCCESS = "SUCCESS";
 
     public static Config getInstance() {
         if (instance == null) {

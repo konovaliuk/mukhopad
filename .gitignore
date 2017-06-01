@@ -3,6 +3,7 @@
 # Compiled class file
 *.class
 .idea/
+*.iml
 PeriodicalPublication.iml
 # Log file
 *.log
