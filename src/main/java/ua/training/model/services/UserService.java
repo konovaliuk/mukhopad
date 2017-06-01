@@ -14,6 +14,14 @@ public class UserService {
     private static final UserDao DAO = MysqlDaoFactory.getInstance().getUserDao();
     private static UserService instance;
 
+    private static final String LOGIN = "login";
+    private static final String PASSWORD = "password";
+    private static final String CONFIRM_PASSWORD = "confirmPassword";
+    private static final String EMAIL = "email";
+
+    private static final String PARAM_USER = "user";
+    private static final String PARAM_ERROR = "error";
+
     private UserService() {}
 
     public static synchronized UserService getInstance() {
@@ -22,11 +30,6 @@ public class UserService {
         }
         return instance;
     }
-
-    private static final String LOGIN = "login";
-    private static final String PASSWORD = "password";
-    private static final String CONFIRM_PASSWORD = "confirmPassword";
-    private static final String EMAIL = "email";
 
     public String login(HttpServletRequest request, HttpServletResponse response) {
         String login = request.getParameter(LOGIN);
@@ -37,10 +40,10 @@ public class UserService {
 
         String page;
         if (user != null && user.getPassword().equals(password)) {
-            request.getSession().setAttribute("user", login);
+            request.getSession().setAttribute(PARAM_USER, login);
             page = Config.getInstance().getProperty(Config.MAIN);
         } else {
-            request.setAttribute("error", Message.getInstance().getProperty(Message.LOGIN_ERROR));
+            request.setAttribute(PARAM_ERROR, Message.getInstance().getProperty(Message.LOGIN_ERROR));
             page = Config.getInstance().getProperty(Config.LOGIN);
         }
         return page;
@@ -50,7 +53,7 @@ public class UserService {
         String login = request.getParameter(LOGIN);
         String password = request.getParameter(PASSWORD);
         if (!password.equals(request.getParameter(CONFIRM_PASSWORD))) {
-            request.setAttribute("error", Message.getInstance().getProperty(Message.PASSWORD_MISMATCH_ERROR));
+            request.setAttribute(PARAM_ERROR, Message.getInstance().getProperty(Message.PASSWORD_MISMATCH_ERROR));
             return Config.getInstance().getProperty(Config.REGISTRATION);
         }
         password = hashPassword(password);
@@ -60,10 +63,10 @@ public class UserService {
 
         String page;
         if (DAO.insert(user)) {
-            request.getSession().setAttribute("user", login);
+            request.getSession().setAttribute(PARAM_USER, login);
             page = Config.getInstance().getProperty(Config.MAIN);
         } else {
-            request.setAttribute("error", Message.getInstance().getProperty(Message.REGISTRATION_ERROR));
+            request.setAttribute(PARAM_ERROR, Message.getInstance().getProperty(Message.REGISTRATION_ERROR));
             page = Config.getInstance().getProperty(Config.REGISTRATION);
         }
         return page;
@@ -72,7 +75,6 @@ public class UserService {
     String hashPassword(String password) {
         String hashedPassword = null;
         try {
-            // Create MessageDigest instance for MD5
             MessageDigest md = MessageDigest.getInstance("SHA-256");
             //Add password bytes to digest
             md.update(password.getBytes());

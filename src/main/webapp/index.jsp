@@ -5,7 +5,7 @@
 <head>
     <meta name="viewport" content="initial-scale=1, maximum-scale=1">
     <link rel='stylesheet' href='webjars/bootstrap/3.2.0/css/bootstrap.min.css'>
-    <c:if test="${not empty sessionScope['user']}">
+    <c:if test="${not empty sessionScope.user}">
         <c:redirect url="/PeriodicalPublications"/>
     </c:if>
 </head>
@@ -15,10 +15,10 @@
         <form action="PeriodicalPublications" method="POST" class="form-horizontal">
             <!-- Form Name -->
             <legend>Please, log in</legend>
-            <c:if test="${not empty requestScope['error']}">
+            <c:if test="${not empty requestScope.error}">
             <div class="form-group alert alert-danger fade in">
                 <a href="#" class="close" data-dismiss="alert">&times;</a>
-                <p><strong>Error! </strong>${requestScope['error']}</p>
+                <p><strong>Error! </strong>${requestScope.error}</p>
             </div>
             </c:if>
             <!-- Text input-->

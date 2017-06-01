@@ -140,6 +140,7 @@ public class MysqlPeriodicalDao implements PeriodicalDao {
             PeriodicalEdition subscription = createPeriodicalFromResult(resultSet);
             list.add(subscription);
         }
+        resultSet.close();
         return list;
     }
 
@@ -149,7 +150,6 @@ public class MysqlPeriodicalDao implements PeriodicalDao {
         int editionId = resultSet.getInt(COLUMN_ID);
         String editionName = resultSet.getString(COLUMN_NAME);
         BigDecimal editionPrice = resultSet.getBigDecimal(COLUMN_PRICE);
-        resultSet.close();
         return new PeriodicalEdition(editionId, editionName, editionPrice);
     }
 }

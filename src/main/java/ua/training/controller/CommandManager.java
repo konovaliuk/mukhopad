@@ -18,7 +18,7 @@ public class CommandManager {
         commands.put("listUserSubscriptions", new UserSubscriptionListCommand());
 
         /* Periodical commands */
-//        commands.put("listPeriodicals", new ListPeriodicalsCommand());
+        commands.put("listPeriodicals", new PeriodicalListAllCommand());
         commands.put("addPeriodical", new PeriodicalInsertCommand());
         commands.put("deletePeriodical", new PeriodicalDeleteCommand());
         commands.put("updatePeriodical", new PeriodicalUpdateCommand());

@@ -4,6 +4,7 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import ua.training.controller.command.Command;
+import ua.training.model.services.PeriodicalsService;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -13,7 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet("/login")
+@WebServlet("/")
 public class Controller extends HttpServlet {
     private static final Logger LOGGER = LogManager.getLogger(Controller.class);
 
@@ -27,6 +28,7 @@ public class Controller extends HttpServlet {
             LOGGER.log(Level.ERROR, e.getMessage());
         }
 
+        PeriodicalsService.getInstance().displayPeriodicals(request, response);
         RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(page);
         dispatcher.forward(request, response);
     }
