@@ -5,11 +5,14 @@
 <head>
     <meta name="viewport" content="initial-scale=1, maximum-scale=1">
     <link rel='stylesheet' href='webjars/bootstrap/3.2.0/css/bootstrap.min.css'>
+    <c:if test="${not empty sessionScope['user']}">
+        <c:redirect url="/PeriodicalPublications"/>
+    </c:if>
 </head>
 <body>
 <div class="container">
     <div class="row">
-        <form action="Controller" method="POST" class="form-horizontal">
+        <form action="PeriodicalPublications" method="POST" class="form-horizontal">
             <!-- Form Name -->
             <legend>Registration Form</legend>
             <c:if test="${not empty requestScope['error']}">

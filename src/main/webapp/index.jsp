@@ -5,11 +5,14 @@
 <head>
     <meta name="viewport" content="initial-scale=1, maximum-scale=1">
     <link rel='stylesheet' href='webjars/bootstrap/3.2.0/css/bootstrap.min.css'>
+    <c:if test="${not empty sessionScope['user']}">
+        <c:redirect url="/PeriodicalPublications"/>
+    </c:if>
 </head>
 <body>
 <div class="container">
     <div class="row">
-        <form action="Controller" method="POST" class="form-horizontal">
+        <form action="PeriodicalPublications" method="POST" class="form-horizontal">
             <!-- Form Name -->
             <legend>Please, log in</legend>
             <c:if test="${not empty requestScope['error']}">
@@ -43,7 +46,7 @@
                 <div class="col-md-4">
                     <input type="hidden" name="command" value="userLogin">
                     <input type="submit" class="btn btn-primary" value="Submit">
-                    <a href="registration.jsp">Register</a>
+                    <a href="WEB-INF/jsp/registration.jsp">Register</a>
                 </div>
             </div>
     </div>

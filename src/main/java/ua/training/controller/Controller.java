@@ -27,7 +27,6 @@ public class Controller extends HttpServlet {
             LOGGER.log(Level.ERROR, e.getMessage());
         }
 
-
         RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(page);
         dispatcher.forward(request, response);
     }

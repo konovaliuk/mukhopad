@@ -28,7 +28,6 @@ public class CommandManager {
 
     public static Command getCommand(HttpServletRequest request) {
         Command command = commands.get(request.getParameter("command"));
-        System.out.print(command);
         if (command == null) {
             command =  commands.get("noCommand");
         }
