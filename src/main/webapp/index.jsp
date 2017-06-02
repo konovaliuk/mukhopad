@@ -45,11 +45,14 @@
                 <label class="col-md-4 control-label"> </label>
                 <div class="col-md-4">
                     <input type="hidden" name="command" value="userLogin">
-                    <input type="submit" class="btn btn-primary" value="Submit">
-                    <a href="PeriodicalPublication/registration.jsp">Register</a>
+                    <input type="submit" class="btn btn-primary" value="Log in">
+                    <input type="submit" class="btn btn-link" form="register" value="Sign in"/>
                 </div>
             </div>
     </div>
+    </form>
+    <form method="post" action="PeriodicalPublications" id="register">
+        <input type="hidden" name="command" value="redirectRegister">
     </form>
 </div>
 </div>

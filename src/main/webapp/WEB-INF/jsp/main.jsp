@@ -44,7 +44,7 @@
                     <tr>
                         <td>${item.editionId}</td>
                         <td>${item.editionName}</td>
-                        <td>${item.editionPrice}$</td>
+                        <td>$${item.editionPrice}</td>
                         <td>
                             <select class="form-control" name="plan" form="subscribe${formId}">
                                 <option value="ONE_MONTH">1 Month</option>
