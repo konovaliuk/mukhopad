@@ -1,13 +1,24 @@
 package ua.training.model.services;
 
-import org.apache.logging.log4j.*;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import ua.training.model.dao.SubscriptionDao;
+import ua.training.model.dao.TransactionDao;
 import ua.training.model.dao.UserDao;
 import ua.training.model.dao.mysql.MysqlDaoFactory;
-import ua.training.model.entities.*;
-import ua.training.util.*;
+import ua.training.model.entities.Subscription;
+import ua.training.model.entities.Transaction;
+import ua.training.model.entities.User;
+import ua.training.model.entities.UserGroup;
+import ua.training.util.Config;
+import ua.training.util.Message;
 
-import javax.servlet.http.*;
-import java.security.*;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.List;
 
 public class UserService {
     private static final Logger LOGGER = LogManager.getLogger(UserService.class);
@@ -19,7 +30,10 @@ public class UserService {
     private static final String CONFIRM_PASSWORD = "confirmPassword";
     private static final String EMAIL = "email";
 
-    private static final String PARAM_USER = "user";
+    private static final String SESSION_USER = "user";
+    private static final String SESSION_PERIODICALS = "userPeriodicals";
+    private static final String SESSION_TRANSACTIONS = "userTransactions";
+
     private static final String PARAM_ERROR = "error";
 
     private UserService() {}
@@ -40,21 +54,18 @@ public class UserService {
 
         String page;
         if (user != null && user.getPassword().equals(password)) {
-            request.getSession().setAttribute(PARAM_USER, login);
-            page = Config.getInstance().getProperty(Config.MAIN);
+            return loadUserDataToSession(request, user);
         } else {
-            request.setAttribute(PARAM_ERROR, Message.getInstance().getProperty(Message.LOGIN_ERROR));
-            page = Config.getInstance().getProperty(Config.LOGIN);
+            return userError(request, Message.LOGIN_ERROR, Config.LOGIN);
         }
-        return page;
     }
 
     public String register(HttpServletRequest request, HttpServletResponse response) {
         String login = request.getParameter(LOGIN);
         String password = request.getParameter(PASSWORD);
+
         if (!password.equals(request.getParameter(CONFIRM_PASSWORD))) {
-            request.setAttribute(PARAM_ERROR, Message.getInstance().getProperty(Message.PASSWORD_MISMATCH_ERROR));
-            return Config.getInstance().getProperty(Config.REGISTRATION);
+            return userError(request, Message.PASSWORD_MISMATCH_ERROR, Config.REGISTRATION);
         }
         password = hashPassword(password);
 
@@ -63,13 +74,29 @@ public class UserService {
 
         String page;
         if (DAO.insert(user)) {
-            request.getSession().setAttribute(PARAM_USER, login);
-            page = Config.getInstance().getProperty(Config.MAIN);
+            return loadUserDataToSession(request, user);
         } else {
-            request.setAttribute(PARAM_ERROR, Message.getInstance().getProperty(Message.REGISTRATION_ERROR));
-            page = Config.getInstance().getProperty(Config.REGISTRATION);
+            return userError(request, Message.REGISTRATION_ERROR, Config.REGISTRATION);
         }
-        return page;
+    }
+
+    public String loadUserDataToSession(HttpServletRequest request, User user) {
+        request.getSession().setAttribute(SESSION_USER, user);
+
+        TransactionDao transactionDao = MysqlDaoFactory.getInstance().getTransactionDao();
+        List<Transaction> transactions = transactionDao.findByUsername(user.getUsername());
+        request.getSession().setAttribute(SESSION_TRANSACTIONS, transactions);
+
+        SubscriptionDao subscriptionDao = MysqlDaoFactory.getInstance().getSubscriptionDao();
+        List<Subscription> subscriptions = subscriptionDao.findByUsername(user.getUsername());
+        request.getSession().setAttribute(SESSION_PERIODICALS, subscriptions);
+
+        return Config.getInstance().getProperty(Config.MAIN);
+    }
+
+    public String userError(HttpServletRequest request, String message, String redirectPage) {
+        request.setAttribute(PARAM_ERROR, Message.getProperty(message));
+        return Config.getInstance().getProperty(redirectPage);
     }
 
     String hashPassword(String password) {

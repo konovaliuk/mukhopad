@@ -46,7 +46,7 @@
                 <div class="col-md-4">
                     <input type="hidden" name="command" value="userLogin">
                     <input type="submit" class="btn btn-primary" value="Submit">
-                    <a href="WEB-INF/jsp/registration.jsp">Register</a>
+                    <a href="PeriodicalPublication/registration.jsp">Register</a>
                 </div>
             </div>
     </div>

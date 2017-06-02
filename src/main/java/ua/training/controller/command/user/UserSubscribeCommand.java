@@ -1,15 +1,17 @@
-package ua.training.controller.command;
+package ua.training.controller.command.user;
 
-import ua.training.model.services.UserService;
+import ua.training.controller.command.Command;
+import ua.training.model.services.SubscriptionService;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-public class UserRegisterCommand implements Command {
+public class UserSubscribeCommand implements Command {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        return UserService.getInstance().register(request, response);
+        SubscriptionService.getInstance().subscribeUser(request, response);
+        return null;
     }
 }

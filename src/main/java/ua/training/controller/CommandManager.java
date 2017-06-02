@@ -1,6 +1,17 @@
 package ua.training.controller;
 
-import ua.training.controller.command.*;
+import ua.training.controller.command.Command;
+import ua.training.controller.command.NoCommand;
+import ua.training.controller.command.locale.SetLocaleEnCommand;
+import ua.training.controller.command.locale.SetLocaleUaCommand;
+import ua.training.controller.command.periodical.PeriodicalDeleteCommand;
+import ua.training.controller.command.periodical.PeriodicalInsertCommand;
+import ua.training.controller.command.periodical.PeriodicalListAllCommand;
+import ua.training.controller.command.periodical.PeriodicalUpdateCommand;
+import ua.training.controller.command.user.UserLoginCommand;
+import ua.training.controller.command.user.UserRegisterCommand;
+import ua.training.controller.command.user.UserSubscribeCommand;
+import ua.training.controller.command.user.UserSubscriptionListCommand;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
@@ -17,6 +28,10 @@ public class CommandManager {
         commands.put("userSubscribe", new UserSubscribeCommand());
         commands.put("listUserSubscriptions", new UserSubscriptionListCommand());
 
+        /* Locale commands */
+        commands.put("localeUa", new SetLocaleUaCommand());
+        commands.put("localeEn", new SetLocaleEnCommand());
+
         /* Periodical commands */
         commands.put("listPeriodicals", new PeriodicalListAllCommand());
         commands.put("addPeriodical", new PeriodicalInsertCommand());
@@ -24,9 +39,7 @@ public class CommandManager {
         commands.put("updatePeriodical", new PeriodicalUpdateCommand());
     }
 
-    private CommandManager() {}
-
-    public static Command getCommand(HttpServletRequest request) {
+    static Command getCommand(HttpServletRequest request) {
         Command command = commands.get(request.getParameter("command"));
         if (command == null) {
             command =  commands.get("noCommand");

@@ -102,13 +102,13 @@ public class MysqlSubscriptionDao implements SubscriptionDao {
                         .toString());
     }
 
-
     private List<Subscription> resultToList(ResultSet resultSet) throws SQLException {
         List<Subscription> list = new ArrayList<>();
         while (resultSet.next()) {
             Subscription subscription = createSubscriptionFromResult(resultSet);
             list.add(subscription);
         }
+        resultSet.close();
         return list;
     }
 
@@ -125,8 +125,6 @@ public class MysqlSubscriptionDao implements SubscriptionDao {
         Transaction transaction = MysqlTransactionDao.getInstance().findById(transactionId);
 
         Timestamp expirationDate = resultSet.getTimestamp(COLUMN_EXPIRATION_DATE);
-
-        resultSet.close();
         return new Subscription(user, edition, transaction, expirationDate);
     }
 
