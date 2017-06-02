@@ -35,6 +35,7 @@ public class UserService {
     private static final String SESSION_TRANSACTIONS = "userTransactions";
 
     private static final String PARAM_ERROR = "error";
+    private static final String PARAM_SUCCESS = "success";
 
     private UserService() {}
 
@@ -96,6 +97,11 @@ public class UserService {
 
     public String userError(HttpServletRequest request, String message, String redirectPage) {
         request.setAttribute(PARAM_ERROR, Message.getProperty(message));
+        return Config.getInstance().getProperty(redirectPage);
+    }
+
+    public String userSuccess(HttpServletRequest request, String message, String redirectPage) {
+        request.setAttribute(PARAM_SUCCESS, Message.getProperty(message));
         return Config.getInstance().getProperty(redirectPage);
     }
 

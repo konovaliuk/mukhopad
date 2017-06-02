@@ -4,10 +4,7 @@ import ua.training.controller.command.Command;
 import ua.training.controller.command.NoCommand;
 import ua.training.controller.command.locale.SetLocaleEnCommand;
 import ua.training.controller.command.locale.SetLocaleUaCommand;
-import ua.training.controller.command.periodical.PeriodicalDeleteCommand;
-import ua.training.controller.command.periodical.PeriodicalInsertCommand;
-import ua.training.controller.command.periodical.PeriodicalListAllCommand;
-import ua.training.controller.command.periodical.PeriodicalUpdateCommand;
+import ua.training.controller.command.periodical.*;
 import ua.training.controller.command.user.UserLoginCommand;
 import ua.training.controller.command.user.UserRegisterCommand;
 import ua.training.controller.command.user.UserSubscribeCommand;
@@ -33,6 +30,7 @@ public class CommandManager {
         commands.put("localeEn", new SetLocaleEnCommand());
 
         /* Periodical commands */
+        commands.put("editionCheckout", new PeriodicalCheckoutCommand());
         commands.put("listPeriodicals", new PeriodicalListAllCommand());
         commands.put("addPeriodical", new PeriodicalInsertCommand());
         commands.put("deletePeriodical", new PeriodicalDeleteCommand());
@@ -41,6 +39,7 @@ public class CommandManager {
 
     static Command getCommand(HttpServletRequest request) {
         Command command = commands.get(request.getParameter("command"));
+        System.out.println(command);
         if (command == null) {
             command =  commands.get("noCommand");
         }

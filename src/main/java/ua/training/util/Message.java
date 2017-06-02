@@ -7,6 +7,8 @@ public class Message {
     public static final String REGISTRATION_ERROR = "REGISTRATION_ERROR";
     public static final String PASSWORD_MISMATCH_ERROR = "PASSWORD_MISMATCH_ERROR";
     public static final String ILLEGAL_ACCESS_ERROR = "ILLEGAL_ACCESS_ERROR";
+    public static final String SUBSCRIPTION_ERROR = "SUBSCRIPTION_ERROR";
+    public static final String USER_SUBSCRIBED = "USER_SUBSCRIBED";
 
     private static final String BUNDLE_NAME = "messages";
 

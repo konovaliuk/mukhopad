@@ -28,47 +28,49 @@
             <button class="btn btn-primary">Add periodicals</button>
         </div>
         <div class="well">
-            <table class="table">
+            <table class="table table-striped table-hover table-bordered">
                 <thead>
                 <tr>
                     <th>id</th>
                     <th>Name</th>
                     <th>Price per month</th>
+                    <th>Subscription plan</th>
                     <th style="width: 36px;"></th>
                 </tr>
                 </thead>
                 <tbody>
+                <c:set var="formId" value="0" scope="page" />
                 <c:forEach items="${requestScope.periodicals}" var="item">
-                    <tr class='clickable-row' data-href='/PeriodicalPublication/checkout.jsp?item=${item.editionId}'>
+                    <tr>
                         <td>${item.editionId}</td>
                         <td>${item.editionName}</td>
                         <td>${item.editionPrice}$</td>
+                        <td>
+                            <select class="form-control" name="plan" form="subscribe${formId}">
+                                <option value="ONE_MONTH">1 Month</option>
+                                <option value="THREE_MONTHS">3 Months - 10% OFF</option>
+                                <option value="SIX_MONTHS">6 Months - 15% OFF</option>
+                                <option value="YEAR">1 Year - 25% OFF</option>
+                            </select>
+                        </td>
+                        <td>
+                            <form method="POST" action="PeriodicalPublications" id="subscribe${formId}">
+                                <input type="hidden" name="command" value="editionCheckout">
+                                <input type="hidden" name="editionId" value="${item.editionId}">
+                                <input type="submit" value="Subscribe" class="btn btn-success">
+                            </form>
+                        </td>
                     </tr>
+                    <c:set var="formId" value="${formId + 1}" scope="page"/>
                 </c:forEach>
                 </tbody>
             </table>
-        </div>
-        <div class="pagination">
-            <ul>
-                <li><a href="#">Prev</a></li>
-                <li><a href="#">1</a></li>
-                <li><a href="#">2</a></li>
-                <li><a href="#">3</a></li>
-                <li><a href="#">4</a></li>
-                <li><a href="#">Next</a></li>
-            </ul>
         </div>
     </div>
 </div>
 <script type="text/javascript" src="webjars/jquery/2.1.1/jquery.min.js"></script>
 <script type="text/javascript" src="webjars/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 <script>
-    $(function(){
-        $('tr').click( function(){
-                    document.location = $(this).attr('data-href');
-                }
-            );
-        });
 </script>
 </body>
 </html>
