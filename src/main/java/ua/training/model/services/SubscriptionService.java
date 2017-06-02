@@ -58,11 +58,10 @@ public class SubscriptionService {
         return Config.getInstance().getProperty(Config.CHECKOUT);
     }
 
-    Transaction doTransaction(User user, Timestamp currentTime, PeriodicalEdition edition, SubscriptionPlan plan) {
+    private Transaction doTransaction(User user, Timestamp currentTime, PeriodicalEdition edition, SubscriptionPlan plan) {
         BigDecimal totalPrice = calculateTotalPrice(edition, plan);
-        Transaction transaction = new Transaction(0, user, currentTime, totalPrice);
-
         TransactionDao transactionDao = MysqlDaoFactory.getInstance().getTransactionDao();
+        Transaction transaction = new Transaction(transactionDao.tableSize() + 1, user, currentTime, totalPrice);
         transactionDao.insert(transaction);
         return transaction;
     }

@@ -31,10 +31,9 @@ public class MysqlTransactionDao implements TransactionDao {
 
     @Override
     public List<Transaction> findAll() {
-        Statement statement = null;
         try {
             connection = MysqlDatasource.getConnection();
-            statement = connection.createStatement();
+            Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(
                     "SELECT * FROM transactions");
             return resultToList(resultSet);
@@ -86,10 +85,9 @@ public class MysqlTransactionDao implements TransactionDao {
             connection = MysqlDatasource.getConnection();
             statement = connection.prepareStatement(
                     " INSERT INTO transactions (transactions_username, transaction_time, totall_price) VALUES (?,?,?)");
-            statement.setInt(COLUMN_ID, transaction.getTransactionId());
-            statement.setString(COLUMN_USER, transaction.getUser().getUsername());
-            statement.setTimestamp(COLUMN_TIME, transaction.getTransactionTime());
-            statement.setBigDecimal(COLUMN_TOTAL_PRICE, transaction.getTotalPrice());
+            statement.setString(COLUMN_USER - 1 , transaction.getUser().getUsername());
+            statement.setTimestamp(COLUMN_TIME - 1, transaction.getTransactionTime());
+            statement.setBigDecimal(COLUMN_TOTAL_PRICE - 1, transaction.getTotalPrice());
             statement.executeUpdate();
             return true;
         } catch (SQLException e) {
@@ -100,12 +98,32 @@ public class MysqlTransactionDao implements TransactionDao {
         return false;
     }
 
+    public int tableSize() {
+        Statement statement = null;
+        try {
+            connection = MysqlDatasource.getConnection();
+            statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery("SELECT count(*) FROM transactions");
+            int size = 0;
+            while (resultSet.next()){
+                size = resultSet.getInt(1);
+            }
+            return size;
+        } catch (SQLException e) {
+            LOGGER.log(Level.ERROR, e.getMessage());
+            return 0;
+        } finally {
+            MysqlDatasource.close(connection, statement);
+        }
+    }
+
     private List<Transaction> resultToList(ResultSet resultSet) throws SQLException {
         List<Transaction> list = new ArrayList<>();
         while (resultSet.next()) {
             Transaction transaction = createTransactionFromResult(resultSet);
             list.add(transaction);
         }
+        resultSet.close();
         return list;
     }
 
@@ -117,7 +135,6 @@ public class MysqlTransactionDao implements TransactionDao {
         Timestamp date = resultSet.getTimestamp(COLUMN_TIME);
         BigDecimal totalPrice = resultSet.getBigDecimal(COLUMN_TOTAL_PRICE);
         User user = MysqlUserDao.getInstance().findByUsername(username);
-        resultSet.close();
         return new Transaction(transactionId, user, date, totalPrice);
     }
 }

@@ -11,5 +11,7 @@ public interface TransactionDao {
 
     Transaction findById(int Id);
 
+    int tableSize();
+
     boolean insert(Transaction user);
 }
