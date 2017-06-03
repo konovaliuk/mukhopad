@@ -4,7 +4,10 @@
 <html>
 <head>
     <meta name="viewport" content="initial-scale=1, maximum-scale=1">
-    <link rel='stylesheet' href='webjars/bootstrap/3.2.0/css/bootstrap.min.css'>
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
 
 </head>
 <body>
@@ -15,13 +18,13 @@
         <c:if test="${not empty requestScope.error}">
             <div class="form-group alert alert-danger fade in">
                 <a href="#" class="close" data-dismiss="alert">&times;</a>
-                <p><strong>Error! </strong>${requestScope.error}</p>
+                <p><strong>Ooops! </strong>${requestScope.error}</p>
             </div>
         </c:if>
         <c:if test="${not empty requestScope.success}">
             <div class="form-group alert alert-success fade in">
                 <a href="#" class="close" data-dismiss="alert">&times;</a>
-                <p><strong>Success! </strong>${requestScope.success}</p>
+                <p><strong>Yaaay! </strong>${requestScope.success}</p>
             </div>
         </c:if>
         <div class="btn-toolbar">
@@ -56,7 +59,7 @@
                         <td>
                             <form method="POST" action="PeriodicalPublications" id="subscribe${formId}">
                                 <input type="hidden" name="command" value="editionCheckout">
-                                <input type="hidden" name="editionId" value="${item.editionId}">
+                                <input type="hidden" name="edition" value="${item.editionId}">
                                 <input type="submit" value="Subscribe" class="btn btn-success">
                             </form>
                         </td>

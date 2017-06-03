@@ -5,7 +5,10 @@
 <html>
 <head>
     <meta name="viewport" content="initial-scale=1, maximum-scale=1">
-    <link rel='stylesheet' href='webjars/bootstrap/3.2.0/css/bootstrap.min.css'>
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
 
 </head>
 <body>
@@ -42,7 +45,7 @@
             <td colspan="3">
                 <form method="POST" action="PeriodicalPublications">
                     <input type="hidden" name="command" value="userSubscribe">
-                    <input type="hidden" name="editionId" value="${requestScope.edition.editionId}">
+                    <input type="hidden" name="edition" value="${requestScope.edition.editionId}">
                     <input type="hidden" name="plan" value="${requestScope.plan.name}">
                     <input type="submit" value="Subscribe" class="pull-right btn btn-success">
                 </form>
