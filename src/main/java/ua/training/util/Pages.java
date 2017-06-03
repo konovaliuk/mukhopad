@@ -5,14 +5,15 @@ import java.util.ResourceBundle;
 public class Pages {
 
     private static Pages instance;
-    private ResourceBundle resource;
     private static final String BUNDLE_NAME = "pages";
+    private ResourceBundle resource;
 
     public static final String MAIN = "MAIN_PAGE";
     public static final String CHECKOUT = "CHECKOUT_PAGE";
     public static final String REGISTRATION = "REGISTRATION_PAGE";
     public static final String USER = "USER_PAGE";
     public static final String LOGIN = "LOGIN_PAGE";
+    public static final String EDIT = "EDIT_PAGE";
 
     public static Pages getInstance() {
         if (instance == null) {

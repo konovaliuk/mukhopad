@@ -19,11 +19,15 @@ public class PeriodicalsService {
         return instance;
     }
 
-    public boolean addPeriodical(int id, String name, BigDecimal price) {
-        return DAO.insert(new PeriodicalEdition(id, name, price));
+    public boolean addPeriodical(String name, BigDecimal price) {
+        return DAO.insert(new PeriodicalEdition(0, name, price));
     }
 
     public boolean updatePeriodical(int id, String name, BigDecimal price) {
         return DAO.update(new PeriodicalEdition(id, name, price));
+    }
+
+    public boolean deletePeriodical(int id) {
+        return DAO.delete(id);
     }
 }

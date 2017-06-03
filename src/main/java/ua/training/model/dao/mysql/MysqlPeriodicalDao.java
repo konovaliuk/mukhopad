@@ -97,8 +97,8 @@ public class MysqlPeriodicalDao implements PeriodicalDao {
             connection = MysqlDatasource.getConnection();
             statement = connection.prepareStatement(
                     "INSERT INTO periodical_editions (edition_name, subscription_price) VALUES (?,?)");
-            statement.setString(COLUMN_NAME, pe.getEditionName());
-            statement.setBigDecimal(COLUMN_PRICE, pe.getEditionPrice());
+            statement.setString(COLUMN_NAME-1, pe.getEditionName());
+            statement.setBigDecimal(COLUMN_PRICE-1, pe.getEditionPrice());
             statement.executeUpdate();
             return true;
         } catch (SQLException e) {
@@ -116,9 +116,10 @@ public class MysqlPeriodicalDao implements PeriodicalDao {
         try {
             connection = MysqlDatasource.getConnection();
             statement = connection.prepareStatement(
-                    " UPDATE periodical_editions SET edition_name = ?, subscription_price = ?");
-            statement.setString(COLUMN_NAME, pe.getEditionName());
-            statement.setBigDecimal(COLUMN_PRICE, pe.getEditionPrice());
+                    "UPDATE periodical_editions SET edition_name = ?, subscription_price = ? WHERE edition_id = ?");
+            statement.setString(COLUMN_NAME-1, pe.getEditionName());
+            statement.setBigDecimal(COLUMN_PRICE-1, pe.getEditionPrice());
+            statement.setInt(COLUMN_ID+2, pe.getEditionId());
             statement.executeUpdate();
             return true;
         } catch (SQLException e) {

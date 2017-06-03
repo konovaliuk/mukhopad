@@ -13,7 +13,8 @@ public class Message {
     public static final String ILLEGAL_ACCESS_ERROR = "ILLEGAL_ACCESS_ERROR";
     public static final String SUBSCRIPTION_ERROR = "SUBSCRIPTION_ERROR";
     public static final String USER_SUBSCRIBED = "USER_SUBSCRIBED";
-
+    public static final String PERIODICAL_DELETE_ERROR = "PERIODICAL_DELETE_ERROR";
+    public static final String PERIODICAL_DELETE_SUCCESS = "PERIODICAL_DELETE_SUCCESS";
 
     public static final String REGISTRATION_SUCCESS = "REGISTRATION_SUCCESS";
 

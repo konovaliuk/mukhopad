@@ -27,18 +27,19 @@
                 <p><strong><fmt:message bundle="${messages}" key="ACTION_SUCCESS"/> </strong>${requestScope.success}</p>
             </div>
         </c:if>
-        <div class="btn-group pull-right">
-            <c:set var="groupName" value="${sessionScope.user.group.groupName}"/>
-            <c:if test="${groupName eq 'ADMIN'}">
-                <input type="submit" class="btn btn-success" form="addPeriodical"
-                       value="<fmt:message bundle="${messages}" key="ACTION_ADD"/>">
-            </c:if>
+    <div class="well">
+        <div class="btn-group" style="padding-bottom: 25px">
             <input type="submit" class="btn btn-primary" form="userPage"
                    value="<fmt:message bundle="${messages}" key="MY_PAGE"/>">
             <input type="submit" class="btn btn-primary" form="logout"
                    value="<fmt:message bundle="${messages}" key="ACTION_LOGOUT"/>">
-        </div><br>
-        <div class="well">
+        </div>
+        <c:set var="groupName" value="${sessionScope.user.group.groupName}"/>
+        <c:if test="${groupName eq 'ADMIN'}">
+            <input type="submit" class="btn btn-success pull-right" form="addPeriodical"
+                   value="<fmt:message bundle="${messages}" key="ACTION_ADD"/>">
+        </c:if>
+        <br>
             <table class="table table-striped table-hover table-bordered">
                 <thead>
                 <tr>
@@ -48,7 +49,7 @@
                     <c:if test="${groupName eq 'USER'}">
                         <th><fmt:message bundle="${messages}" key="EDITION_PLAN"/></th>
                     </c:if>
-                    <th style="width: 36px;"></th>
+                    <th style="width: 140px;"></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -84,17 +85,26 @@
                                     </form>
                                 </c:when>
                                 <c:otherwise>
-                                    <form method="POST" action="PeriodicalPublications">
-                                        <input type="hidden" name="command" value="redirectEditionUpdate">
-                                        <input type="hidden" name="edition" value="${item.editionId}">
-                                        <input type="submit"
-                                               value="<fmt:message bundle="${messages}" key="ACTION_EDIT"/>"
-                                               class="btn btn-primary">
-                                    </form>
+                                    <div class="btn-group pull-right">
+                                    <input type="submit"
+                                           value="<fmt:message bundle="${messages}" key="ACTION_EDIT"/>"
+                                           class="btn btn-primary" form="update${formId}">
+                                    <input type="submit"
+                                           value="<fmt:message bundle="${messages}" key="ACTION_DELETE"/>"
+                                           class="btn btn-danger" form="delete${formId}">
+                                    </div>
                                 </c:otherwise>
                             </c:choose>
                         </td>
                     </tr>
+                    <form method="POST" action="PeriodicalPublications" id="update${formId}">
+                        <input type="hidden" name="command" value="redirectEditionUpdate">
+                        <input type="hidden" name="edition" value="${item.editionId}">
+                    </form>
+                    <form method="POST" action="PeriodicalPublications" id="delete${formId}">
+                        <input type="hidden" name="command" value="deletePeriodical">
+                        <input type="hidden" name="edition" value="${item.editionId}">
+                    </form>
                     <c:set var="formId" value="${formId + 1}" scope="page"/>
                 </c:forEach>
                 </tbody>

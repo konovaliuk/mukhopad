@@ -19,46 +19,44 @@
         <tbody>
         <tr>
             <th><span class="pull-right"><fmt:message bundle="${messages}" key="USER_LOGIN"/></span></th>
-            <th colspan="3">${sessionScope.user.username}</th>
+            <td colspan="3">${sessionScope.user.username}</td>
         </tr>
         <tr>
             <th><span class="pull-right"><fmt:message bundle="${messages}" key="USER_EMAIL"/></span></th>
-            <th colspan="3">${sessionScope.user.email}</th>
+            <td colspan="3">${sessionScope.user.email}</td>
         </tr>
         <tr>
             <th><span class="pull-right"><fmt:message bundle="${messages}" key="USER_GROUP"/></span></th>
-            <th colspan="3">${sessionScope.user.group.groupName}</th>
+            <td colspan="3">${sessionScope.user.group.groupName}</td>
         </tr>
         <tr>
             <th><span class="pull-right">Session ID</span></th>
-            <th colspan="3">${pageContext.session.id}</th>
+            <td colspan="3">${pageContext.session.id}</td>
         </tr>
         </tbody>
     </table>
     </div>
     <div class="well">
     <table class="table table-striped table-hover table-bordered">
-        <thead>
-        <tr>
-            <th><fmt:message bundle="${messages}" key="EDITION_NAME"/></th>
-            <th><fmt:message bundle="${messages}" key="EXPIRATION_DATE"/></th>
-        </tr>
-        </thead>
         <c:choose>
             <c:when test="${not empty sessionScope.subscriptions}">
                 <c:forEach items="${sessionScope.subscriptions}" var="item">
-                    <tbody>
+            <thead>
+            <tr>
+                <th><fmt:message bundle="${messages}" key="EDITION_NAME"/></th>
+                <th><fmt:message bundle="${messages}" key="EXPIRATION_DATE"/></th>
+            </tr>
+            </thead>
+            <tbody>
                     <tr>
                         <td>${item.edition.editionName}</td>
                         <td>${item.expirationDate}</td>
                     </tr>
-                    </tbody>
+            </tbody>
                 </c:forEach>
             </c:when>
             <c:otherwise>
-                <tr>
                     <fmt:message bundle="${messages}" key="NO_SUBSCRIPTIONS"/>
-                </tr>
             </c:otherwise>
         </c:choose>
 

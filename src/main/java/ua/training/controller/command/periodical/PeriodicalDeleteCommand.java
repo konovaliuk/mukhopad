@@ -2,32 +2,28 @@ package ua.training.controller.command.periodical;
 
 import ua.training.controller.command.Command;
 import ua.training.model.services.PeriodicalsService;
-import ua.training.util.Pages;
 import ua.training.util.Message;
+import ua.training.util.Pages;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.math.BigDecimal;
 
 import static ua.training.controller.SessionManager.userError;
 import static ua.training.controller.SessionManager.userSuccess;
 
-public class PeriodicalInsertCommand implements Command {
-    private static final String EDITION_NAME = "editionName";
-    private static final String EDITION_PRICE = "editionPrice";
+public class PeriodicalDeleteCommand implements Command {
+    private static final String EDITION_ID = "edition";
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String name = request.getParameter(EDITION_NAME);
-        BigDecimal price = new BigDecimal(request.getParameter(EDITION_PRICE));
-
+        int id = Integer.parseInt(request.getParameter(EDITION_ID));
         if (PeriodicalsService.getInstance()
-                .addPeriodical(name, price)) {
-            return userSuccess(request, Message.PERIODICAL_INSERTION_SUCCESS, Pages.MAIN);
+                .deletePeriodical(id)) {
+            return userSuccess(request, Message.PERIODICAL_DELETE_SUCCESS, Pages.MAIN);
         } else {
-            return userError(request, Message.PERIODICAL_INSERTION_ERROR, Pages.MAIN);
+            return userError(request, Message.PERIODICAL_DELETE_ERROR, Pages.MAIN);
         }
     }
 }
