@@ -1,5 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<fmt:setBundle basename="messages" var="messages"/>
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,30 +12,31 @@
     <c:if test="${not empty sessionScope.user}">
         <c:redirect url="/PeriodicalPublications"/>
     </c:if>
+    <title><fmt:message bundle="messages" key="REGISTRATION_PAGE"/></title>
 </head>
 <body>
 <div class="container">
     <div class="row">
         <form action="PeriodicalPublications" method="POST" class="form-horizontal">
             <!-- Form Name -->
-            <legend>Registration form</legend>
+            <legend><fmt:message bundle="messages" key="REGISTRATION_PAGE"/></legend>
             <c:if test="${not empty requestScope.error}">
                 <div class="form-group alert alert-danger fade in">
                     <a href="#" class="close" data-dismiss="alert">&times;</a>
                     <p><strong>Error! </strong>${requestScope.error}</p>
                 </div>
             </c:if>
-            <c:if test="${not empty requestScope['success']}">
+            <c:if test="${not empty requestScope.success}">
                 <div class="form-group alert alert-success fade in">
                     <a href="#" class="close" data-dismiss="alert">&times;</a>
-                    <p><strong>Error! </strong>${requestScope['success']}</p>
+                    <p><strong>Error! </strong>${requestScope.success}</p>
                 </div>
             </c:if>
             <!-- Text input-->
             <div class="form-group">
-                <label class="col-md-4 control-label">First Name</label>
+                <label class="col-md-4 control-label"><fmt:message bundle="messages" key="USER_LOGIN"/></label>
                 <div class="col-md-4">
-                    <input name="login" placeholder="Enter your username" class="form-control input-md" required=""
+                    <input name="login" placeholder="<fmt:message bundle="messages" key="USER_LOGIN"/>" class="form-control input-md" required=""
                            type="text">
                     <span class="help-block"> </span>
                 </div>
@@ -41,9 +44,9 @@
 
             <!-- Text input-->
             <div class="form-group">
-                <label class="col-md-4 control-label">Email</label>
+                <label class="col-md-4 control-label"><fmt:message bundle="messages" key="USER_EMAIL"/></label>
                 <div class="col-md-4">
-                    <input name="email" placeholder="Enter your Email" class="form-control input-md" required=""
+                    <input name="email" placeholder="<fmt:message bundle="messages" key="USER_EMAIL"/>" class="form-control input-md" required=""
                            type="email">
                     <span class="help-block"> </span>
                 </div>
@@ -51,9 +54,9 @@
 
             <!-- Text input-->
             <div class="form-group">
-                <label class="col-md-4 control-label">Password</label>
+                <label class="col-md-4 control-label"><fmt:message bundle="messages" key="USER_PASSWORD"/></label>
                 <div class="col-md-4">
-                    <input name="password" placeholder="Insert your Password"
+                    <input name="password" placeholder="<fmt:message bundle="messages" key="USER_PASSWORD"/>"
                            class="form-control input-md" required="" type="password">
                     <span class="help-block"> </span>
                 </div>
@@ -61,9 +64,9 @@
 
             <!-- Text input-->
             <div class="form-group">
-                <label class="col-md-4 control-label">Confirm Password</label>
+                <label class="col-md-4 control-label"><fmt:message bundle="messages" key="CONFIRM_PASSWORD"/></label>
                 <div class="col-md-4">
-                    <input name="confirmPassword" placeholder="Confirm your Password" class="form-control input-md"
+                    <input name="confirmPassword" placeholder="<fmt:message bundle="messages" key="CONFIRM_PASSWORD"/>" class="form-control input-md"
                            required="" type="password">
                     <span class="help-block"> </span>
                 </div>
@@ -79,7 +82,7 @@
             </div>
         </form>
     </div>
-    </div>
+</div>
 <script type="text/javascript" src="webjars/jquery/2.1.1/jquery.min.js"></script>
 <script type="text/javascript" src="webjars/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 </body>

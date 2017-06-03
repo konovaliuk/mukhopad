@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,13 +9,14 @@
     <c:if test="${not empty sessionScope.user}">
         <c:redirect url="/PeriodicalPublications"/>
     </c:if>
+    <title><fmt:message bundle="messages" key="LOGIN_PAGE"/></title>
 </head>
 <body>
 <div class="container">
     <div class="row">
         <form action="PeriodicalPublications" method="POST" class="form-horizontal">
             <!-- Form Name -->
-            <legend>Please, log in</legend>
+            <legend><fmt:message bundle="messages" key="LOGIN_PAGE"/></legend>
             <c:if test="${not empty requestScope.error}">
             <div class="form-group alert alert-danger fade in">
                 <a href="#" class="close" data-dismiss="alert">&times;</a>
@@ -23,7 +25,7 @@
             </c:if>
             <!-- Text input-->
             <div class="form-group">
-                <label class="col-md-4 control-label">Username</label>
+                <label class="col-md-4 control-label"><fmt:message bundle="messages" key="USER_LOGIN"/></label>
                 <div class="col-md-4">
                     <input name="login" placeholder="login" class="form-control input-md" required="" type="text">
                     <span class="help-block"> </span>
@@ -32,7 +34,7 @@
 
             <!-- Text input-->
             <div class="form-group">
-                <label class="col-md-4 control-label">Password</label>
+                <label class="col-md-4 control-label"><fmt:message bundle="messages" key="USER_PASSWORD"/></label>
                 <div class="col-md-4">
                     <input name="password" placeholder="password" class="form-control input-md" required=""
                            type="password">
@@ -45,8 +47,10 @@
                 <label class="col-md-4 control-label"> </label>
                 <div class="col-md-4">
                     <input type="hidden" name="command" value="userLogin">
-                    <input type="submit" class="btn btn-primary" value="Log in">
-                    <input type="submit" class="btn btn-link" form="register" value="Sign in"/>
+                    <input type="submit" class="btn btn-primary"
+                           value="<fmt:message bundle="messages" key="ACTION_LOG_IN"/>">
+                    <input type="submit" class="btn btn-link" form="register"
+                           value="<fmt:message bundle="messages" key="ACTION_SIGN_IN"/>">
                 </div>
             </div>
     </div>

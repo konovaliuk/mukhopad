@@ -4,7 +4,9 @@ import ua.training.controller.command.Command;
 import ua.training.controller.command.NoCommand;
 import ua.training.controller.command.locale.SetLocaleEnCommand;
 import ua.training.controller.command.locale.SetLocaleUaCommand;
-import ua.training.controller.command.periodical.*;
+import ua.training.controller.command.periodical.PeriodicalInsertCommand;
+import ua.training.controller.command.periodical.PeriodicalListAllCommand;
+import ua.training.controller.command.periodical.PeriodicalUpdateCommand;
 import ua.training.controller.command.redirect.RedirectCheckoutCommand;
 import ua.training.controller.command.redirect.RedirectRegisterCommand;
 import ua.training.controller.command.user.UserLoginCommand;
@@ -33,9 +35,9 @@ public class CommandManager {
 
         /* Redirect commands */
         commands.put("redirectRegister", new RedirectRegisterCommand());
+        commands.put("editionCheckout", new RedirectCheckoutCommand());
 
         /* Periodical commands */
-        commands.put("editionCheckout", new RedirectCheckoutCommand());
         commands.put("listPeriodicals", new PeriodicalListAllCommand());
         commands.put("addPeriodical", new PeriodicalInsertCommand());
         commands.put("updatePeriodical", new PeriodicalUpdateCommand());

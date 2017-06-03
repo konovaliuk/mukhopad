@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<fmt:setBundle basename="messages" var="messages"/>
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,7 +9,7 @@
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
+    <title><fmt:message bundle="messages" key="CHECKOUT_PAGE"/></title>
 
 </head>
 <body>
@@ -47,7 +48,7 @@
                     <input type="hidden" name="command" value="userSubscribe">
                     <input type="hidden" name="edition" value="${requestScope.edition.editionId}">
                     <input type="hidden" name="plan" value="${requestScope.plan.name}">
-                    <input type="submit" value="Subscribe" class="pull-right btn btn-success">
+                    <input type="submit" value="<fmt:message bundle="messages" key="ACTION_SUBSCRIBE"/>" class="pull-right btn btn-success">
                 </form>
                 </td>
         </tr>
