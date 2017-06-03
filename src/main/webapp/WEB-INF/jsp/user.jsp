@@ -24,6 +24,10 @@
             <th colspan="3">${sessionScope.user.email}</th>
         </tr>
         <tr>
+            <th><span class="pull-right"><fmt:message bundle="messages" key="USER_GROUP"/></span></th>
+            <th colspan="3">${sessionScope.user.group.name}</th>
+        </tr>
+        <tr>
             <th><span class="pull-right">Session ID</span></th>
             <th colspan="3">${pageContext.session.id}</th>
         </tr>

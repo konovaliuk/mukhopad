@@ -2,7 +2,7 @@ package ua.training.controller.command.periodical;
 
 import ua.training.controller.command.Command;
 import ua.training.model.services.PeriodicalsService;
-import ua.training.util.Config;
+import ua.training.util.Pages;
 import ua.training.util.Message;
 
 import javax.servlet.ServletException;
@@ -11,8 +11,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.math.BigDecimal;
 
-import static ua.training.controller.command.CommandUtil.userError;
-import static ua.training.controller.command.CommandUtil.userSuccess;
+import static ua.training.controller.SessionManager.userError;
+import static ua.training.controller.SessionManager.userSuccess;
 
 public class PeriodicalUpdateCommand implements Command {
     private static final String EDITION_ID = "editionId";
@@ -26,9 +26,9 @@ public class PeriodicalUpdateCommand implements Command {
 
         if (PeriodicalsService.getInstance()
                 .updatePeriodical(id, name, price)) {
-            return userSuccess(request, Message.PERIODICAL_UPDATE_SUCCESS, Config.MAIN);
+            return userSuccess(request, Message.PERIODICAL_UPDATE_SUCCESS, Pages.MAIN);
         } else {
-            return userError(request, Message.PERIODICAL_UPDATE_ERROR, Config.MAIN);
+            return userError(request, Message.PERIODICAL_UPDATE_ERROR, Pages.MAIN);
         }
     }
 }

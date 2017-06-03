@@ -7,7 +7,7 @@ import ua.training.model.entities.PeriodicalEdition;
 import ua.training.model.entities.SubscriptionPlan;
 import ua.training.model.entities.User;
 import ua.training.model.services.SubscriptionService;
-import ua.training.util.Config;
+import ua.training.util.Pages;
 import ua.training.util.Message;
 
 import javax.servlet.ServletException;
@@ -15,8 +15,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-import static ua.training.controller.command.CommandUtil.userError;
-import static ua.training.controller.command.CommandUtil.userSuccess;
+import static ua.training.controller.SessionManager.userError;
+import static ua.training.controller.SessionManager.userSuccess;
 
 public class UserSubscribeCommand implements Command {
     private static final String SESSION_USER = "user";
@@ -32,9 +32,10 @@ public class UserSubscribeCommand implements Command {
 
         if(SubscriptionService.getInstance()
                 .subscribeUser(user, edition, plan)){
-            return userSuccess(request, Message.USER_SUBSCRIBED, Config.MAIN);
+
+            return userSuccess(request, Message.USER_SUBSCRIBED, Pages.MAIN);
         } else {
-            return userError(request, Message.SUBSCRIPTION_ERROR, Config.MAIN);
+            return userError(request, Message.SUBSCRIPTION_ERROR, Pages.MAIN);
         }
     }
 

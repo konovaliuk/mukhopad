@@ -23,13 +23,13 @@
             <c:if test="${not empty requestScope.error}">
                 <div class="form-group alert alert-danger fade in">
                     <a href="#" class="close" data-dismiss="alert">&times;</a>
-                    <p><strong>Error! </strong>${requestScope.error}</p>
+                    <p><strong><fmt:message bundle="messages" key="ACTION_ERROR"/> </strong>${requestScope.error}</p>
                 </div>
             </c:if>
             <c:if test="${not empty requestScope.success}">
                 <div class="form-group alert alert-success fade in">
                     <a href="#" class="close" data-dismiss="alert">&times;</a>
-                    <p><strong>Error! </strong>${requestScope.success}</p>
+                    <p><strong><fmt:message bundle="messages" key="ACTION_SUCCESS"/> </strong>${requestScope.success}</p>
                 </div>
             </c:if>
             <!-- Text input-->

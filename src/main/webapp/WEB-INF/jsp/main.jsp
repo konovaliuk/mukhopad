@@ -19,17 +19,25 @@
         <c:if test="${not empty requestScope.error}">
             <div class="form-group alert alert-danger fade in">
                 <a href="#" class="close" data-dismiss="alert">&times;</a>
-                <p><strong>Ooops! </strong>${requestScope.error}</p>
+                <p><strong><fmt:message bundle="messages" key="ACTION_ERROR"/> </strong>${requestScope.error}</p>
             </div>
         </c:if>
         <c:if test="${not empty requestScope.success}">
             <div class="form-group alert alert-success fade in">
                 <a href="#" class="close" data-dismiss="alert">&times;</a>
-                <p><strong>Yaaay! </strong>${requestScope.success}</p>
+                <p><strong><fmt:message bundle="messages" key="ACTION_SUCCESS"/> </strong>${requestScope.success}</p>
             </div>
         </c:if>
-        <div class="btn-toolbar">
-            <button class="btn btn-primary">Add periodicals</button>
+        <div class="btn-group">
+            <c:set var="groupId" value="${sessionScope.user.group.groupId}"/>
+            <c:if test="${groupId > 0}">
+                <input type="submit" class="btn btn-success" form="addPeriodical"
+                       value="<fmt:message bundle="messages" key="MY_PAGE"/>">
+            </c:if>
+            <input type="submit" class="btn btn-primary" form="userPage"
+                   value="<fmt:message bundle="messages" key="MY_PAGE"/>">
+            <input type="submit" class="btn btn-primary" form="logout"
+                   value="<fmt:message bundle="messages" key="ACTION_LOGOUT"/>">
         </div>
         <div class="well">
             <table class="table table-striped table-hover table-bordered">
@@ -38,7 +46,9 @@
                     <th>#</th>
                     <th><fmt:message bundle="messages" key="EDITION_NAME"/></th>
                     <th><fmt:message bundle="messages" key="EDITION_PRICE"/></th>
-                    <th><fmt:message bundle="messages" key="EDITION_PLAN"/></th>
+                    <c:if test="${groupId == 0}">
+                        <th><fmt:message bundle="messages" key="EDITION_PLAN"/></th>
+                    </c:if>
                     <th style="width: 36px;"></th>
                 </tr>
                 </thead>
@@ -49,20 +59,41 @@
                         <td>${item.editionId}</td>
                         <td>${item.editionName}</td>
                         <td>$${item.editionPrice}</td>
+                        <c:if test="${groupId == 0}">
+                            <td>
+                                <select class="form-control" name="plan" form="subscribe${formId}">
+                                    <option value="ONE_MONTH"><fmt:message bundle="messages"
+                                                                           key="EDITION_PLAN_ONE"/></option>
+                                    <option value="THREE_MONTHS"><fmt:message bundle="messages"
+                                                                              key="EDITION_PLAN_THREE"/></option>
+                                    <option value="SIX_MONTHS"><fmt:message bundle="messages"
+                                                                            key="EDITION_PLAN_SIX"/></option>
+                                    <option value="YEAR"><fmt:message bundle="messages"
+                                                                      key="EDITION_PLAN_YEAR"/></option>
+                                </select>
+                            </td>
+                        </c:if>
                         <td>
-                            <select class="form-control" name="plan" form="subscribe${formId}">
-                                <option value="ONE_MONTH"><fmt:message bundle="messages" key="EDITION_PLAN_ONE"/></option>
-                                <option value="THREE_MONTHS"><fmt:message bundle="messages" key="EDITION_PLAN_THREE"/></option>
-                                <option value="SIX_MONTHS"><fmt:message bundle="messages" key="EDITION_PLAN_SIX"/></option>
-                                <option value="YEAR"><fmt:message bundle="messages" key="EDITION_PLAN_YEAR"/></option>
-                            </select>
-                        </td>
-                        <td>
-                            <form method="POST" action="PeriodicalPublications" id="subscribe${formId}">
-                                <input type="hidden" name="command" value="editionCheckout">
-                                <input type="hidden" name="edition" value="${item.editionId}">
-                                <input type="submit" value="<fmt:message bundle="messages" key="ACTION_SUBSCRIBE"/>" class="btn btn-success">
-                            </form>
+                            <c:choose>
+                                <c:when test="${groupId == 0}">
+                                    <form method="POST" action="PeriodicalPublications" id="subscribe${formId}">
+                                        <input type="hidden" name="command" value="redirectCheckout">
+                                        <input type="hidden" name="edition" value="${item.editionId}">
+                                        <input type="submit"
+                                               value="<fmt:message bundle="messages" key="ACTION_SUBSCRIBE"/>"
+                                               class="btn btn-success">
+                                    </form>
+                                </c:when>
+                                <c:otherwise>
+                                    <form method="POST" action="PeriodicalPublications">
+                                        <input type="hidden" name="command" value="redirectEditionUpdate">
+                                        <input type="hidden" name="edition" value="${item.editionId}">
+                                        <input type="submit"
+                                               value="<fmt:message bundle="messages" key="ACTION_EDIT"/>"
+                                               class="btn btn-primary">
+                                    </form>
+                                </c:otherwise>
+                            </c:choose>
                         </td>
                     </tr>
                     <c:set var="formId" value="${formId + 1}" scope="page"/>
@@ -72,6 +103,9 @@
         </div>
     </div>
 </div>
+<form method="post" action="PeriodicalPublications" id="logout"><input type="hidden" name="command" value="userLogout"></form>
+<form method="post" action="PeriodicalPublications" id="userPage"><input type="hidden" name="command" value="redirectUserPage"></form>
+<form method="post" action="PeriodicalPublications" id="addPeriodical"><input type="hidden" name="command" value="redirectEditionAdd"></form>
 <script type="text/javascript" src="webjars/jquery/2.1.1/jquery.min.js"></script>
 <script type="text/javascript" src="webjars/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 <script>

@@ -6,7 +6,7 @@ import ua.training.model.dao.mysql.MysqlDaoFactory;
 import ua.training.model.entities.PeriodicalEdition;
 import ua.training.model.entities.SubscriptionPlan;
 import ua.training.model.services.SubscriptionService;
-import ua.training.util.Config;
+import ua.training.util.Pages;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -32,7 +32,7 @@ public class RedirectCheckoutCommand implements Command {
                 SubscriptionService.getInstance().calculateTotalPrice(edition, plan);
         request.setAttribute(TOTAL_PRICE, totalPrice);
 
-        return Config.getInstance().getProperty(Config.CHECKOUT);
+        return Pages.getInstance().get(Pages.CHECKOUT);
     }
 
     private PeriodicalEdition getEdition(HttpServletRequest request) {

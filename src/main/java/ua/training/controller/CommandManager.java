@@ -9,10 +9,8 @@ import ua.training.controller.command.periodical.PeriodicalListAllCommand;
 import ua.training.controller.command.periodical.PeriodicalUpdateCommand;
 import ua.training.controller.command.redirect.RedirectCheckoutCommand;
 import ua.training.controller.command.redirect.RedirectRegisterCommand;
-import ua.training.controller.command.user.UserLoginCommand;
-import ua.training.controller.command.user.UserRegisterCommand;
-import ua.training.controller.command.user.UserSubscribeCommand;
-import ua.training.controller.command.user.UserSubscriptionListCommand;
+import ua.training.controller.command.redirect.RedirectUserPageCommand;
+import ua.training.controller.command.user.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
@@ -25,6 +23,7 @@ public class CommandManager {
 
         /* User commands */
         commands.put("userLogin", new UserLoginCommand());
+        commands.put("userLogout", new UserLogoutCommand());
         commands.put("userRegister", new UserRegisterCommand());
         commands.put("userSubscribe", new UserSubscribeCommand());
         commands.put("listUserSubscriptions", new UserSubscriptionListCommand());
@@ -35,7 +34,10 @@ public class CommandManager {
 
         /* Redirect commands */
         commands.put("redirectRegister", new RedirectRegisterCommand());
-        commands.put("editionCheckout", new RedirectCheckoutCommand());
+        commands.put("redirectCheckout", new RedirectCheckoutCommand());
+        commands.put("redirectEditionUpdate", new RedirectEditionUpdateCommand());
+        commands.put("redirectEditionAdd", new RedirectEditionAddCommand());
+        commands.put("redirectUserPage", new RedirectUserPageCommand());
 
         /* Periodical commands */
         commands.put("listPeriodicals", new PeriodicalListAllCommand());

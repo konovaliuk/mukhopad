@@ -8,7 +8,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.*;
 import java.io.IOException;
 
-import static ua.training.controller.command.CommandUtil.*;
+import static ua.training.controller.SessionManager.*;
 
 public class UserLoginCommand implements Command {
     private static final String LOGIN = "login";
@@ -23,7 +23,7 @@ public class UserLoginCommand implements Command {
                 .login(login, password)){
             return loadUserDataToSession(request, login);
         } else {
-            return userError(request, Message.LOGIN_ERROR, Config.LOGIN);
+            return userError(request, Message.LOGIN_ERROR, Pages.LOGIN);
         }
     }
 }

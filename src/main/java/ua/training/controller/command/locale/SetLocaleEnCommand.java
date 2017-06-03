@@ -11,6 +11,6 @@ public class SetLocaleEnCommand implements Command {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Message.setLocale("en");
-        return Config.getInstance().getProperty(Config.MAIN);
+        return Pages.getInstance().get(Pages.MAIN);
     }
 }

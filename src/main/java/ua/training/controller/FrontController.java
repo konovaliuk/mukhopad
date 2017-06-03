@@ -8,13 +8,15 @@ import ua.training.controller.command.periodical.PeriodicalListAllCommand;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-public class Controller extends HttpServlet {
-    private static final Logger LOGGER = LogManager.getLogger(Controller.class);
+@WebServlet("/")
+public class FrontController extends HttpServlet {
+    private static final Logger LOGGER = LogManager.getLogger(FrontController.class);
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws IOException, ServletException  {

@@ -2,7 +2,7 @@ package ua.training.controller.command.user;
 
 import ua.training.controller.command.Command;
 import ua.training.model.services.UserService;
-import ua.training.util.Config;
+import ua.training.util.Pages;
 import ua.training.util.Message;
 
 import javax.servlet.ServletException;
@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-import static ua.training.controller.command.CommandUtil.*;
+import static ua.training.controller.SessionManager.*;
 
 public class UserRegisterCommand implements Command {
     private static final String LOGIN = "login";
@@ -26,14 +26,14 @@ public class UserRegisterCommand implements Command {
         String email = request.getParameter(EMAIL);
 
         if (!password.equals(confirmPassword)) {
-            return userError(request, Message.PASSWORD_MISMATCH_ERROR, Config.REGISTRATION);
+            return userError(request, Message.PASSWORD_MISMATCH_ERROR, Pages.REGISTRATION);
         }
 
         if (UserService.getInstance()
                 .register(login, password, email)){
-            return userSuccess(request, Message.REGISTRATION_SUCCESS, Config.LOGIN);
+            return userSuccess(request, Message.REGISTRATION_SUCCESS, Pages.LOGIN);
         } else {
-            return userError(request, Message.REGISTRATION_ERROR, Config.REGISTRATION);
+            return userError(request, Message.REGISTRATION_ERROR, Pages.REGISTRATION);
         }
     }
 }

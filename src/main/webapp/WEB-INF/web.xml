@@ -5,12 +5,12 @@ http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
          version="2.4">
     <display-name>Project</display-name>
     <servlet>
-        <display-name>Controller</display-name>
-        <servlet-name>Controller</servlet-name>
-        <servlet-class>ua.training.controller.Controller</servlet-class>
+        <display-name>FrontController</display-name>
+        <servlet-name>FrontController</servlet-name>
+        <servlet-class>ua.training.controller.FrontController</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>Controller</servlet-name>
+        <servlet-name>FrontController</servlet-name>
         <url-pattern>/PeriodicalPublications</url-pattern>
     </servlet-mapping>
     <session-config>
