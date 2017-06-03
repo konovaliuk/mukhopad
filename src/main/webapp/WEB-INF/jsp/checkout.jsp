@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <title><fmt:message bundle="messages" key="CHECKOUT_PAGE"/></title>
+    <title><fmt:message bundle="${messages}" key="CHECKOUT_PAGE"/></title>
 
 </head>
 <body>
@@ -19,10 +19,10 @@
     <table class="table table-striped table-hover table-bordered">
         <tbody>
         <tr>
-            <th>Name of publication</th>
-            <th>Subscription plan</th>
-            <th>Price per month</th>
-            <th>Total Price</th>
+            <th><fmt:message bundle="${messages}" key="EDITION_NAME"/></th>
+            <th><fmt:message bundle="${messages}" key="EDITION_PLAN"/></th>
+            <th><fmt:message bundle="${messages}" key="EDITION_PRICE"/></th>
+            <th><fmt:message bundle="${messages}" key="PURCHASE_TOTAL_PRICE"/></th>
         </tr>
         <tr>
             <td>${requestScope.edition.editionName}</td>
@@ -31,15 +31,15 @@
             <td>$<fmt:formatNumber maxFractionDigits="2" minFractionDigits="2" value="${requestScope.plan.amountOfMonths * requestScope.edition.editionPrice}"/></td>
         </tr>
         <tr>
-            <th colspan="3"><span class="pull-right">Sub Total</span></th>
+            <th colspan="3"><span class="pull-right"><fmt:message bundle="${messages}" key="PURCHASE_SUBTOTAL"/></span></th>
             <th>$<fmt:formatNumber maxFractionDigits="2" minFractionDigits="2" value="${requestScope.plan.amountOfMonths * requestScope.edition.editionPrice}"/></th>
         </tr>
         <tr>
-            <th colspan="3"><span class="pull-right">Discount</span></th>
+            <th colspan="3"><span class="pull-right"><fmt:message bundle="${messages}" key="PURCHASE_DISCOUNT"/></span></th>
             <th>$<fmt:formatNumber maxFractionDigits="2" minFractionDigits="2" value="${requestScope.plan.amountOfMonths * requestScope.edition.editionPrice - requestScope.totalPrice}"/></th>
         </tr>
         <tr>
-            <th colspan="3"><span class="pull-right">Total</span></th>
+            <th colspan="3"><span class="pull-right"><fmt:message bundle="${messages}" key="PURCHASE_TOTAL"/></span></th>
             <th>$<fmt:formatNumber maxFractionDigits="2" minFractionDigits="2" value="${requestScope.totalPrice}"/></th>
         </tr>
         <tr>
@@ -48,7 +48,7 @@
                     <input type="hidden" name="command" value="userSubscribe">
                     <input type="hidden" name="edition" value="${requestScope.edition.editionId}">
                     <input type="hidden" name="plan" value="${requestScope.plan.name}">
-                    <input type="submit" value="<fmt:message bundle="messages" key="ACTION_SUBSCRIBE"/>" class="pull-right btn btn-success">
+                    <input type="submit" value="<fmt:message bundle="${messages}" key="ACTION_SUBSCRIBE"/>" class="pull-right btn btn-success">
                 </form>
                 </td>
         </tr>

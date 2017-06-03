@@ -9,45 +9,45 @@
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <title><fmt:message bundle="messages" key="PERIODICALS_PAGE"/></title>
+    <title><fmt:message bundle="${messages}" key="PERIODICALS_PAGE"/></title>
 </head>
 <body>
 
 <div class="container">
     <div class="row">
-        <legend><fmt:message bundle="messages" key="PERIODICALS_PAGE"/></legend>
+        <legend><fmt:message bundle="${messages}" key="PERIODICALS_PAGE"/></legend>
         <c:if test="${not empty requestScope.error}">
             <div class="form-group alert alert-danger fade in">
                 <a href="#" class="close" data-dismiss="alert">&times;</a>
-                <p><strong><fmt:message bundle="messages" key="ACTION_ERROR"/> </strong>${requestScope.error}</p>
+                <p><strong><fmt:message bundle="${messages}" key="ACTION_ERROR"/> </strong>${requestScope.error}</p>
             </div>
         </c:if>
         <c:if test="${not empty requestScope.success}">
             <div class="form-group alert alert-success fade in">
                 <a href="#" class="close" data-dismiss="alert">&times;</a>
-                <p><strong><fmt:message bundle="messages" key="ACTION_SUCCESS"/> </strong>${requestScope.success}</p>
+                <p><strong><fmt:message bundle="${messages}" key="ACTION_SUCCESS"/> </strong>${requestScope.success}</p>
             </div>
         </c:if>
         <div class="btn-group">
-            <c:set var="groupId" value="${sessionScope.user.group.groupId}"/>
-            <c:if test="${groupId > 0}">
+            <c:set var="groupName" value="${sessionScope.user.group.groupName}"/>
+            <c:if test="${groupName eq 'ADMIN'}">
                 <input type="submit" class="btn btn-success" form="addPeriodical"
-                       value="<fmt:message bundle="messages" key="MY_PAGE"/>">
+                       value="<fmt:message bundle="${messages}" key="MY_PAGE"/>">
             </c:if>
             <input type="submit" class="btn btn-primary" form="userPage"
-                   value="<fmt:message bundle="messages" key="MY_PAGE"/>">
+                   value="<fmt:message bundle="${messages}" key="MY_PAGE"/>">
             <input type="submit" class="btn btn-primary" form="logout"
-                   value="<fmt:message bundle="messages" key="ACTION_LOGOUT"/>">
+                   value="<fmt:message bundle="${messages}" key="ACTION_LOGOUT"/>">
         </div>
         <div class="well">
             <table class="table table-striped table-hover table-bordered">
                 <thead>
                 <tr>
                     <th>#</th>
-                    <th><fmt:message bundle="messages" key="EDITION_NAME"/></th>
-                    <th><fmt:message bundle="messages" key="EDITION_PRICE"/></th>
-                    <c:if test="${groupId == 0}">
-                        <th><fmt:message bundle="messages" key="EDITION_PLAN"/></th>
+                    <th><fmt:message bundle="${messages}" key="EDITION_NAME"/></th>
+                    <th><fmt:message bundle="${messages}" key="EDITION_PRICE"/></th>
+                    <c:if test="${groupName eq 'USER'}">
+                        <th><fmt:message bundle="${messages}" key="EDITION_PLAN"/></th>
                     </c:if>
                     <th style="width: 36px;"></th>
                 </tr>
@@ -59,28 +59,28 @@
                         <td>${item.editionId}</td>
                         <td>${item.editionName}</td>
                         <td>$${item.editionPrice}</td>
-                        <c:if test="${groupId == 0}">
+                        <c:if test="${groupName eq 'USER'}">
                             <td>
                                 <select class="form-control" name="plan" form="subscribe${formId}">
-                                    <option value="ONE_MONTH"><fmt:message bundle="messages"
+                                    <option value="ONE_MONTH"><fmt:message bundle="${messages}"
                                                                            key="EDITION_PLAN_ONE"/></option>
-                                    <option value="THREE_MONTHS"><fmt:message bundle="messages"
+                                    <option value="THREE_MONTHS"><fmt:message bundle="${messages}"
                                                                               key="EDITION_PLAN_THREE"/></option>
-                                    <option value="SIX_MONTHS"><fmt:message bundle="messages"
+                                    <option value="SIX_MONTHS"><fmt:message bundle="${messages}"
                                                                             key="EDITION_PLAN_SIX"/></option>
-                                    <option value="YEAR"><fmt:message bundle="messages"
+                                    <option value="YEAR"><fmt:message bundle="${messages}"
                                                                       key="EDITION_PLAN_YEAR"/></option>
                                 </select>
                             </td>
                         </c:if>
                         <td>
                             <c:choose>
-                                <c:when test="${groupId == 0}">
+                                <c:when test="${groupName eq 'USER'}">
                                     <form method="POST" action="PeriodicalPublications" id="subscribe${formId}">
                                         <input type="hidden" name="command" value="redirectCheckout">
                                         <input type="hidden" name="edition" value="${item.editionId}">
                                         <input type="submit"
-                                               value="<fmt:message bundle="messages" key="ACTION_SUBSCRIBE"/>"
+                                               value="<fmt:message bundle="${messages}" key="ACTION_SUBSCRIBE"/>"
                                                class="btn btn-success">
                                     </form>
                                 </c:when>
@@ -89,7 +89,7 @@
                                         <input type="hidden" name="command" value="redirectEditionUpdate">
                                         <input type="hidden" name="edition" value="${item.editionId}">
                                         <input type="submit"
-                                               value="<fmt:message bundle="messages" key="ACTION_EDIT"/>"
+                                               value="<fmt:message bundle="${messages}" key="ACTION_EDIT"/>"
                                                class="btn btn-primary">
                                     </form>
                                 </c:otherwise>

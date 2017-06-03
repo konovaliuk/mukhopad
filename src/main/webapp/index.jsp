@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<fmt:setBundle basename="messages" var="messages"/>
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,29 +10,29 @@
     <c:if test="${not empty sessionScope.user}">
         <c:redirect url="/PeriodicalPublications"/>
     </c:if>
-    <title><fmt:message bundle="messages" key="LOGIN_PAGE"/></title>
+    <title><fmt:message bundle="${messages}" key="LOGIN_PAGE"/></title>
 </head>
 <body>
 <div class="container">
     <div class="row">
         <form action="PeriodicalPublications" method="POST" class="form-horizontal">
             <!-- Form Name -->
-            <legend><fmt:message bundle="messages" key="LOGIN_PAGE"/></legend>
+            <legend><fmt:message bundle="${messages}" key="LOGIN_PAGE"/></legend>
             <c:if test="${not empty requestScope.error}">
             <div class="form-group alert alert-danger fade in">
                 <a href="#" class="close" data-dismiss="alert">&times;</a>
-                <p><strong><fmt:message bundle="messages" key="ACTION_ERROR"/> </strong>${requestScope.error}</p>
+                <p><strong><fmt:message bundle="${messages}" key="ACTION_ERROR"/> </strong>${requestScope.error}</p>
             </div>
             </c:if>
             <c:if test="${not empty requestScope.success}">
             <div class="form-group alert alert-success fade in">
                 <a href="#" class="close" data-dismiss="alert">&times;</a>
-                <p><strong><fmt:message bundle="messages" key="ACTION_SUCCESS"/> </strong>${requestScope.success}</p>
+                <p><strong><fmt:message bundle="${messages}" key="ACTION_SUCCESS"/> </strong>${requestScope.success}</p>
             </div>
             </c:if>
             <!-- Text input-->
             <div class="form-group">
-                <label class="col-md-4 control-label"><fmt:message bundle="messages" key="USER_LOGIN"/></label>
+                <label class="col-md-4 control-label"><fmt:message bundle="${messages}" key="USER_LOGIN"/></label>
                 <div class="col-md-4">
                     <input name="login" placeholder="login" class="form-control input-md" required="" type="text">
                     <span class="help-block"> </span>
@@ -40,7 +41,7 @@
 
             <!-- Text input-->
             <div class="form-group">
-                <label class="col-md-4 control-label"><fmt:message bundle="messages" key="USER_PASSWORD"/></label>
+                <label class="col-md-4 control-label"><fmt:message bundle="${messages}" key="USER_PASSWORD"/></label>
                 <div class="col-md-4">
                     <input name="password" placeholder="password" class="form-control input-md" required=""
                            type="password">
@@ -54,9 +55,9 @@
                 <div class="col-md-4">
                     <input type="hidden" name="command" value="userLogin">
                     <input type="submit" class="btn btn-primary"
-                           value="<fmt:message bundle="messages" key="ACTION_LOG_IN"/>">
+                           value="<fmt:message bundle="${messages}" key="ACTION_LOG_IN"/>">
                     <input type="submit" class="btn btn-link" form="register"
-                           value="<fmt:message bundle="messages" key="ACTION_SIGN_IN"/>">
+                           value="<fmt:message bundle="${messages}" key="ACTION_SIGN_IN"/>">
                 </div>
             </div>
     </div>

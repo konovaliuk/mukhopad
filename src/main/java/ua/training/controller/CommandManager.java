@@ -35,8 +35,8 @@ public class CommandManager {
         /* Redirect commands */
         commands.put("redirectRegister", new RedirectRegisterCommand());
         commands.put("redirectCheckout", new RedirectCheckoutCommand());
-        commands.put("redirectEditionUpdate", new RedirectEditionUpdateCommand());
-        commands.put("redirectEditionAdd", new RedirectEditionAddCommand());
+//        commands.put("redirectEditionUpdate", new RedirectEditionUpdateCommand());
+//        commands.put("redirectEditionAdd", new RedirectEditionAddCommand());
         commands.put("redirectUserPage", new RedirectUserPageCommand());
 
         /* Periodical commands */

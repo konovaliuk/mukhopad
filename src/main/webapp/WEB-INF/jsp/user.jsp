@@ -16,16 +16,16 @@
     <table class="table table-striped table-hover table-bordered">
         <tbody>
         <tr>
-            <th><span class="pull-right"><fmt:message bundle="messages" key="USER_LOGIN"/></span></th>
+            <th><span class="pull-right"><fmt:message bundle="${messages}" key="USER_LOGIN"/></span></th>
             <th colspan="3">${sessionScope.user.username}</th>
         </tr>
         <tr>
-            <th><span class="pull-right"><fmt:message bundle="messages" key="USER_EMAIL"/></span></th>
+            <th><span class="pull-right"><fmt:message bundle="${messages}" key="USER_EMAIL"/></span></th>
             <th colspan="3">${sessionScope.user.email}</th>
         </tr>
         <tr>
-            <th><span class="pull-right"><fmt:message bundle="messages" key="USER_GROUP"/></span></th>
-            <th colspan="3">${sessionScope.user.group.name}</th>
+            <th><span class="pull-right"><fmt:message bundle="${messages}" key="USER_GROUP"/></span></th>
+            <th colspan="3">${sessionScope.user.group.groupName}</th>
         </tr>
         <tr>
             <th><span class="pull-right">Session ID</span></th>
@@ -36,8 +36,8 @@
     <table class="table table-striped table-hover table-bordered">
         <thead>
         <tr>
-            <th><fmt:message bundle="messages" key="EDITION_NAME"/></th>
-            <th><fmt:message bundle="messages" key="EXPIRATION_DATE"/></th>
+            <th><fmt:message bundle="${messages}" key="EDITION_NAME"/></th>
+            <th><fmt:message bundle="${messages}" key="EXPIRATION_DATE"/></th>
         </tr>
         </thead>
         <tbody>
@@ -51,7 +51,7 @@
                 </c:forEach>
             </c:when>
             <c:otherwise>
-                <fmt:message bundle="messages" key="NO_SUBSCRIPTIONS"/>
+                <fmt:message bundle="${messages}" key="NO_SUBSCRIPTIONS"/>
             </c:otherwise>
         </c:choose>
         </tbody>
