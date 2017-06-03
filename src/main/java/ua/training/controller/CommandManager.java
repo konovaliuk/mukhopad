@@ -38,7 +38,6 @@ public class CommandManager {
         commands.put("editionCheckout", new RedirectCheckoutCommand());
         commands.put("listPeriodicals", new PeriodicalListAllCommand());
         commands.put("addPeriodical", new PeriodicalInsertCommand());
-        commands.put("deletePeriodical", new PeriodicalDeleteCommand());
         commands.put("updatePeriodical", new PeriodicalUpdateCommand());
     }
 
