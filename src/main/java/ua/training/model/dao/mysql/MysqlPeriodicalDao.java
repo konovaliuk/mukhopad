@@ -23,9 +23,6 @@ public class MysqlPeriodicalDao implements PeriodicalDao {
 
     private static MysqlPeriodicalDao PERIODICALS_DAO = new MysqlPeriodicalDao();
 
-    private Connection connection;
-    private PreparedStatement statement;
-
     private MysqlPeriodicalDao() {
     }
 
@@ -35,56 +32,67 @@ public class MysqlPeriodicalDao implements PeriodicalDao {
 
     @Override
     public List<PeriodicalEdition> findAll() {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
         try {
             connection = MysqlDatasource.getConnection();
             statement = connection.prepareStatement(
                     "SELECT * FROM periodical_editions");
-            ResultSet resultSet = statement.executeQuery();
+            resultSet = statement.executeQuery();
             return resultToList(resultSet);
         } catch (SQLException e) {
             LOGGER.log(Level.ERROR, e.getMessage());
         } finally {
-            MysqlDatasource.close(connection, statement);
+            MysqlDatasource.close(connection, statement, resultSet);
         }
         return null;
     }
 
     @Override
     public PeriodicalEdition findByName(String name) {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
         try {
             connection = MysqlDatasource.getConnection();
             statement = connection.prepareStatement(
                     "SELECT * FROM periodical_editions WHERE edition_name = ?");
             statement.setString(1, name);
-            ResultSet resultSet = statement.executeQuery();
+            resultSet = statement.executeQuery();
             return createPeriodicalFromResult(resultSet);
         } catch (SQLException e) {
             LOGGER.log(Level.ERROR, e.getMessage());
         } finally {
-            MysqlDatasource.close(connection, statement);
+            MysqlDatasource.close(connection, statement, resultSet);
         }
         return null;
     }
 
     @Override
     public PeriodicalEdition findById(int editionId) {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
         try {
             connection = MysqlDatasource.getConnection();
             statement = connection.prepareStatement(
                     "SELECT * FROM periodical_editions WHERE edition_id = ?");
             statement.setInt(1, editionId);
-            ResultSet resultSet = statement.executeQuery();
+            resultSet = statement.executeQuery();
             return createPeriodicalFromResult(resultSet);
         } catch (SQLException e) {
             LOGGER.log(Level.ERROR, e.getMessage());
         } finally {
-            MysqlDatasource.close(connection, statement);
+            MysqlDatasource.close(connection, statement, resultSet);
         }
         return null;
     }
 
     @Override
     public boolean insert(PeriodicalEdition pe) {
+        Connection connection = null;
+        PreparedStatement statement = null;
         try {
             connection = MysqlDatasource.getConnection();
             statement = connection.prepareStatement(
@@ -103,6 +111,8 @@ public class MysqlPeriodicalDao implements PeriodicalDao {
 
     @Override
     public boolean update(PeriodicalEdition pe) {
+        Connection connection = null;
+        PreparedStatement statement = null;
         try {
             connection = MysqlDatasource.getConnection();
             statement = connection.prepareStatement(
@@ -121,6 +131,8 @@ public class MysqlPeriodicalDao implements PeriodicalDao {
 
     @Override
     public boolean delete(int editionId) {
+        Connection connection;
+        PreparedStatement statement;
         try {
             connection = MysqlDatasource.getConnection();
             statement = connection.prepareStatement(
@@ -140,7 +152,6 @@ public class MysqlPeriodicalDao implements PeriodicalDao {
             PeriodicalEdition subscription = createPeriodicalFromResult(resultSet);
             list.add(subscription);
         }
-        resultSet.close();
         return list;
     }
 

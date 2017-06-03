@@ -9,6 +9,7 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -26,6 +27,15 @@ class MysqlDatasource {
             LOGGER.log(Level.ERROR, e.getMessage());
         }
         return connection;
+    }
+
+    static void close(Connection connection, Statement statement, ResultSet resultSet) {
+        close(connection, statement);
+        try {
+            if (resultSet != null) {resultSet.close();}
+        } catch (SQLException e) {
+            LOGGER.log(Level.ERROR, e.getMessage());
+        }
     }
 
     static void close(Connection connection, Statement statement) {

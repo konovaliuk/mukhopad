@@ -25,9 +25,6 @@ public class MysqlUserDao implements UserDao {
 
     private final static MysqlUserDao USER_DAO = new MysqlUserDao();
 
-    private Connection connection;
-    private PreparedStatement statement;
-
     private MysqlUserDao() {
     }
 
@@ -37,33 +34,38 @@ public class MysqlUserDao implements UserDao {
 
     @Override
     public List<User> findAll() {
+        Connection connection = null;
+        ResultSet resultSet = null;
         Statement statement = null;
         try {
             connection = MysqlDatasource.getConnection();
             statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(BASE_SQL_USER_QUERY);
+            resultSet = statement.executeQuery(BASE_SQL_USER_QUERY);
             return resultToList(resultSet);
         } catch (SQLException e) {
             LOGGER.log(Level.ERROR, e.getMessage());
         } finally {
-            MysqlDatasource.close(connection, statement);
+            MysqlDatasource.close(connection, statement, resultSet);
         }
         return null;
     }
 
     @Override
     public User findByUsername(String username) {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
         try {
             connection = MysqlDatasource.getConnection();
             statement = connection.prepareStatement(
                     BASE_SQL_USER_QUERY + "AND username = ?");
             statement.setString(1, username);
-            ResultSet resultSet = statement.executeQuery();
+            resultSet = statement.executeQuery();
             return createUserFromResult(resultSet);
         } catch (SQLException e) {
             LOGGER.log(Level.ERROR, e.getMessage());
         } finally {
-            MysqlDatasource.close(connection, statement);
+            MysqlDatasource.close(connection, statement, resultSet);
         }
         return null;
     }
@@ -72,23 +74,27 @@ public class MysqlUserDao implements UserDao {
     public User findByEmail(String email) {
         Connection connection = null;
         PreparedStatement statement = null;
+        ResultSet resultSet = null;
         try {
             connection = MysqlDatasource.getConnection();
             statement = connection.prepareStatement(
                     BASE_SQL_USER_QUERY + "AND email = ?");
             statement.setString(1, email);
-            ResultSet resultSet = statement.executeQuery();
+            resultSet = statement.executeQuery();
             return createUserFromResult(resultSet);
         } catch (SQLException e) {
             LOGGER.log(Level.ERROR, e.getMessage());
         } finally {
-            MysqlDatasource.close(connection, statement);
+            MysqlDatasource.close(connection, statement, resultSet);
         }
         return null;
     }
 
     @Override
     public boolean insert(User user) {
+        Connection connection = null;
+        PreparedStatement statement = null;
+
         try {
             connection = MysqlDatasource.getConnection();
             statement = connection.prepareStatement(
@@ -110,6 +116,8 @@ public class MysqlUserDao implements UserDao {
 
     @Override
     public boolean update(User user) {
+        Connection connection = null;
+        PreparedStatement statement = null;
         try {
             connection = MysqlDatasource.getConnection();
             statement = connection.prepareStatement(
@@ -131,6 +139,8 @@ public class MysqlUserDao implements UserDao {
 
     @Override
     public boolean delete(User user) {
+        Connection connection = null;
+        PreparedStatement statement = null;
         try {
             connection = MysqlDatasource.getConnection();
             statement = connection.prepareStatement(
@@ -164,8 +174,6 @@ public class MysqlUserDao implements UserDao {
         String groupName = resultSet.getString(4);
 
         UserGroup group = UserGroup.valueOf(groupName.toUpperCase());
-
-        resultSet.close();
         return new User(username, password, email, group);
     }
 }

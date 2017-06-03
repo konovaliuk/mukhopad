@@ -13,6 +13,8 @@
     </head>
 <body>
 <div class="container">
+    <legend><fmt:message bundle="${messages}" key="MY_PAGE"/></legend>
+    <div class="well">
     <table class="table table-striped table-hover table-bordered">
         <tbody>
         <tr>
@@ -33,6 +35,8 @@
         </tr>
         </tbody>
     </table>
+    </div>
+    <div class="well">
     <table class="table table-striped table-hover table-bordered">
         <thead>
         <tr>
@@ -40,22 +44,26 @@
             <th><fmt:message bundle="${messages}" key="EXPIRATION_DATE"/></th>
         </tr>
         </thead>
-        <tbody>
         <c:choose>
             <c:when test="${not empty sessionScope.subscriptions}">
                 <c:forEach items="${sessionScope.subscriptions}" var="item">
+                    <tbody>
                     <tr>
                         <td>${item.edition.editionName}</td>
                         <td>${item.expirationDate}</td>
                     </tr>
+                    </tbody>
                 </c:forEach>
             </c:when>
             <c:otherwise>
-                <fmt:message bundle="${messages}" key="NO_SUBSCRIPTIONS"/>
+                <tr>
+                    <fmt:message bundle="${messages}" key="NO_SUBSCRIPTIONS"/>
+                </tr>
             </c:otherwise>
         </c:choose>
-        </tbody>
+
     </table>
+</div>
 </div>
 </body>
 </html>

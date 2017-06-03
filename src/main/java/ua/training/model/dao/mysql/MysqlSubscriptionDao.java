@@ -23,9 +23,6 @@ public class MysqlSubscriptionDao implements SubscriptionDao {
 
     private final static MysqlSubscriptionDao SUBSCRIPTION_DAO = new MysqlSubscriptionDao();
 
-    private Connection connection;
-    private PreparedStatement statement;
-
     private MysqlSubscriptionDao() {
     }
 
@@ -35,51 +32,60 @@ public class MysqlSubscriptionDao implements SubscriptionDao {
 
     @Override
     public List<Subscription> findByUsername(String username) {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
         try {
             connection = MysqlDatasource.getConnection();
             statement = connection.prepareStatement(
                     "SELECT * FROM user_subscriptions WHERE users_username = ?");
             statement.setString(1, username);
-            ResultSet resultSet = statement.executeQuery();
+            resultSet = statement.executeQuery();
             return resultToList(resultSet);
         } catch (SQLException e) {
             LOGGER.log(Level.ERROR, e.getMessage());
         } finally {
-            MysqlDatasource.close(connection, statement);
+            MysqlDatasource.close(connection, statement, resultSet);
         }
         return null;
     }
 
     @Override
     public List<Subscription> findByPeriodical(int periodicalId) {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
         try {
             connection = MysqlDatasource.getConnection();
             statement = connection.prepareStatement(
                     "SELECT * FROM user_subscriptions WHERE pereodicals_edition_id = ?");
             statement.setInt(1, periodicalId);
-            ResultSet resultSet = statement.executeQuery();
+            resultSet = statement.executeQuery();
             return resultToList(resultSet);
         } catch (SQLException e) {
             LOGGER.log(Level.ERROR, e.getMessage());
         } finally {
-            MysqlDatasource.close(connection, statement);
+            MysqlDatasource.close(connection, statement, resultSet);
         }
         return null;
     }
 
     @Override
     public List<Subscription> findByTransactionNumber(int transactionId) {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
         try {
             connection = MysqlDatasource.getConnection();
             statement = connection.prepareStatement(
                     "SELECT * FROM user_subscriptions WHERE transactions_transaction_id = ?");
             statement.setInt(1, transactionId);
-            ResultSet resultSet = statement.executeQuery();
+            resultSet = statement.executeQuery();
             return resultToList(resultSet);
         } catch (SQLException e) {
             LOGGER.log(Level.ERROR, e.getMessage());
         } finally {
-            MysqlDatasource.close(connection, statement);
+            MysqlDatasource.close(connection, statement, resultSet);
         }
         return null;
     }
@@ -133,6 +139,9 @@ public class MysqlSubscriptionDao implements SubscriptionDao {
         PeriodicalEdition pe = subscription.getEdition();
         Transaction ta = subscription.getTransaction();
         Timestamp expDate = subscription.getExpirationDate();
+
+        Connection connection = null;
+        PreparedStatement statement = null;
         try {
             connection = MysqlDatasource.getConnection();
             statement = connection.prepareStatement(query);

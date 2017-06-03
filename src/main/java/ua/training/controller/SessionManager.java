@@ -15,8 +15,8 @@ import java.util.List;
 
 public class SessionManager {
     private static final String SESSION_USER = "user";
-    private static final String SESSION_PERIODICALS = "userPeriodicals";
-    private static final String SESSION_TRANSACTIONS = "userTransactions";
+    private static final String SESSION_PERIODICALS = "subscriptions";
+    private static final String SESSION_TRANSACTIONS = "transactions";
 
     private static final String PARAM_ERROR = "error";
     private static final String PARAM_SUCCESS = "success";

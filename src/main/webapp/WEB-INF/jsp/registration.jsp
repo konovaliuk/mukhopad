@@ -6,9 +6,7 @@
 <html>
 <head>
     <meta name="viewport" content="initial-scale=1, maximum-scale=1">
-    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link href="http://getbootstrap.com/dist/css/bootstrap.css" rel="stylesheet" type="text/css" />
     <c:if test="${not empty sessionScope.user}">
         <c:redirect url="/PeriodicalPublications"/>
     </c:if>
@@ -17,7 +15,7 @@
 <body>
 <div class="container">
     <div class="row">
-        <form action="PeriodicalPublications" method="POST" class="form-horizontal">
+        <form action="PeriodicalPublications" method="POST" class="form-horizontal" data-toggle="validator">
             <!-- Form Name -->
             <legend><fmt:message bundle="${messages}" key="REGISTRATION_PAGE"/></legend>
             <c:if test="${not empty requestScope.error}">
@@ -34,41 +32,48 @@
             </c:if>
             <!-- Text input-->
             <div class="form-group">
-                <label class="col-md-4 control-label"><fmt:message bundle="${messages}" key="USER_LOGIN"/></label>
+                <label class="col-md-4 control-label" for="login"><fmt:message bundle="${messages}" key="USER_LOGIN"/></label>
                 <div class="col-md-4">
-                    <input name="login" placeholder="<fmt:message bundle="${messages}" key="USER_LOGIN"/>" class="form-control input-md" required=""
+                    <input id="login" name="login" placeholder="<fmt:message bundle="${messages}" key="USER_LOGIN"/>" class="form-control input-md" required=""
                            type="text">
-                    <span class="help-block"> </span>
+                    <span class="glyphicon form-control-feedback"></span>
+                    <span class="help-block with-errors"></span>
                 </div>
             </div>
 
             <!-- Text input-->
             <div class="form-group">
-                <label class="col-md-4 control-label"><fmt:message bundle="${messages}" key="USER_EMAIL"/></label>
+                <label class="col-md-4 control-label" for="email"><fmt:message bundle="${messages}" key="USER_EMAIL"/></label>
                 <div class="col-md-4">
-                    <input name="email" placeholder="<fmt:message bundle="${messages}" key="USER_EMAIL"/>" class="form-control input-md" required=""
+                    <input id="email" name="email" placeholder="<fmt:message bundle="${messages}" key="USER_EMAIL"/>" class="form-control input-md" required=""
                            type="email">
-                    <span class="help-block"> </span>
+                    <span class="glyphicon form-control-feedback"></span>
+                    <span class="help-block with-errors"></span>
                 </div>
             </div>
 
             <!-- Text input-->
             <div class="form-group">
-                <label class="col-md-4 control-label"><fmt:message bundle="${messages}" key="USER_PASSWORD"/></label>
+                <label class="col-md-4 control-label" for="inputPassword"><fmt:message bundle="${messages}" key="USER_PASSWORD"/></label>
                 <div class="col-md-4">
-                    <input name="password" placeholder="<fmt:message bundle="${messages}" key="USER_PASSWORD"/>"
+                    <input name="password" id="inputPassword" data-minlength="6" placeholder="<fmt:message bundle="${messages}" key="USER_PASSWORD"/>"
                            class="form-control input-md" required="" type="password">
-                    <span class="help-block"> </span>
+                    <span class="glyphicon form-control-feedback"></span>
+                    <span class="help-block with-errors"></span>
                 </div>
             </div>
 
             <!-- Text input-->
             <div class="form-group">
-                <label class="col-md-4 control-label"><fmt:message bundle="${messages}" key="CONFIRM_PASSWORD"/></label>
+                <label class="col-md-4 control-label" for="confirmPassword"><fmt:message bundle="${messages}" key="CONFIRM_PASSWORD"/></label>
                 <div class="col-md-4">
-                    <input name="confirmPassword" placeholder="<fmt:message bundle="${messages}" key="CONFIRM_PASSWORD"/>" class="form-control input-md"
+                    <input id="confirmPassword" name="confirmPassword" data-match="#inputPassword"
+                           data-match-error="<fmt:message bundle="${messages}" key="PASSWORD_MISMATCH_ERROR"/>"
+                           data-minlength="6" placeholder="<fmt:message bundle="${messages}"
+                           key="CONFIRM_PASSWORD"/>" class="form-control input-md"
                            required="" type="password">
-                    <span class="help-block"> </span>
+                    <span class="glyphicon form-control-feedback"></span>
+                    <span class="help-block with-errors"></span>
                 </div>
             </div>
 
@@ -83,7 +88,8 @@
         </form>
     </div>
 </div>
-<script type="text/javascript" src="webjars/jquery/2.1.1/jquery.min.js"></script>
-<script type="text/javascript" src="webjars/bootstrap/3.2.0/js/bootstrap.min.js"></script>
-</body>
+<script src="http://getbootstrap.com/dist/js/bootstrap.js"></script>
+<script src="http://1000hz.github.io/bootstrap-validator/dist/validator.min.js"></script>
+<script src="http://code.jquery.com/jquery.min.js"></script>
+</body>Ω
 </html>

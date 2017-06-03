@@ -2,7 +2,7 @@
 <Context>
     <WatchedResource>WEB-INF/web.xml</WatchedResource>
     <Resource name="jdbc/Periodicals" auth="Container" type="javax.sql.DataSource"
-    maxActive="100" maxIdle="30" maxWait="10000"
-    username="root" password="root" driverClassName="com.mysql.jdbc.Driver"
-    url="jdbc:mysql://localhost:3306/Periodicals"/>
+              maxActive="100" maxIdle="30" maxWait="10000"
+              username="root" password="root" driverClassName="com.mysql.jdbc.Driver"
+              url="jdbc:mysql://localhost:3306/Periodicals?autoReconnect=true;‌​useSSL=false;"/>
 </Context>

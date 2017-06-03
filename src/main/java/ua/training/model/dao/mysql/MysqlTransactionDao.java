@@ -19,9 +19,6 @@ public class MysqlTransactionDao implements TransactionDao {
 
     private final static MysqlTransactionDao TRANSACTION_DAO = new MysqlTransactionDao();
 
-    private Connection connection;
-    private PreparedStatement statement;
-
     private MysqlTransactionDao() {
     }
 
@@ -31,56 +28,67 @@ public class MysqlTransactionDao implements TransactionDao {
 
     @Override
     public List<Transaction> findAll() {
+        Connection connection = null;
+        Statement statement = null;
+        ResultSet resultSet = null;
         try {
             connection = MysqlDatasource.getConnection();
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(
+            statement = connection.createStatement();
+            resultSet = statement.executeQuery(
                     "SELECT * FROM transactions");
             return resultToList(resultSet);
         } catch (SQLException e) {
             LOGGER.log(Level.ERROR, e.getMessage());
         } finally {
-            MysqlDatasource.close(connection, statement);
+            MysqlDatasource.close(connection, statement, resultSet);
         }
         return null;
     }
 
     @Override
     public List<Transaction> findByUsername(String username) {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
         try {
             connection = MysqlDatasource.getConnection();
             statement = connection.prepareStatement(
                     "SELECT * FROM transactions WHERE transactions_username = ?");
             statement.setString(1, username);
-            ResultSet resultSet = statement.executeQuery();
+            resultSet = statement.executeQuery();
             return resultToList(resultSet);
         } catch (SQLException e) {
             LOGGER.log(Level.ERROR, e.getMessage());
         } finally {
-            MysqlDatasource.close(connection, statement);
+            MysqlDatasource.close(connection, statement, resultSet);
         }
         return null;
     }
 
     @Override
     public Transaction findById(int id) {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
         try {
             connection = MysqlDatasource.getConnection();
             statement = connection.prepareStatement(
                     "SELECT * FROM transactions WHERE transaction_id = ?");
             statement.setInt(1, id);
-            ResultSet resultSet = statement.executeQuery();
+            resultSet = statement.executeQuery();
             return createTransactionFromResult(resultSet);
         } catch (SQLException e) {
             LOGGER.log(Level.ERROR, e.getMessage());
         } finally {
-            MysqlDatasource.close(connection, statement);
+            MysqlDatasource.close(connection, statement, resultSet);
         }
         return null;
     }
 
     @Override
     public boolean insert(Transaction transaction) {
+        Connection connection = null;
+        PreparedStatement statement = null;
         try {
             connection = MysqlDatasource.getConnection();
             statement = connection.prepareStatement(
@@ -99,11 +107,13 @@ public class MysqlTransactionDao implements TransactionDao {
     }
 
     public int tableSize() {
+        Connection connection = null;
         Statement statement = null;
+        ResultSet resultSet = null;
         try {
             connection = MysqlDatasource.getConnection();
             statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery("SELECT count(*) FROM transactions");
+            resultSet = statement.executeQuery("SELECT count(*) FROM transactions");
             int size = 0;
             while (resultSet.next()){
                 size = resultSet.getInt(1);
@@ -113,7 +123,7 @@ public class MysqlTransactionDao implements TransactionDao {
             LOGGER.log(Level.ERROR, e.getMessage());
             return 0;
         } finally {
-            MysqlDatasource.close(connection, statement);
+            MysqlDatasource.close(connection, statement, resultSet);
         }
     }
 

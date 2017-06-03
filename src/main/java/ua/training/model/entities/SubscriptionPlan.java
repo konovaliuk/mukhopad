@@ -21,6 +21,7 @@ public enum SubscriptionPlan {
     public String getName() {
         return name;
     }
+
     public int getAmountOfMonths() {
         return amountOfMonths;
     }

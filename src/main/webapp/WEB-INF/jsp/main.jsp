@@ -14,7 +14,6 @@
 <body>
 
 <div class="container">
-    <div class="row">
         <legend><fmt:message bundle="${messages}" key="PERIODICALS_PAGE"/></legend>
         <c:if test="${not empty requestScope.error}">
             <div class="form-group alert alert-danger fade in">
@@ -28,17 +27,17 @@
                 <p><strong><fmt:message bundle="${messages}" key="ACTION_SUCCESS"/> </strong>${requestScope.success}</p>
             </div>
         </c:if>
-        <div class="btn-group">
+        <div class="btn-group pull-right">
             <c:set var="groupName" value="${sessionScope.user.group.groupName}"/>
             <c:if test="${groupName eq 'ADMIN'}">
                 <input type="submit" class="btn btn-success" form="addPeriodical"
-                       value="<fmt:message bundle="${messages}" key="MY_PAGE"/>">
+                       value="<fmt:message bundle="${messages}" key="ACTION_ADD"/>">
             </c:if>
             <input type="submit" class="btn btn-primary" form="userPage"
                    value="<fmt:message bundle="${messages}" key="MY_PAGE"/>">
             <input type="submit" class="btn btn-primary" form="logout"
                    value="<fmt:message bundle="${messages}" key="ACTION_LOGOUT"/>">
-        </div>
+        </div><br>
         <div class="well">
             <table class="table table-striped table-hover table-bordered">
                 <thead>
@@ -101,7 +100,6 @@
                 </tbody>
             </table>
         </div>
-    </div>
 </div>
 <form method="post" action="PeriodicalPublications" id="logout"><input type="hidden" name="command" value="userLogout"></form>
 <form method="post" action="PeriodicalPublications" id="userPage"><input type="hidden" name="command" value="redirectUserPage"></form>
