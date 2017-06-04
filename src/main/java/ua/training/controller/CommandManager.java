@@ -1,5 +1,7 @@
 package ua.training.controller;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import ua.training.controller.command.Command;
 import ua.training.controller.command.NoCommand;
 import ua.training.controller.command.locale.SetLocaleEnCommand;
@@ -10,12 +12,13 @@ import ua.training.controller.command.periodical.PeriodicalListAllCommand;
 import ua.training.controller.command.periodical.PeriodicalUpdateCommand;
 import ua.training.controller.command.redirect.*;
 import ua.training.controller.command.user.*;
+import ua.training.util.Log;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 
 public class CommandManager {
-
+    private static final Logger LOGGER = LogManager.getLogger(CommandManager.class);
     private static HashMap<String, Command> commands = new HashMap<>();
     static {
         commands.put("noCommand", new NoCommand());
@@ -25,7 +28,6 @@ public class CommandManager {
         commands.put("userLogout", new UserLogoutCommand());
         commands.put("userRegister", new UserRegisterCommand());
         commands.put("userSubscribe", new UserSubscribeCommand());
-        commands.put("listUserSubscriptions", new UserSubscriptionListCommand());
 
         /* Locale commands */
         commands.put("localeUa", new SetLocaleUaCommand());
@@ -40,7 +42,6 @@ public class CommandManager {
         commands.put("redirectUserPage", new RedirectUserPageCommand());
 
         /* Periodical commands */
-
         commands.put("deletePeriodical", new PeriodicalDeleteCommand());
         commands.put("listPeriodicals", new PeriodicalListAllCommand());
         commands.put("addPeriodical", new PeriodicalInsertCommand());
@@ -52,6 +53,7 @@ public class CommandManager {
         if (command == null) {
             command =  commands.get("noCommand");
         }
+        LOGGER.info(Log.COMMAND_CALLED + command.getClass().getSimpleName());
         return command;
     }
 }

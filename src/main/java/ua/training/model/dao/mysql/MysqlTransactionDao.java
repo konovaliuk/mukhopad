@@ -41,7 +41,7 @@ public class MysqlTransactionDao implements TransactionDao {
                     "SELECT * FROM transactions");
             return resultToList(resultSet);
         } catch (SQLException e) {
-            LOGGER.log(Level.ERROR, e.getMessage());
+            LOGGER.error(e.getMessage());
         } finally {
             MysqlDatasource.close(connection, statement, resultSet);
         }
@@ -61,7 +61,7 @@ public class MysqlTransactionDao implements TransactionDao {
             resultSet = statement.executeQuery();
             return resultToList(resultSet);
         } catch (SQLException e) {
-            LOGGER.log(Level.ERROR, e.getMessage());
+            LOGGER.error(e.getMessage());
         } finally {
             MysqlDatasource.close(connection, statement, resultSet);
         }
@@ -81,7 +81,7 @@ public class MysqlTransactionDao implements TransactionDao {
             resultSet = statement.executeQuery();
             return createTransactionFromResult(resultSet);
         } catch (SQLException e) {
-            LOGGER.log(Level.ERROR, e.getMessage());
+            LOGGER.error(e.getMessage());
         } finally {
             MysqlDatasource.close(connection, statement, resultSet);
         }
@@ -103,7 +103,7 @@ public class MysqlTransactionDao implements TransactionDao {
             statement.executeUpdate();
             return true;
         } catch (SQLException e) {
-            LOGGER.log(Level.ERROR, e.getMessage());
+            LOGGER.error(e.getMessage());
         } finally {
             MysqlDatasource.close(connection, statement);
         }
@@ -125,7 +125,7 @@ public class MysqlTransactionDao implements TransactionDao {
             statement.executeUpdate();
             return true;
         } catch (SQLException e) {
-            LOGGER.log(Level.ERROR, e.getMessage());
+            LOGGER.error(e.getMessage());
         } finally {
             MysqlDatasource.close(connection, statement);
         }
@@ -146,7 +146,7 @@ public class MysqlTransactionDao implements TransactionDao {
             }
             return size;
         } catch (SQLException e) {
-            LOGGER.log(Level.ERROR, e.getMessage());
+            LOGGER.error(e.getMessage());
             return 0;
         } finally {
             MysqlDatasource.close(connection, statement, resultSet);

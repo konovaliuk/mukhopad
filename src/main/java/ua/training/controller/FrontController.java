@@ -1,10 +1,10 @@
 package ua.training.controller;
 
-import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import ua.training.controller.command.Command;
 import ua.training.controller.command.periodical.PeriodicalListAllCommand;
+import ua.training.util.Log;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -25,11 +25,12 @@ public class FrontController extends HttpServlet {
             Command command = CommandManager.getCommand(request);
             page = command.execute(request, response);
         } catch (IOException | ServletException e) {
-            LOGGER.log(Level.ERROR, e.getMessage());
+            LOGGER.error(e.getMessage());
         }
 
         new PeriodicalListAllCommand().execute(request, response);
         RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(page);
+        LOGGER.info(Log.REDIRECT_TO + page);
         dispatcher.forward(request, response);
     }
 

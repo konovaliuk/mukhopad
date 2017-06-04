@@ -1,6 +1,5 @@
 package ua.training.model.dao.mysql;
 
-import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -24,7 +23,7 @@ class MysqlDatasource {
                     "java:comp/env/jdbc/Periodicals");
             connection = dataSource.getConnection();
         } catch (NamingException e) {
-            LOGGER.log(Level.ERROR, e.getMessage());
+            LOGGER.error(e.getMessage());
         }
         return connection;
     }
@@ -34,7 +33,7 @@ class MysqlDatasource {
         try {
             if (resultSet != null) {resultSet.close();}
         } catch (SQLException e) {
-            LOGGER.log(Level.ERROR, e.getMessage());
+            LOGGER.error(e.getMessage());
         }
     }
 
@@ -43,7 +42,7 @@ class MysqlDatasource {
             if (statement != null) {statement.close();}
             if (connection != null) {connection.close();}
         } catch (SQLException e) {
-            LOGGER.log(Level.ERROR, e.getMessage());
+            LOGGER.error(e.getMessage());
         }
     }
 }

@@ -43,7 +43,7 @@ public class MysqlUserDao implements UserDao {
             resultSet = statement.executeQuery(BASE_SQL_USER_QUERY);
             return resultToList(resultSet);
         } catch (SQLException e) {
-            LOGGER.log(Level.ERROR, e.getMessage());
+            LOGGER.error(e.getMessage());
         } finally {
             MysqlDatasource.close(connection, statement, resultSet);
         }
@@ -63,7 +63,7 @@ public class MysqlUserDao implements UserDao {
             resultSet = statement.executeQuery();
             return createUserFromResult(resultSet);
         } catch (SQLException e) {
-            LOGGER.log(Level.ERROR, e.getMessage());
+            LOGGER.error(e.getMessage());
         } finally {
             MysqlDatasource.close(connection, statement, resultSet);
         }
@@ -83,7 +83,7 @@ public class MysqlUserDao implements UserDao {
             resultSet = statement.executeQuery();
             return createUserFromResult(resultSet);
         } catch (SQLException e) {
-            LOGGER.log(Level.ERROR, e.getMessage());
+            LOGGER.error(e.getMessage());
         } finally {
             MysqlDatasource.close(connection, statement, resultSet);
         }
@@ -107,7 +107,7 @@ public class MysqlUserDao implements UserDao {
             statement.executeUpdate();
             return true;
         } catch (SQLException e) {
-            LOGGER.log(Level.ERROR, e.getMessage());
+            LOGGER.error(e.getMessage());
         } finally {
             MysqlDatasource.close(connection, statement);
         }
@@ -130,7 +130,7 @@ public class MysqlUserDao implements UserDao {
             statement.executeUpdate();
             return true;
         } catch (SQLException e) {
-            LOGGER.log(Level.ERROR, e.getMessage());
+            LOGGER.error(e.getMessage());
         } finally {
             MysqlDatasource.close(connection, statement);
         }
@@ -149,7 +149,7 @@ public class MysqlUserDao implements UserDao {
             statement.executeUpdate();
             return true;
         } catch (SQLException e) {
-            LOGGER.log(Level.ERROR, e.getMessage());
+            LOGGER.error(e.getMessage());
         } finally {
             MysqlDatasource.close(connection, statement);
         }

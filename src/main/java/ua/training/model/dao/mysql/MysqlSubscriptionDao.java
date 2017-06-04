@@ -43,7 +43,7 @@ public class MysqlSubscriptionDao implements SubscriptionDao {
             resultSet = statement.executeQuery();
             return resultToList(resultSet);
         } catch (SQLException e) {
-            LOGGER.log(Level.ERROR, e.getMessage());
+            LOGGER.error(e.getMessage());
         } finally {
             MysqlDatasource.close(connection, statement, resultSet);
         }
@@ -63,7 +63,7 @@ public class MysqlSubscriptionDao implements SubscriptionDao {
             resultSet = statement.executeQuery();
             return resultToList(resultSet);
         } catch (SQLException e) {
-            LOGGER.log(Level.ERROR, e.getMessage());
+            LOGGER.error(e.getMessage());
         } finally {
             MysqlDatasource.close(connection, statement, resultSet);
         }
@@ -83,7 +83,7 @@ public class MysqlSubscriptionDao implements SubscriptionDao {
             resultSet = statement.executeQuery();
             return resultToList(resultSet);
         } catch (SQLException e) {
-            LOGGER.log(Level.ERROR, e.getMessage());
+            LOGGER.error(e.getMessage());
         } finally {
             MysqlDatasource.close(connection, statement, resultSet);
         }
@@ -152,7 +152,7 @@ public class MysqlSubscriptionDao implements SubscriptionDao {
             statement.executeUpdate();
             return true;
         } catch (SQLException e) {
-            LOGGER.log(Level.ERROR, e.getMessage());
+            LOGGER.error(e.getMessage());
         } finally {
             MysqlDatasource.close(connection, statement);
         }

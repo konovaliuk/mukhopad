@@ -42,7 +42,7 @@ public class MysqlPeriodicalDao implements PeriodicalDao {
             resultSet = statement.executeQuery();
             return resultToList(resultSet);
         } catch (SQLException e) {
-            LOGGER.log(Level.ERROR, e.getMessage());
+            LOGGER.error(e.getMessage());
         } finally {
             MysqlDatasource.close(connection, statement, resultSet);
         }
@@ -62,7 +62,7 @@ public class MysqlPeriodicalDao implements PeriodicalDao {
             resultSet = statement.executeQuery();
             return createPeriodicalFromResult(resultSet);
         } catch (SQLException e) {
-            LOGGER.log(Level.ERROR, e.getMessage());
+            LOGGER.error(e.getMessage());
         } finally {
             MysqlDatasource.close(connection, statement, resultSet);
         }
@@ -82,7 +82,7 @@ public class MysqlPeriodicalDao implements PeriodicalDao {
             resultSet = statement.executeQuery();
             return createPeriodicalFromResult(resultSet);
         } catch (SQLException e) {
-            LOGGER.log(Level.ERROR, e.getMessage());
+            LOGGER.error(e.getMessage());
         } finally {
             MysqlDatasource.close(connection, statement, resultSet);
         }
@@ -102,7 +102,7 @@ public class MysqlPeriodicalDao implements PeriodicalDao {
             statement.executeUpdate();
             return true;
         } catch (SQLException e) {
-            LOGGER.log(Level.ERROR, e.getMessage());
+            LOGGER.error(e.getMessage());
         } finally {
             MysqlDatasource.close(connection, statement);
         }
@@ -123,7 +123,7 @@ public class MysqlPeriodicalDao implements PeriodicalDao {
             statement.executeUpdate();
             return true;
         } catch (SQLException e) {
-            LOGGER.log(Level.ERROR, e.getMessage());
+            LOGGER.error(e.getMessage());
         } finally {
             MysqlDatasource.close(connection, statement);
         }
@@ -142,7 +142,7 @@ public class MysqlPeriodicalDao implements PeriodicalDao {
             statement.executeUpdate();
             return true;
         } catch (SQLException e) {
-            LOGGER.log(Level.ERROR, e.getMessage());
+            LOGGER.error(e.getMessage());
         }
         return false;
     }

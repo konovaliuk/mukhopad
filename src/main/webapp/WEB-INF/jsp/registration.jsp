@@ -7,7 +7,10 @@
 <html>
 <head>
     <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <script src="http://code.jquery.com/jquery.min.js"></script>
     <link href="http://getbootstrap.com/dist/css/bootstrap.css" rel="stylesheet" type="text/css" />
+    <script src="http://getbootstrap.com/dist/js/bootstrap.js"></script>
+    <script src="http://1000hz.github.io/bootstrap-validator/dist/validator.min.js"></script>
     <c:if test="${not empty sessionScope.user}">
         <c:redirect url="/PeriodicalPublications"/>
     </c:if>
@@ -93,8 +96,6 @@
         </form>
     </div>
 </div>
-<script src="http://getbootstrap.com/dist/js/bootstrap.js"></script>
-<script src="http://1000hz.github.io/bootstrap-validator/dist/validator.min.js"></script>
-<script src="http://code.jquery.com/jquery.min.js"></script>
+
 </body>Ω
 </html>
