@@ -1,6 +1,7 @@
 package ua.training.controller.command.user;
 
 import ua.training.controller.command.Command;
+import ua.training.util.Message;
 import ua.training.util.Pages;
 
 import javax.servlet.ServletException;
@@ -16,6 +17,7 @@ public class UserLogoutCommand implements Command {
         if (session != null) {
             session.invalidate();
         }
+        Message.setDefaultLocale();
         return Pages.getInstance().get(Pages.LOGIN);
     }
 }

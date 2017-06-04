@@ -16,11 +16,23 @@ public class Message {
     public static final String PERIODICAL_DELETE_ERROR = "PERIODICAL_DELETE_ERROR";
     public static final String PERIODICAL_DELETE_SUCCESS = "PERIODICAL_DELETE_SUCCESS";
 
+    public static final Locale ENGLISH = Locale.ENGLISH;
+    public static final Locale UKRAINIAN = new Locale("uk", "UA");
+
     public static final String REGISTRATION_SUCCESS = "REGISTRATION_SUCCESS";
+
 
     private static final String BUNDLE_NAME = "messages";
 
     private static ResourceBundle resource = ResourceBundle.getBundle(BUNDLE_NAME);
+
+    public static void setDefaultLocale() {
+        setLocale(Locale.getDefault());
+    }
+
+    public static void setLocale(Locale locale) {
+        resource = ResourceBundle.getBundle(BUNDLE_NAME, locale);
+    }
 
     public static String getProperty(String key) {
         return (String) resource.getObject(key);

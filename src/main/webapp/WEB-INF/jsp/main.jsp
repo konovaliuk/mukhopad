@@ -1,7 +1,7 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
-
+<fmt:requestEncoding value="UTF-8" />
 <fmt:setBundle basename="messages" var="messages"/>
 <!DOCTYPE html>
 <html>
@@ -15,11 +15,12 @@
 <body>
 
 <div class="container">
-        <legend><fmt:message bundle="${messages}" key="PERIODICALS_PAGE"/>
-            <div class="btn-group pull-right" style="padding-bottom: 25px">
+        <legend>
+            <fmt:message bundle="${messages}" key="PERIODICALS_PAGE"/>
+            <div class="btn-group pull-right">
+                <input type="submit" class="btn btn-default btn-sm" form="localeEn" value="EN">
+                <input type="submit" class="btn btn-default btn-sm" form="localeUa" value="UA"/>
             </div>
-            <form method="post" action="PeriodicalPublications" id="localeUa"><input type="hidden" name="command" value="localeUa"></form>
-            <form method="post" action="PeriodicalPublications" id="localeEn"><input type="hidden" name="command" value="localeEn"></form>
         </legend>
         <c:if test="${not empty requestScope.error}">
             <div class="form-group alert alert-danger fade in">
@@ -35,11 +36,11 @@
         </c:if>
     <div class="well">
         <div class="btn-group" style="padding-bottom: 25px">
-        <input type="submit" class="btn btn-primary" form="userPage"
+        <input type="submit" class="btn btn-primary btn-sm" form="userPage"
                value="<fmt:message bundle="${messages}" key="MY_PAGE"/>">
-        <input type="submit" class="btn btn-primary" form="logout"
+        <input type="submit" class="btn btn-primary btn-sm" form="logout"
                value="<fmt:message bundle="${messages}" key="ACTION_LOGOUT"/>">
-        </div>
+    </div>
         <c:set var="groupName" value="${sessionScope.user.group.groupName}"/>
         <c:if test="${groupName eq 'ADMIN'}">
             <input type="submit" class="btn btn-success pull-right" form="addPeriodical"
@@ -55,7 +56,7 @@
                     <c:if test="${groupName eq 'USER'}">
                         <th><fmt:message bundle="${messages}" key="EDITION_PLAN"/></th>
                     </c:if>
-                    <th style="width: 140px;"></th>
+                    <th style="width:auto;"></th>
                 </tr>
                 </thead>
                 <tbody>
