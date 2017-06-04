@@ -20,6 +20,6 @@ public class RedirectAdminPageCommand implements Command {
         TransactionDao dao = MysqlDaoFactory.getInstance().getTransactionDao();
         List<Transaction> transactions = dao.findAll();
         request.setAttribute(TRANSACTIONS_PARAM, transactions);
-        return Page.getInstance().get(Page.USER);
+        return Page.get(Page.USER);
     }
 }

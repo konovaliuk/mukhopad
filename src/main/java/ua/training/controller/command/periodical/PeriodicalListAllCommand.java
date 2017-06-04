@@ -23,6 +23,6 @@ public class PeriodicalListAllCommand implements Command {
         List<PeriodicalEdition> edition = dao.findAll();
             request.setAttribute(PERIODICALS_PARAM, edition);
 
-        return Page.getInstance().get(Page.MAIN);
+        return Page.get(Page.MAIN);
     }
 }

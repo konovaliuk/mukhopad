@@ -11,6 +11,6 @@ import java.io.IOException;
 public class RedirectRegisterCommand implements Command {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        return Page.getInstance().get(Page.REGISTRATION);
+        return Page.get(Page.REGISTRATION);
     }
 }

@@ -29,7 +29,7 @@ public class SessionManager {
         request.getSession().setAttribute(SESSION_USER, user);
 
         loadSubscriptionData(request, user);
-        return Page.getInstance().get(Page.MAIN);
+        return Page.get(Page.MAIN);
     }
 
     public static void loadSubscriptionData(HttpServletRequest request, User user) {
@@ -41,12 +41,12 @@ public class SessionManager {
 
     public static String userError(HttpServletRequest request, String message, String redirectPage) {
         request.setAttribute(PARAM_ERROR, Message.getProperty(message));
-        return Page.getInstance().get(redirectPage);
+        return Page.get(redirectPage);
     }
 
     public static String userSuccess(HttpServletRequest request, String message, String redirectPage) {
         request.setAttribute(PARAM_SUCCESS, Message.getProperty(message));
-        return Page.getInstance().get(redirectPage);
+        return Page.get(redirectPage);
     }
 
 }

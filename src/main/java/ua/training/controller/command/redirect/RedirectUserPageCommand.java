@@ -12,6 +12,6 @@ public class RedirectUserPageCommand implements Command {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        return Page.getInstance().get(Page.USER);
+        return Page.get(Page.USER);
     }
 }

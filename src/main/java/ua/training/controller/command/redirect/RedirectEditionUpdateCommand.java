@@ -22,7 +22,7 @@ public class RedirectEditionUpdateCommand implements Command {
         PeriodicalEdition edition = getEdition(request);
         request.setAttribute(EDITION, edition);
         request.setAttribute(ACTION_PARAM, ACTION);
-        return Page.getInstance().get(Page.EDIT);
+        return Page.get(Page.EDIT);
     }
 
     private PeriodicalEdition getEdition(HttpServletRequest request) {

@@ -16,6 +16,6 @@ public class RedirectEditionAddCommand implements Command {
     public String execute(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         request.setAttribute(ACTION_PARAM, ACTION);
-        return Page.getInstance().get(Page.EDIT);
+        return Page.get(Page.EDIT);
     }
 }

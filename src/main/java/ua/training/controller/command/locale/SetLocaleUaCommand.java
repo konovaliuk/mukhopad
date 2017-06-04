@@ -15,6 +15,6 @@ public class SetLocaleUaCommand implements Command {
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Message.setLocale(Message.UKRAINIAN);
         Config.set(request.getSession(), Config.FMT_LOCALE, Message.UKRAINIAN);
-        return Page.getInstance().get(Page.MAIN);
+        return Page.get(Page.MAIN);
     }
 }

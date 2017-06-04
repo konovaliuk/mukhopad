@@ -12,7 +12,7 @@ public class Page {
 
     private static final ResourceBundle resource = ResourceBundle.getBundle("pages");
 
-    public String get(String key) {
+    public static String get(String key) {
         return (String) resource.getObject(key);
     }
 }

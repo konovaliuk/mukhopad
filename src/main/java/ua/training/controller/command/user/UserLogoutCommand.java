@@ -18,6 +18,6 @@ public class UserLogoutCommand implements Command {
             session.invalidate();
         }
         Message.setDefaultLocale();
-        return Page.getInstance().get(Page.LOGIN);
+        return Page.get(Page.LOGIN);
     }
 }

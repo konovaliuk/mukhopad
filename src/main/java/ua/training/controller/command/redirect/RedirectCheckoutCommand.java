@@ -32,7 +32,7 @@ public class RedirectCheckoutCommand implements Command {
                 SubscriptionService.getInstance().calculateTotalPrice(edition, plan);
         request.setAttribute(TOTAL_PRICE, totalPrice);
 
-        return Page.getInstance().get(Page.CHECKOUT);
+        return Page.get(Page.CHECKOUT);
     }
 
     private PeriodicalEdition getEdition(HttpServletRequest request) {
