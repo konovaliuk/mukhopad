@@ -1,7 +1,7 @@
 package ua.training.model.entities;
 
 public enum SubscriptionPlan {
-    ONE_MONTH(" ONE_MONTH", 1, 1, "1 Month"),
+    ONE_MONTH("ONE_MONTH", 1, 1, "1 Month"),
     THREE_MONTHS("THREE_MONTHS", 3, 0.9, "3 Months - 10% OFF"),
     SIX_MONTHS("SIX_MONTHS", 6, 0.85, "6 Months - 15% OFF"),
     YEAR("YEAR", 12, 0.75, "1 Year - 25% OFF");

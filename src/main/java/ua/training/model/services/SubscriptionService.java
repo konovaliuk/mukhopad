@@ -12,8 +12,12 @@ import java.util.Calendar;
 
 public class SubscriptionService {
     private static final Logger LOGGER = org.apache.logging.log4j.LogManager.getLogger(SubscriptionService.class);
-    private static final SubscriptionDao DAO = MysqlDaoFactory.getInstance().getSubscriptionDao();
+    private static final SubscriptionDao SUBSCRIPTION_DAO = MysqlDaoFactory.getInstance().getSubscriptionDao();
+    private static final TransactionDao TRANSACTION_DAO = MysqlDaoFactory.getInstance().getTransactionDao();
     private static SubscriptionService instance;
+
+    private static final String STATUS_OK = "OK";
+    private static final String STATUS_FAIL = "FAIL";
 
     private SubscriptionService() {}
 
@@ -27,16 +31,20 @@ public class SubscriptionService {
     public boolean subscribeUser(User user, PeriodicalEdition edition, SubscriptionPlan plan) {
         Timestamp currentTime = new Timestamp(System.currentTimeMillis());
         Transaction transaction = doTransaction(user, currentTime, edition, plan);
-
         Timestamp expirationDate = calculateExpirationDate(currentTime, plan);
-        return DAO.insert(new Subscription(user, edition, transaction, expirationDate));
+
+        Subscription subscription = new Subscription(user, edition, transaction, expirationDate);
+        if(SUBSCRIPTION_DAO.insert(subscription)) {
+            return TRANSACTION_DAO.update(transaction.setStatus(STATUS_OK));
+        }
+        return false;
+
     }
 
     private Transaction doTransaction(User user, Timestamp currentTime, PeriodicalEdition edition, SubscriptionPlan plan) {
         BigDecimal totalPrice = calculateTotalPrice(edition, plan);
-        TransactionDao transactionDao = MysqlDaoFactory.getInstance().getTransactionDao();
-        Transaction transaction = new Transaction(transactionDao.tableSize() + 1, user, currentTime, totalPrice);
-        transactionDao.insert(transaction);
+        Transaction transaction = new Transaction(TRANSACTION_DAO.tableSize() + 1, user, currentTime, totalPrice, STATUS_FAIL);
+        TRANSACTION_DAO.insert(transaction);
         return transaction;
     }
 

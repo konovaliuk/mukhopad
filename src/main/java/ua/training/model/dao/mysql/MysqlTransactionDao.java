@@ -16,6 +16,9 @@ public class MysqlTransactionDao implements TransactionDao {
     private final static int COLUMN_USER = 2;
     private final static int COLUMN_TIME = 3;
     private final static int COLUMN_TOTAL_PRICE = 4;
+    private final static int COLUMN_STATUS = 5;
+
+    private final static String STATUS_DEFAULT = "FAIL";
 
     private final static MysqlTransactionDao TRANSACTION_DAO = new MysqlTransactionDao();
 
@@ -92,10 +95,33 @@ public class MysqlTransactionDao implements TransactionDao {
         try {
             connection = MysqlDatasource.getConnection();
             statement = connection.prepareStatement(
-                    " INSERT INTO transactions (transactions_username, transaction_time, totall_price) VALUES (?,?,?)");
+                    " INSERT INTO transactions (transactions_username, transaction_time, totall_price, transaction_status) VALUES (?,?,?,?)");
             statement.setString(COLUMN_USER - 1 , transaction.getUser().getUsername());
             statement.setTimestamp(COLUMN_TIME - 1, transaction.getTransactionTime());
             statement.setBigDecimal(COLUMN_TOTAL_PRICE - 1, transaction.getTotalPrice());
+            statement.setString(COLUMN_STATUS - 1, transaction.getStatus());
+            statement.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            LOGGER.log(Level.ERROR, e.getMessage());
+        } finally {
+            MysqlDatasource.close(connection, statement);
+        }
+        return false;
+    }
+
+    @Override
+    public boolean update(Transaction transaction) {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        try {
+            connection = MysqlDatasource.getConnection();
+            statement = connection.prepareStatement(
+                    " UPDATE transactions SET transactions_username = ?, transaction_time = ?, totall_price = ?, transaction_status = ?");
+            statement.setString(COLUMN_USER - 1 , transaction.getUser().getUsername());
+            statement.setTimestamp(COLUMN_TIME - 1, transaction.getTransactionTime());
+            statement.setBigDecimal(COLUMN_TOTAL_PRICE - 1, transaction.getTotalPrice());
+            statement.setString(COLUMN_STATUS - 1, transaction.getStatus());
             statement.executeUpdate();
             return true;
         } catch (SQLException e) {
@@ -144,7 +170,8 @@ public class MysqlTransactionDao implements TransactionDao {
         String username = resultSet.getString(COLUMN_USER);
         Timestamp date = resultSet.getTimestamp(COLUMN_TIME);
         BigDecimal totalPrice = resultSet.getBigDecimal(COLUMN_TOTAL_PRICE);
+        String status = resultSet.getString(COLUMN_STATUS);
         User user = MysqlUserDao.getInstance().findByUsername(username);
-        return new Transaction(transactionId, user, date, totalPrice);
+        return new Transaction(transactionId, user, date, totalPrice, status);
     }
 }

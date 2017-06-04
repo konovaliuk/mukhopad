@@ -118,10 +118,20 @@
             </table>
         </div>
 </div>
+
+
+<form method="post" action="PeriodicalPublications" id="userPage">
+    <c:if test="${sessionScope.user.group.groupName eq 'USER'}">
+        <input type="hidden" name="command" value="redirectUserPage">
+    </c:if>
+    <c:if test="${sessionScope.user.group.groupName eq 'ADMIN'}">
+        <input type="hidden" name="command" value="redirectAdminPage">
+    </c:if>
+</form>
+
 <form method="post" action="PeriodicalPublications" id="localeUa"><input type="hidden" name="command" value="localeUa"></form>
 <form method="post" action="PeriodicalPublications" id="localeEn"><input type="hidden" name="command" value="localeEn"></form>
 <form method="post" action="PeriodicalPublications" id="logout"><input type="hidden" name="command" value="userLogout"></form>
-<form method="post" action="PeriodicalPublications" id="userPage"><input type="hidden" name="command" value="redirectUserPage"></form>
 <form method="post" action="PeriodicalPublications" id="addPeriodical"><input type="hidden" name="command" value="redirectEditionAdd"></form>
 <script type="text/javascript" src="webjars/jquery/2.1.1/jquery.min.js"></script>
 <script type="text/javascript" src="webjars/bootstrap/3.2.0/js/bootstrap.min.js"></script>

@@ -14,4 +14,6 @@ public interface TransactionDao {
     int tableSize();
 
     boolean insert(Transaction user);
+
+    boolean update(Transaction user);
 }
