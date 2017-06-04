@@ -1,7 +1,7 @@
 package ua.training.controller.command.redirect;
 
 import ua.training.controller.command.Command;
-import ua.training.util.Pages;
+import ua.training.util.Page;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -16,6 +16,6 @@ public class RedirectEditionAddCommand implements Command {
     public String execute(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         request.setAttribute(ACTION_PARAM, ACTION);
-        return Pages.getInstance().get(Pages.EDIT);
+        return Page.getInstance().get(Page.EDIT);
     }
 }

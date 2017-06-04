@@ -2,7 +2,7 @@ package ua.training.controller.command.user;
 
 import ua.training.controller.command.Command;
 import ua.training.model.services.UserService;
-import ua.training.util.Pages;
+import ua.training.util.Page;
 import ua.training.util.Message;
 
 import javax.servlet.ServletException;
@@ -26,14 +26,14 @@ public class UserRegisterCommand implements Command {
         String email = request.getParameter(EMAIL);
 
         if (!password.equals(confirmPassword)) {
-            return userError(request, Message.PASSWORD_MISMATCH_ERROR, Pages.REGISTRATION);
+            return userError(request, Message.PASSWORD_MISMATCH_ERROR, Page.REGISTRATION);
         }
 
         if (UserService.getInstance()
                 .register(login, password, email)){
-            return userSuccess(request, Message.REGISTRATION_SUCCESS, Pages.LOGIN);
+            return userSuccess(request, Message.REGISTRATION_SUCCESS, Page.LOGIN);
         } else {
-            return userError(request, Message.REGISTRATION_ERROR, Pages.REGISTRATION);
+            return userError(request, Message.REGISTRATION_ERROR, Page.REGISTRATION);
         }
     }
 }

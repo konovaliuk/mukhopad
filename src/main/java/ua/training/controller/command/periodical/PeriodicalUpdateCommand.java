@@ -2,7 +2,7 @@ package ua.training.controller.command.periodical;
 
 import ua.training.controller.command.Command;
 import ua.training.model.services.PeriodicalsService;
-import ua.training.util.Pages;
+import ua.training.util.Page;
 import ua.training.util.Message;
 
 import javax.servlet.ServletException;
@@ -26,9 +26,9 @@ public class PeriodicalUpdateCommand implements Command {
 
         if (PeriodicalsService.getInstance()
                 .updatePeriodical(id, name, price)) {
-            return userSuccess(request, Message.PERIODICAL_UPDATE_SUCCESS, Pages.MAIN);
+            return userSuccess(request, Message.PERIODICAL_UPDATE_SUCCESS, Page.MAIN);
         } else {
-            return userError(request, Message.PERIODICAL_UPDATE_ERROR, Pages.MAIN);
+            return userError(request, Message.PERIODICAL_UPDATE_ERROR, Page.MAIN);
         }
     }
 }

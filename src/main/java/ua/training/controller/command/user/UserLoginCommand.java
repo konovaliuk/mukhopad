@@ -23,7 +23,7 @@ public class UserLoginCommand implements Command {
                 .login(login, password)){
             return loadUserDataToSession(request, login);
         } else {
-            return userError(request, Message.LOGIN_ERROR, Pages.LOGIN);
+            return userError(request, Message.LOGIN_ERROR, Page.LOGIN);
         }
     }
 }

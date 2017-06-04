@@ -9,7 +9,7 @@ import ua.training.model.entities.SubscriptionPlan;
 import ua.training.model.entities.User;
 import ua.training.model.services.SubscriptionService;
 import ua.training.util.Message;
-import ua.training.util.Pages;
+import ua.training.util.Page;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -34,9 +34,9 @@ public class UserSubscribeCommand implements Command {
         if(SubscriptionService.getInstance()
                 .subscribeUser(user, edition, plan)){
             SessionManager.loadSubscriptionData(request, user);
-            return userSuccess(request, Message.USER_SUBSCRIBED, Pages.MAIN);
+            return userSuccess(request, Message.USER_SUBSCRIBED, Page.MAIN);
         } else {
-            return userError(request, Message.SUBSCRIPTION_ERROR, Pages.MAIN);
+            return userError(request, Message.SUBSCRIPTION_ERROR, Page.MAIN);
         }
     }
 

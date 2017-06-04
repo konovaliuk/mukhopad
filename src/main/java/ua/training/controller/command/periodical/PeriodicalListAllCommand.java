@@ -5,7 +5,7 @@ import ua.training.controller.command.Command;
 import ua.training.model.dao.PeriodicalDao;
 import ua.training.model.dao.mysql.MysqlDaoFactory;
 import ua.training.model.entities.PeriodicalEdition;
-import ua.training.util.Pages;
+import ua.training.util.Page;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -23,6 +23,6 @@ public class PeriodicalListAllCommand implements Command {
         List<PeriodicalEdition> edition = dao.findAll();
             request.setAttribute(PERIODICALS_PARAM, edition);
 
-        return Pages.getInstance().get(Pages.MAIN);
+        return Page.getInstance().get(Page.MAIN);
     }
 }

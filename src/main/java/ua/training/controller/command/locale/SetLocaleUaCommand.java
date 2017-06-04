@@ -2,7 +2,7 @@ package ua.training.controller.command.locale;
 
 import ua.training.controller.command.Command;
 import ua.training.util.Message;
-import ua.training.util.Pages;
+import ua.training.util.Page;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -15,6 +15,6 @@ public class SetLocaleUaCommand implements Command {
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Message.setLocale(Message.UKRAINIAN);
         Config.set(request.getSession(), Config.FMT_LOCALE, Message.UKRAINIAN);
-        return Pages.getInstance().get(Pages.MAIN);
+        return Page.getInstance().get(Page.MAIN);
     }
 }

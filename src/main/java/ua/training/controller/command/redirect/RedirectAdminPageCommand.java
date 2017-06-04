@@ -4,7 +4,7 @@ import ua.training.controller.command.Command;
 import ua.training.model.dao.TransactionDao;
 import ua.training.model.dao.mysql.MysqlDaoFactory;
 import ua.training.model.entities.Transaction;
-import ua.training.util.Pages;
+import ua.training.util.Page;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -20,6 +20,6 @@ public class RedirectAdminPageCommand implements Command {
         TransactionDao dao = MysqlDaoFactory.getInstance().getTransactionDao();
         List<Transaction> transactions = dao.findAll();
         request.setAttribute(TRANSACTIONS_PARAM, transactions);
-        return Pages.getInstance().get(Pages.USER);
+        return Page.getInstance().get(Page.USER);
     }
 }

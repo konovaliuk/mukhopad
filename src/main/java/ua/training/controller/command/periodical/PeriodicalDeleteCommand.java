@@ -3,7 +3,7 @@ package ua.training.controller.command.periodical;
 import ua.training.controller.command.Command;
 import ua.training.model.services.PeriodicalsService;
 import ua.training.util.Message;
-import ua.training.util.Pages;
+import ua.training.util.Page;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -21,9 +21,9 @@ public class PeriodicalDeleteCommand implements Command {
         int id = Integer.parseInt(request.getParameter(EDITION_ID));
         if (PeriodicalsService.getInstance()
                 .deletePeriodical(id)) {
-            return userSuccess(request, Message.PERIODICAL_DELETE_SUCCESS, Pages.MAIN);
+            return userSuccess(request, Message.PERIODICAL_DELETE_SUCCESS, Page.MAIN);
         } else {
-            return userError(request, Message.PERIODICAL_DELETE_ERROR, Pages.MAIN);
+            return userError(request, Message.PERIODICAL_DELETE_ERROR, Page.MAIN);
         }
     }
 }

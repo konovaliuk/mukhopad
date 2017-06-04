@@ -36,7 +36,7 @@ public class SubscriptionService {
 
         Subscription subscription = new Subscription(user, edition, transaction, expirationDate);
         if(SUBSCRIPTION_DAO.insert(subscription)) {
-            LOGGER.info(Log.USER_SUBSCRIBED);
+            LOGGER.info(Log.USER_SUBSCRIBED + user.getUsername() + " " + edition.getEditionName());
             return TRANSACTION_DAO.update(transaction.setStatus(STATUS_OK));
         }
         return false;

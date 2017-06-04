@@ -9,7 +9,7 @@ import ua.training.model.entities.Subscription;
 import ua.training.model.entities.User;
 import ua.training.util.Log;
 import ua.training.util.Message;
-import ua.training.util.Pages;
+import ua.training.util.Page;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -29,7 +29,7 @@ public class SessionManager {
         request.getSession().setAttribute(SESSION_USER, user);
 
         loadSubscriptionData(request, user);
-        return Pages.getInstance().get(Pages.MAIN);
+        return Page.getInstance().get(Page.MAIN);
     }
 
     public static void loadSubscriptionData(HttpServletRequest request, User user) {
@@ -41,12 +41,12 @@ public class SessionManager {
 
     public static String userError(HttpServletRequest request, String message, String redirectPage) {
         request.setAttribute(PARAM_ERROR, Message.getProperty(message));
-        return Pages.getInstance().get(redirectPage);
+        return Page.getInstance().get(redirectPage);
     }
 
     public static String userSuccess(HttpServletRequest request, String message, String redirectPage) {
         request.setAttribute(PARAM_SUCCESS, Message.getProperty(message));
-        return Pages.getInstance().get(redirectPage);
+        return Page.getInstance().get(redirectPage);
     }
 
 }

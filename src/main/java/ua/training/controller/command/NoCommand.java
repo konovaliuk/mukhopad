@@ -2,7 +2,7 @@ package ua.training.controller.command;
 
 import ua.training.controller.SessionManager;
 import ua.training.model.entities.User;
-import ua.training.util.Pages;
+import ua.training.util.Page;
 import ua.training.util.Message;
 
 import javax.servlet.ServletException;
@@ -18,7 +18,7 @@ public class NoCommand implements Command {
         if (user != null) {
             return SessionManager.loadUserDataToSession(request, user.getUsername());
         } else {
-            return SessionManager.userError(request, Message.ILLEGAL_ACCESS_ERROR, Pages.LOGIN);
+            return SessionManager.userError(request, Message.ILLEGAL_ACCESS_ERROR, Page.LOGIN);
         }
     }
 }

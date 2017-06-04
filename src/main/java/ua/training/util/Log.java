@@ -2,8 +2,8 @@ package ua.training.util;
 
 public class Log {
     public static final String PASSWORD_HASHED = "Hashed password";
-    public static final String USER_LOGIN = "UserService login";
-    public static final String USER_REGISTER = "UserService register";
+    public static final String USER_LOGIN = "User login";
+    public static final String USER_REGISTER = "User register";
     public static final String REDIRECT_TO = "Redirect to page ";
     public static final String COMMAND_CALLED = "Command called: ";
     public static final String TRANSACTION_CREATED ="Transaction created " ;
