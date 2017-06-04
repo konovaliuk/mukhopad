@@ -17,7 +17,11 @@
     <div class="row">
         <form action="PeriodicalPublications" method="POST" class="form-horizontal" data-toggle="validator">
             <!-- Form Name -->
-            <legend><fmt:message bundle="${messages}" key="REGISTRATION_PAGE"/></legend>
+            <legend>
+                <fmt:message bundle="${messages}" key="REGISTRATION_PAGE"/>
+                <div class="btn-group pull-right" style="padding-bottom: 25px">
+                </div>
+            </legend>
             <c:if test="${not empty requestScope.error}">
                 <div class="form-group alert alert-danger fade in">
                     <a href="#" class="close" data-dismiss="alert">&times;</a>

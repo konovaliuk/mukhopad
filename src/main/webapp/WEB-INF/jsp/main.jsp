@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+
 <fmt:setBundle basename="messages" var="messages"/>
 <!DOCTYPE html>
 <html>
@@ -14,7 +15,12 @@
 <body>
 
 <div class="container">
-        <legend><fmt:message bundle="${messages}" key="PERIODICALS_PAGE"/></legend>
+        <legend><fmt:message bundle="${messages}" key="PERIODICALS_PAGE"/>
+            <div class="btn-group pull-right" style="padding-bottom: 25px">
+            </div>
+            <form method="post" action="PeriodicalPublications" id="localeUa"><input type="hidden" name="command" value="localeUa"></form>
+            <form method="post" action="PeriodicalPublications" id="localeEn"><input type="hidden" name="command" value="localeEn"></form>
+        </legend>
         <c:if test="${not empty requestScope.error}">
             <div class="form-group alert alert-danger fade in">
                 <a href="#" class="close" data-dismiss="alert">&times;</a>
@@ -29,10 +35,10 @@
         </c:if>
     <div class="well">
         <div class="btn-group" style="padding-bottom: 25px">
-            <input type="submit" class="btn btn-primary" form="userPage"
-                   value="<fmt:message bundle="${messages}" key="MY_PAGE"/>">
-            <input type="submit" class="btn btn-primary" form="logout"
-                   value="<fmt:message bundle="${messages}" key="ACTION_LOGOUT"/>">
+        <input type="submit" class="btn btn-primary" form="userPage"
+               value="<fmt:message bundle="${messages}" key="MY_PAGE"/>">
+        <input type="submit" class="btn btn-primary" form="logout"
+               value="<fmt:message bundle="${messages}" key="ACTION_LOGOUT"/>">
         </div>
         <c:set var="groupName" value="${sessionScope.user.group.groupName}"/>
         <c:if test="${groupName eq 'ADMIN'}">
@@ -111,6 +117,8 @@
             </table>
         </div>
 </div>
+<form method="post" action="PeriodicalPublications" id="localeUa"><input type="hidden" name="command" value="localeUa"></form>
+<form method="post" action="PeriodicalPublications" id="localeEn"><input type="hidden" name="command" value="localeEn"></form>
 <form method="post" action="PeriodicalPublications" id="logout"><input type="hidden" name="command" value="userLogout"></form>
 <form method="post" action="PeriodicalPublications" id="userPage"><input type="hidden" name="command" value="redirectUserPage"></form>
 <form method="post" action="PeriodicalPublications" id="addPeriodical"><input type="hidden" name="command" value="redirectEditionAdd"></form>

@@ -20,24 +20,7 @@ public class Message {
 
     private static final String BUNDLE_NAME = "messages";
 
-    private static Locale locale;
-    private static ResourceBundle resource;
-
-    static {
-        locale = Locale.getDefault();
-        resource = ResourceBundle.getBundle(BUNDLE_NAME, locale);
-    }
-
-
-    public static void setLocale(String locale) {
-        switch(locale) {
-            case "ua":
-               Message.locale = new Locale("uk", "UA");
-                break;
-            default:
-                Message.locale = Locale.ENGLISH;
-        }
-    }
+    private static ResourceBundle resource = ResourceBundle.getBundle(BUNDLE_NAME);
 
     public static String getProperty(String key) {
         return (String) resource.getObject(key);

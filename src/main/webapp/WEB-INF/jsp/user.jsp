@@ -7,13 +7,15 @@
     <head>
         <meta name="viewport" content="initial-scale=1, maximum-scale=1">
         <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-        <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-        <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
         <title>${sessionScope.user.username}</title>
     </head>
 <body>
 <div class="container">
-    <legend><fmt:message bundle="${messages}" key="MY_PAGE"/></legend>
+    <legend>
+        <fmt:message bundle="${messages}" key="MY_PAGE"/>
+        <div class="btn-group pull-right" style="padding-bottom: 25px">
+        </div>
+    </legend>
     <div class="well">
     <table class="table table-striped table-hover table-bordered">
         <tbody>
@@ -62,6 +64,8 @@
 
     </table>
 </div>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </div>
 </body>
 </html>

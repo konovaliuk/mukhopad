@@ -32,6 +32,8 @@
                         <fmt:message bundle="${messages}" key="ACTION_EDIT"/>
                     </c:when>
                 </c:choose>
+                <div class="btn-group pull-right" style="padding-bottom: 25px">
+                </div>
             </legend>
             <!-- Text input-->
             <div class="form-group">
@@ -72,6 +74,7 @@
                     <input type="submit" class="btn btn-success pull-right" value="<fmt:message bundle="${messages}" key="ACTION_SUBMIT"/>">
                 </div>
             </div>
+        </form>
     </div>
     </form>
 </div>
