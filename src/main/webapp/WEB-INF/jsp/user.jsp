@@ -9,6 +9,9 @@
         <meta name="viewport" content="initial-scale=1, maximum-scale=1">
         <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
         <title>${sessionScope.user.username}</title>
+        <c:if test="${empty sessionScope.user}">
+            <c:redirect url="/publications"/>
+        </c:if>
     </head>
 <body>
 <div class="container">
@@ -73,7 +76,6 @@
                             <th><fmt:message bundle="${messages}" key="USER_LOGIN"/></th>
                             <th><fmt:message bundle="${messages}" key="PURCHASE_TOTAL_PRICE"/></th>
                             <th><fmt:message bundle="${messages}" key="TRANSACTION_TIME"/></th>
-                            <th><fmt:message bundle="${messages}" key="TRANSACTION_STATUS"/></th>
                         </tr>
                         </thead>
                         <tbody>
@@ -82,13 +84,16 @@
                             <td>${item.user.username}</td>
                             <td>$${item.totalPrice}</td>
                             <td>${item.transactionTime}</td>
-                            <td>${item.status}</td>
                         </tr>
                         </c:forEach>
                         </tbody>
                 </table>
             </c:otherwise>
         </c:choose>
+        <form method="POST" action="publications">
+            <input type="hidden" name="command" value="redirectMain">
+            <input type="submit" value="<fmt:message bundle="${messages}" key="ACTION_BACK"/>" class="btn btn-primary">
+        </form>
     </div>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>

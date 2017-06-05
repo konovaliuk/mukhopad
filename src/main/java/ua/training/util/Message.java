@@ -16,6 +16,11 @@ public class Message {
     public static final String PERIODICAL_DELETE_ERROR = "PERIODICAL_DELETE_ERROR";
     public static final String PERIODICAL_DELETE_SUCCESS = "PERIODICAL_DELETE_SUCCESS";
 
+    public static final String EDITION_PLAN_ONE = "EDITION_PLAN_ONE";
+    public static final String EDITION_PLAN_THREE = "EDITION_PLAN_THREE";
+    public static final String EDITION_PLAN_SIX = "EDITION_PLAN_SIX";
+    public static final String EDITION_PLAN_YEAR = "EDITION_PLAN_YEAR";
+
     public static final Locale ENGLISH = Locale.ENGLISH;
     public static final Locale UKRAINIAN = new Locale("uk", "UA");
 

@@ -11,9 +11,11 @@
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <title><fmt:message bundle="${messages}" key="PERIODICALS_PAGE"/></title>
+    <c:if test="${empty sessionScope.user}">
+        <c:redirect url="/publications"/>
+    </c:if>
 </head>
 <body>
-
 <div class="container">
         <legend>
             <fmt:message bundle="${messages}" key="PERIODICALS_PAGE"/>
@@ -83,7 +85,7 @@
                         <td>
                             <c:choose>
                                 <c:when test="${groupName eq 'USER'}">
-                                    <form method="POST" action="PeriodicalPublications" id="subscribe${formId}">
+                                    <form method="POST" action="publications" id="subscribe${formId}">
                                         <input type="hidden" name="command" value="redirectCheckout">
                                         <input type="hidden" name="edition" value="${item.editionId}">
                                         <input type="submit"
@@ -104,11 +106,11 @@
                             </c:choose>
                         </td>
                     </tr>
-                    <form method="POST" action="PeriodicalPublications" id="update${formId}">
+                    <form method="POST" action="publications" id="update${formId}">
                         <input type="hidden" name="command" value="redirectEditionUpdate">
                         <input type="hidden" name="edition" value="${item.editionId}">
                     </form>
-                    <form method="POST" action="PeriodicalPublications" id="delete${formId}">
+                    <form method="POST" action="publications" id="delete${formId}">
                         <input type="hidden" name="command" value="deletePeriodical">
                         <input type="hidden" name="edition" value="${item.editionId}">
                     </form>
@@ -120,7 +122,7 @@
 </div>
 
 
-<form method="post" action="PeriodicalPublications" id="userPage">
+<form method="post" action="publications" id="userPage">
     <c:if test="${sessionScope.user.group.groupName eq 'USER'}">
         <input type="hidden" name="command" value="redirectUserPage">
     </c:if>
@@ -129,10 +131,10 @@
     </c:if>
 </form>
 
-<form method="post" action="PeriodicalPublications" id="localeUa"><input type="hidden" name="command" value="localeUa"></form>
-<form method="post" action="PeriodicalPublications" id="localeEn"><input type="hidden" name="command" value="localeEn"></form>
-<form method="post" action="PeriodicalPublications" id="logout"><input type="hidden" name="command" value="userLogout"></form>
-<form method="post" action="PeriodicalPublications" id="addPeriodical"><input type="hidden" name="command" value="redirectEditionAdd"></form>
+<form method="post" action="publications" id="localeUa"><input type="hidden" name="command" value="localeUa"></form>
+<form method="post" action="publications" id="localeEn"><input type="hidden" name="command" value="localeEn"></form>
+<form method="post" action="publications" id="logout"><input type="hidden" name="command" value="userLogout"></form>
+<form method="post" action="publications" id="addPeriodical"><input type="hidden" name="command" value="redirectEditionAdd"></form>
 <script type="text/javascript" src="webjars/jquery/2.1.1/jquery.min.js"></script>
 <script type="text/javascript" src="webjars/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 <script>

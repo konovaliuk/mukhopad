@@ -6,8 +6,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * Implements Command GoF Pattern, according to which,
- * Command contains only one method
+ * Implements Command GoF Pattern that brings client-server functionality.
  * @author Oleksandr Mukhopad
  */
 public interface Command {

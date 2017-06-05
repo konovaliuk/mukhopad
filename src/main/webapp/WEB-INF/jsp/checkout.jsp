@@ -11,7 +11,9 @@
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <title><fmt:message bundle="${messages}" key="CHECKOUT_PAGE"/></title>
-
+    <c:if test="${empty sessionScope.user}">
+        <c:redirect url="/publications"/>
+    </c:if>
 </head>
 <body>
 <div class="container">
@@ -33,7 +35,7 @@
         </tr>
         <tr>
             <td>${requestScope.edition.editionName}</td>
-            <td>${requestScope.plan.description}</td>
+            <td><fmt:message bundle="${messages}" key="${requestScope.plan.description}"/></td>
             <td>$<fmt:formatNumber maxFractionDigits="2" minFractionDigits="2" value="${requestScope.edition.editionPrice}"/></td>
             <td>$<fmt:formatNumber maxFractionDigits="2" minFractionDigits="2" value="${requestScope.plan.amountOfMonths * requestScope.edition.editionPrice}"/></td>
         </tr>
@@ -49,20 +51,24 @@
             <th colspan="3"><span class="pull-right"><fmt:message bundle="${messages}" key="PURCHASE_TOTAL"/></span></th>
             <th>$<fmt:formatNumber maxFractionDigits="2" minFractionDigits="2" value="${requestScope.totalPrice}"/></th>
         </tr>
-        <c:if test="${empty requestScope.alreadySubscribed}">
         <tr>
             <td colspan="3">
+                <form method="POST" action="publications">
+                    <input type="hidden" name="command" value="redirectMain">
+                    <input type="submit" value="<fmt:message bundle="${messages}" key="ACTION_BACK"/>" class="btn btn-primary">
+                </form>
             </td>
             <td>
-                <form method="POST" action="PeriodicalPublications">
+                <c:if test="${empty requestScope.alreadySubscribed}">
+                <form method="POST" action="publications">
                     <input type="hidden" name="command" value="userSubscribe">
                     <input type="hidden" name="edition" value="${requestScope.edition.editionId}">
                     <input type="hidden" name="plan" value="${requestScope.plan.name}">
                     <input type="submit" value="<fmt:message bundle="${messages}" key="ACTION_SUBSCRIBE"/>" class="btn btn-success">
                 </form>
+                </c:if>
                 </td>
         </tr>
-        </c:if>
         </tbody>
     </table>
 

@@ -9,15 +9,16 @@
     <script src="http://code.jquery.com/jquery.min.js"></script>
     <link href="http://getbootstrap.com/dist/css/bootstrap.css" rel="stylesheet" type="text/css" />
     <script src="http://getbootstrap.com/dist/js/bootstrap.js"></script>
-    <script src="http://1000hz.github.io/bootstrap-validator/dist/validator.min.js"></script><c:if test="${not empty sessionScope.user}">
-        <c:redirect url="/PeriodicalPublications"/>
+    <script src="http://1000hz.github.io/bootstrap-validator/dist/validator.min.js"></script>
+    <c:if test="${not empty sessionScope.user}">
+        <c:redirect url="/publications"/>
     </c:if>
     <title><fmt:message bundle="${messages}" key="LOGIN_PAGE"/></title>
 </head>
 <body>
 <div class="container">
     <div class="row">
-        <form action="PeriodicalPublications" method="POST" class="form-horizontal">
+        <form action="publications" method="POST" class="form-horizontal">
             <!-- Form Name -->
             <legend><
                 fmt:message bundle="${messages}" key="LOGIN_PAGE"/>
@@ -68,7 +69,7 @@
             </div>
     </div>
     </form>
-    <form method="post" action="PeriodicalPublications" id="register">
+    <form method="post" action="publications" id="register">
         <input type="hidden" name="command" value="redirectRegister">
     </form>
 </div>

@@ -18,11 +18,14 @@
             </c:when>
         </c:choose>
     </title>
+    <c:if test="${empty sessionScope.user}">
+        <c:redirect url="/publications"/>
+    </c:if>
 </head>
 <body>
 <div class="container">
     <div class="row">
-        <form action="PeriodicalPublications" method="POST" class="form-horizontal">
+        <form action="publications" method="POST" class="form-horizontal">
             <!-- Form Name -->
             <legend>
                 <c:choose>
@@ -72,11 +75,17 @@
                             <input type="hidden" name="command" value="updatePeriodical">
                         </c:when>
                     </c:choose>
-                    <input type="submit" class="btn btn-success pull-right" value="<fmt:message bundle="${messages}" key="ACTION_SUBMIT"/>">
+                    <div class="btn-group pull-right">
+                        <input type="submit" value="<fmt:message bundle="${messages}" key="ACTION_BACK"/>" class="btn btn-primary" form="back">
+                    <input type="submit" class="btn btn-success" value="<fmt:message bundle="${messages}" key="ACTION_SUBMIT"/>">
+                    </div>
                 </div>
             </div>
         </form>
     </div>
+    </form>
+    <form method="POST" action="publications" id="back">
+        <input type="hidden" name="command" value="redirectMain">
     </form>
 </div>
 </div>

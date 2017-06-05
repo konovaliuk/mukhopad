@@ -28,7 +28,7 @@ public class PeriodicalUpdateCommand implements Command {
                 .updatePeriodical(id, name, price)) {
             return userSuccess(request, Message.PERIODICAL_UPDATE_SUCCESS, Page.MAIN);
         } else {
-            return userError(request, Message.PERIODICAL_UPDATE_ERROR, Page.MAIN);
+            return userError(request, Message.PERIODICAL_INSERTION_ERROR, Page.MAIN);
         }
     }
 }

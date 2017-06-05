@@ -21,7 +21,7 @@ public class CommandManager {
     private static final Logger LOGGER = LogManager.getLogger(CommandManager.class);
     private static HashMap<String, Command> commands = new HashMap<>();
     static {
-        commands.put("noCommand", new NoCommand());
+        commands.put("defaultCommand", new NoCommand());
 
         /* User commands */
         commands.put("userLogin", new UserLoginCommand());
@@ -34,6 +34,7 @@ public class CommandManager {
         commands.put("localeEn", new SetLocaleEnCommand());
 
         /* Redirect commands */
+        commands.put("redirectMain", new RedirectMainPageCommand());
         commands.put("redirectRegister", new RedirectRegisterCommand());
         commands.put("redirectCheckout", new RedirectCheckoutCommand());
         commands.put("redirectEditionUpdate", new RedirectEditionUpdateCommand());
@@ -50,8 +51,8 @@ public class CommandManager {
 
     static Command getCommand(HttpServletRequest request) {
         Command command = commands.get(request.getParameter("command"));
-        if (command == null) {
-            command =  commands.get("noCommand");
+        if (command == null || request.getSession(false) == null) {
+            command =  commands.get("defaultCommand");
         }
         LOGGER.info(Log.COMMAND_CALLED + command.getClass().getSimpleName());
         return command;
