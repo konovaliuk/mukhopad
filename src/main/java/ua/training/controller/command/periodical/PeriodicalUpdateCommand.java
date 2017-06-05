@@ -24,7 +24,7 @@ public class PeriodicalUpdateCommand implements Command {
         String name = (request.getParameter(EDITION_NAME));
         BigDecimal price = new BigDecimal(request.getParameter(EDITION_PRICE));
 
-        if (PeriodicalsService.getInstance()
+        if (PeriodicalsService.getService()
                 .updatePeriodical(id, name, price)) {
             return userSuccess(request, Message.PERIODICAL_UPDATE_SUCCESS, Page.MAIN);
         } else {

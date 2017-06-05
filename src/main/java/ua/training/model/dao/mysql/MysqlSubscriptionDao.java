@@ -1,17 +1,11 @@
 package ua.training.model.dao.mysql;
 
-import org.apache.logging.log4j.Level;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.*;
 import ua.training.model.dao.SubscriptionDao;
-import ua.training.model.entities.PeriodicalEdition;
-import ua.training.model.entities.Subscription;
-import ua.training.model.entities.Transaction;
-import ua.training.model.entities.User;
+import ua.training.model.entities.*;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class MysqlSubscriptionDao implements SubscriptionDao {
     private final static Logger LOGGER = LogManager.getLogger(MysqlSubscriptionDao.class);

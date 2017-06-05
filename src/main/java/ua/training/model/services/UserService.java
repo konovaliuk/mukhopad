@@ -14,15 +14,12 @@ import java.security.NoSuchAlgorithmException;
 public class UserService {
     private static final Logger LOGGER = LogManager.getLogger(UserService.class);
     private static final UserDao DAO = MysqlDaoFactory.getInstance().getUserDao();
-    private static UserService instance;
+    private static final UserService SERVICE = new UserService();
 
     private UserService() {}
 
-    public static synchronized UserService getInstance() {
-        if (instance == null) {
-            instance = new UserService();
-        }
-        return instance;
+    public static UserService getService() {
+        return SERVICE;
     }
 
     public boolean login(String login, String password) {

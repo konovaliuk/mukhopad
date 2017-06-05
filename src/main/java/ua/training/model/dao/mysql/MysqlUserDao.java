@@ -1,15 +1,11 @@
 package ua.training.model.dao.mysql;
 
-import org.apache.logging.log4j.Level;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.*;
 import ua.training.model.dao.UserDao;
-import ua.training.model.entities.User;
-import ua.training.model.entities.UserGroup;
+import ua.training.model.entities.*;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class MysqlUserDao implements UserDao {
     private static final Logger LOGGER = LogManager.getLogger(MysqlUserDao.class);
@@ -18,7 +14,6 @@ public class MysqlUserDao implements UserDao {
     private final static int COLUMN_PASSWORD = 2;
     private final static int COLUMN_EMAIL = 3;
     private final static int COLUMN_USER_GROUP_ID = 4;
-    private final static int COLUMN_USER_GROUP_NAME = 5;
 
     private final static String BASE_SQL_USER_QUERY
             = "SELECT users.username, users.password, users.email, groups.group_name FROM users, groups WHERE users.user_group_id = groups.group_id ";

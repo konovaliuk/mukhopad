@@ -15,8 +15,14 @@
 </head>
 <body>
 <div class="container">
-
-    <h1></h1><hr>
+    <legend><fmt:message bundle="${messages}" key="ACTION_SUBSCRIBE"/></legend>
+    <c:if test="${not empty requestScope.alreadySubscribed}">
+        <div class="form-group alert alert-warning fade in">
+            <a href="#" class="close" data-dismiss="alert">&times;</a>
+            <p><fmt:message bundle="${messages}" key="ALREADY_SUBSCRIBED"/></p>
+            <fmt:message bundle="${messages}" key="SUBSCRIPTION_EXPIRES"/><strong>${requestScope.alreadySubscribed}</strong></p>
+        </div>
+    </c:if>
     <table class="table table-striped table-hover table-bordered">
         <tbody>
         <tr>
@@ -43,16 +49,20 @@
             <th colspan="3"><span class="pull-right"><fmt:message bundle="${messages}" key="PURCHASE_TOTAL"/></span></th>
             <th>$<fmt:formatNumber maxFractionDigits="2" minFractionDigits="2" value="${requestScope.totalPrice}"/></th>
         </tr>
+        <c:if test="${empty requestScope.alreadySubscribed}">
         <tr>
             <td colspan="3">
+            </td>
+            <td>
                 <form method="POST" action="PeriodicalPublications">
                     <input type="hidden" name="command" value="userSubscribe">
                     <input type="hidden" name="edition" value="${requestScope.edition.editionId}">
                     <input type="hidden" name="plan" value="${requestScope.plan.name}">
-                    <input type="submit" value="<fmt:message bundle="${messages}" key="ACTION_SUBSCRIBE"/>" class="pull-right btn btn-success">
+                    <input type="submit" value="<fmt:message bundle="${messages}" key="ACTION_SUBSCRIBE"/>" class="btn btn-success">
                 </form>
                 </td>
         </tr>
+        </c:if>
         </tbody>
     </table>
 

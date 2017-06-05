@@ -1,18 +1,12 @@
 package ua.training.model.dao.mysql;
 
-import org.apache.logging.log4j.Level;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.*;
 import ua.training.model.dao.PeriodicalDao;
 import ua.training.model.entities.PeriodicalEdition;
 
 import java.math.BigDecimal;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
+import java.sql.*;
+import java.util.*;
 
 public class MysqlPeriodicalDao implements PeriodicalDao {
     private final static Logger LOGGER = LogManager.getLogger(MysqlPeriodicalDao.class);

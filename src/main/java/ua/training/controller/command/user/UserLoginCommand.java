@@ -19,7 +19,7 @@ public class UserLoginCommand implements Command {
         String login = request.getParameter(LOGIN);
         String password = request.getParameter(PASSWORD);
 
-        if (UserService.getInstance()
+        if (UserService.getService()
                 .login(login, password)){
             return loadUserDataToSession(request, login);
         } else {

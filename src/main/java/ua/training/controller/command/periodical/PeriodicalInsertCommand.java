@@ -23,7 +23,7 @@ public class PeriodicalInsertCommand implements Command {
         String name = request.getParameter(EDITION_NAME);
         BigDecimal price = new BigDecimal(request.getParameter(EDITION_PRICE));
 
-        if (PeriodicalsService.getInstance()
+        if (PeriodicalsService.getService()
                 .addPeriodical(name, price)) {
             return userSuccess(request, Message.PERIODICAL_INSERTION_SUCCESS, Page.MAIN);
         } else {

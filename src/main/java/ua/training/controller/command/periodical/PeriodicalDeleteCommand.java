@@ -19,7 +19,7 @@ public class PeriodicalDeleteCommand implements Command {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int id = Integer.parseInt(request.getParameter(EDITION_ID));
-        if (PeriodicalsService.getInstance()
+        if (PeriodicalsService.getService()
                 .deletePeriodical(id)) {
             return userSuccess(request, Message.PERIODICAL_DELETE_SUCCESS, Page.MAIN);
         } else {

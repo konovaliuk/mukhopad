@@ -29,7 +29,7 @@ public class UserRegisterCommand implements Command {
             return userError(request, Message.PASSWORD_MISMATCH_ERROR, Page.REGISTRATION);
         }
 
-        if (UserService.getInstance()
+        if (UserService.getService()
                 .register(login, password, email)){
             return userSuccess(request, Message.REGISTRATION_SUCCESS, Page.LOGIN);
         } else {

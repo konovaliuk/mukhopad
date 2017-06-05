@@ -13,7 +13,7 @@ public class SubscriptionServiceTest {
         PeriodicalEdition edition = new PeriodicalEdition(1, "Foo", new BigDecimal("14.99"));
         SubscriptionPlan plan = SubscriptionPlan.SIX_MONTHS;
 
-        BigDecimal actual = SubscriptionService.getInstance()
+        BigDecimal actual = SubscriptionService.getService()
                 .calculateTotalPrice(edition, plan);
         int intValue = edition.getEditionPrice().movePointRight(2).intValue();
         BigDecimal expected = new BigDecimal("" + (int) (intValue * 6 * 0.85)).movePointLeft(2);

@@ -77,7 +77,7 @@
                 <div class="col-md-4">
                     <input id="confirmPassword" name="confirmPassword" data-match="#inputPassword"
                            data-match-error="<fmt:message bundle="${messages}" key="PASSWORD_MISMATCH_ERROR"/>"
-                           data-minlength="6" placeholder="<fmt:message bundle="${messages}"
+                           placeholder="<fmt:message bundle="${messages}"
                            key="CONFIRM_PASSWORD"/>" class="form-control input-md"
                            required="" type="password">
                     <span class="glyphicon form-control-feedback"></span>

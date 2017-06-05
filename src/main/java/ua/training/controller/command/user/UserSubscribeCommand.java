@@ -31,7 +31,7 @@ public class UserSubscribeCommand implements Command {
         PeriodicalEdition edition = getEdition(request);
         SubscriptionPlan plan = getPlan(request);
 
-        if(SubscriptionService.getInstance()
+        if(SubscriptionService.getService()
                 .subscribeUser(user, edition, plan)){
             SessionManager.loadSubscriptionData(request, user);
             return userSuccess(request, Message.USER_SUBSCRIBED, Page.MAIN);

@@ -8,14 +8,12 @@ public class Transaction {
     private User user;
     private Timestamp transactionTime;
     private BigDecimal totalPrice;
-    private String status;
 
-    public Transaction(int transactionId, User user, Timestamp transactionTime, BigDecimal totalPrice, String status) {
+    public Transaction(int transactionId, User user, Timestamp transactionTime, BigDecimal totalPrice) {
         this.transactionId = transactionId;
         this.user = user;
         this.transactionTime = transactionTime;
         this.totalPrice = totalPrice;
-        this.status = status;
     }
 
     public int getTransactionId() {
@@ -32,12 +30,5 @@ public class Transaction {
 
     public BigDecimal getTotalPrice() {
         return totalPrice;
-    }
-
-    public String getStatus() {return status;}
-
-    public Transaction setStatus(String status) {
-        this.status = status;
-        return this;
     }
 }

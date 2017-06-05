@@ -12,15 +12,12 @@ import java.math.BigDecimal;
 public class PeriodicalsService {
     private static final Logger LOGGER = LogManager.getLogger(PeriodicalsService.class);
     private static final PeriodicalDao DAO = MysqlDaoFactory.getInstance().getPeriodicalDao();
-    private static PeriodicalsService instance;
+    private static final PeriodicalsService SERVICE = new PeriodicalsService();
 
     private PeriodicalsService() {}
 
-    public static synchronized PeriodicalsService getInstance() {
-        if (instance == null) {
-            instance = new PeriodicalsService();
-        }
-        return instance;
+    public static PeriodicalsService getService() {
+        return SERVICE;
     }
 
     public boolean addPeriodical(String name, BigDecimal price) {
