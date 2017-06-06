@@ -1,13 +1,14 @@
 package ua.training.util;
 
-import java.util.*;
+import javax.servlet.http.HttpServletRequest;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 public class Message {
     public static final String LOGIN_ERROR = "LOGIN_ERROR";
     public static final String REGISTRATION_ERROR = "REGISTRATION_ERROR";
     public static final String PERIODICAL_INSERTION_ERROR = "PERIODICAL_INSERTION_ERROR";
     public static final String PERIODICAL_INSERTION_SUCCESS = "PERIODICAL_INSERTION_SUCCESS";
-    public static final String PERIODICAL_UPDATE_ERROR = "PERIODICAL_UPDATE_ERROR";
     public static final String PERIODICAL_UPDATE_SUCCESS = "PERIODICAL_UPDATE_SUCCESS";
     public static final String PASSWORD_MISMATCH_ERROR = "PASSWORD_MISMATCH_ERROR";
     public static final String ILLEGAL_ACCESS_ERROR = "ILLEGAL_ACCESS_ERROR";
@@ -26,6 +27,9 @@ public class Message {
 
     public static final String REGISTRATION_SUCCESS = "REGISTRATION_SUCCESS";
 
+    private static final String PARAM_ERROR = "error";
+    private static final String PARAM_SUCCESS = "success";
+
 
     private static final String BUNDLE_NAME = "messages";
 
@@ -37,6 +41,16 @@ public class Message {
 
     public static void setLocale(Locale locale) {
         resource = ResourceBundle.getBundle(BUNDLE_NAME, locale);
+    }
+
+    public static String error(HttpServletRequest request, String message, String redirectPage) {
+        request.setAttribute(PARAM_ERROR, Message.getProperty(message));
+        return Page.get(redirectPage);
+    }
+
+    public static String success(HttpServletRequest request, String message, String redirectPage) {
+        request.setAttribute(PARAM_SUCCESS, Message.getProperty(message));
+        return Page.get(redirectPage);
     }
 
     public static String getProperty(String key) {

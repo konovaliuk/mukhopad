@@ -2,12 +2,10 @@ package ua.training.controller.command;
 
 import ua.training.controller.SessionManager;
 import ua.training.model.entities.User;
-import ua.training.util.Page;
-import ua.training.util.Message;
+import ua.training.util.*;
 
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.*;
 import java.io.IOException;
 
 public class NoCommand implements Command {
@@ -18,7 +16,7 @@ public class NoCommand implements Command {
         if (user != null) {
             return SessionManager.loadUserDataToSession(request, user.getUsername());
         } else {
-            return SessionManager.userError(request, Message.ILLEGAL_ACCESS_ERROR, Page.LOGIN);
+            return Message.error(request, Message.ILLEGAL_ACCESS_ERROR, Page.LOGIN);
         }
     }
 }

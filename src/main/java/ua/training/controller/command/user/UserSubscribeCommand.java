@@ -4,20 +4,13 @@ import ua.training.controller.SessionManager;
 import ua.training.controller.command.Command;
 import ua.training.model.dao.PeriodicalDao;
 import ua.training.model.dao.mysql.MysqlDaoFactory;
-import ua.training.model.entities.PeriodicalEdition;
-import ua.training.model.entities.SubscriptionPlan;
-import ua.training.model.entities.User;
+import ua.training.model.entities.*;
 import ua.training.model.services.SubscriptionService;
-import ua.training.util.Message;
-import ua.training.util.Page;
+import ua.training.util.*;
 
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.*;
 import java.io.IOException;
-
-import static ua.training.controller.SessionManager.userError;
-import static ua.training.controller.SessionManager.userSuccess;
 
 public class UserSubscribeCommand implements Command {
     private static final String SESSION_USER = "user";
@@ -34,9 +27,9 @@ public class UserSubscribeCommand implements Command {
         if(SubscriptionService.getService()
                 .subscribeUser(user, edition, plan)){
             SessionManager.loadSubscriptionData(request, user);
-            return userSuccess(request, Message.USER_SUBSCRIBED, Page.MAIN);
+            return Message.success(request, Message.USER_SUBSCRIBED, Page.MAIN);
         } else {
-            return userError(request, Message.SUBSCRIPTION_ERROR, Page.MAIN);
+            return Message.error(request, Message.SUBSCRIPTION_ERROR, Page.MAIN);
         }
     }
 

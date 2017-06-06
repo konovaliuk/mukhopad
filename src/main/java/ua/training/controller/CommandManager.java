@@ -1,15 +1,9 @@
 package ua.training.controller;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import ua.training.controller.command.Command;
-import ua.training.controller.command.NoCommand;
-import ua.training.controller.command.locale.SetLocaleEnCommand;
-import ua.training.controller.command.locale.SetLocaleUaCommand;
-import ua.training.controller.command.periodical.PeriodicalDeleteCommand;
-import ua.training.controller.command.periodical.PeriodicalInsertCommand;
-import ua.training.controller.command.periodical.PeriodicalListAllCommand;
-import ua.training.controller.command.periodical.PeriodicalUpdateCommand;
+import org.apache.logging.log4j.*;
+import ua.training.controller.command.*;
+import ua.training.controller.command.locale.*;
+import ua.training.controller.command.periodical.*;
 import ua.training.controller.command.redirect.*;
 import ua.training.controller.command.user.*;
 import ua.training.util.Log;

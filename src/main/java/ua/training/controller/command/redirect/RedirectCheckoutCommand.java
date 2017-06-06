@@ -3,15 +3,12 @@ package ua.training.controller.command.redirect;
 import ua.training.controller.command.Command;
 import ua.training.model.dao.PeriodicalDao;
 import ua.training.model.dao.mysql.MysqlDaoFactory;
-import ua.training.model.entities.PeriodicalEdition;
-import ua.training.model.entities.Subscription;
-import ua.training.model.entities.SubscriptionPlan;
+import ua.training.model.entities.*;
 import ua.training.model.services.SubscriptionService;
 import ua.training.util.Page;
 
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.*;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;

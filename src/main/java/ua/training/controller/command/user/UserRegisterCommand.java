@@ -2,16 +2,11 @@ package ua.training.controller.command.user;
 
 import ua.training.controller.command.Command;
 import ua.training.model.services.UserService;
-import ua.training.util.Message;
-import ua.training.util.Page;
+import ua.training.util.*;
 
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.*;
 import java.io.IOException;
-
-import static ua.training.controller.SessionManager.userError;
-import static ua.training.controller.SessionManager.userSuccess;
 
 public class UserRegisterCommand implements Command {
     private static final String LOGIN = "login";
@@ -30,16 +25,16 @@ public class UserRegisterCommand implements Command {
         String email = request.getParameter(EMAIL);
 
         if (!password.equals(confirmPassword)) {
-            return userError(request, Message.PASSWORD_MISMATCH_ERROR, Page.REGISTRATION);
+            return Message.error(request, Message.PASSWORD_MISMATCH_ERROR, Page.REGISTRATION);
         }
 
         if (UserService.getService()
                 .register(login, password, email)){
-            return userSuccess(request, Message.REGISTRATION_SUCCESS, Page.LOGIN);
+            return Message.success(request, Message.REGISTRATION_SUCCESS, Page.LOGIN);
         } else {
             request.getSession().setAttribute(TEMP_USER_PARAM, login);
             request.getSession().setAttribute(TEMP_EMAIL_PARAM, email);
-            return userError(request, Message.REGISTRATION_ERROR, Page.REGISTRATION);
+            return Message.error(request, Message.REGISTRATION_ERROR, Page.REGISTRATION);
         }
     }
 }
