@@ -8,7 +8,9 @@
 <html>
 <head>
     <meta name="viewport" content="initial-scale=1, maximum-scale=1">
-    <link rel='stylesheet' href='webjars/bootstrap/3.2.0/css/bootstrap.min.css'>
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <title>
         <mytag:title>
         <c:choose>
@@ -86,11 +88,9 @@
             </div>
         </form>
     </div>
-    </form>
     <form method="POST" action="publications" id="back">
         <input type="hidden" name="command" value="redirectMain">
     </form>
-</div>
 </div>
 <script type="text/javascript" src="webjars/jquery/2.1.1/jquery.min.js"></script>
 <script type="text/javascript" src="webjars/bootstrap/3.2.0/js/bootstrap.min.js"></script>

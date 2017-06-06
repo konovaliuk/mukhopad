@@ -15,6 +15,28 @@ public class Subscription {
         this.expirationDate = expirationDate;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Subscription that = (Subscription) o;
+
+        if (!getUser().equals(that.getUser())) return false;
+        if (!getEdition().equals(that.getEdition())) return false;
+        if (!getTransaction().equals(that.getTransaction())) return false;
+        return getExpirationDate().equals(that.getExpirationDate());
+    }
+
+    @Override
+    public int hashCode() {
+        int result = getUser().hashCode();
+        result = 31 * result + getEdition().hashCode();
+        result = 31 * result + getTransaction().hashCode();
+        result = 31 * result + getExpirationDate().hashCode();
+        return result;
+    }
+
     public User getUser() {
         return user;
     }
@@ -45,5 +67,15 @@ public class Subscription {
 
     public void setExpirationDate(Timestamp expirationDate) {
         this.expirationDate = expirationDate;
+    }
+
+    @Override
+    public String toString() {
+        return "Subscription{" +
+                "user=" + user +
+                ", edition=" + edition +
+                ", transaction=" + transaction +
+                ", expirationDate=" + expirationDate +
+                '}';
     }
 }

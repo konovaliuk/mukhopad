@@ -13,6 +13,28 @@ public class User {
         this.group = group;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        User user = (User) o;
+
+        if (!getUsername().equals(user.getUsername())) return false;
+        if (!getPassword().equals(user.getPassword())) return false;
+        if (!getEmail().equals(user.getEmail())) return false;
+        return getGroup() == user.getGroup();
+    }
+
+    @Override
+    public int hashCode() {
+        int result = getUsername().hashCode();
+        result = 31 * result + getPassword().hashCode();
+        result = 31 * result + getEmail().hashCode();
+        result = 31 * result + getGroup().hashCode();
+        return result;
+    }
+
     public String getUsername() {
         return username;
     }
@@ -43,5 +65,15 @@ public class User {
 
     public void setGroup(UserGroup group) {
         this.group = group;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", email='" + email + '\'' +
+                ", group=" + group +
+                '}';
     }
 }

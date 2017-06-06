@@ -35,4 +35,14 @@ public enum SubscriptionPlan {
     public String getDescription() {
         return description;
     }
+
+    @Override
+    public String toString() {
+        return "SubscriptionPlan{" +
+                "name='" + name + '\'' +
+                ", amountOfMonths=" + amountOfMonths +
+                ", rate=" + rate +
+                ", description='" + description + '\'' +
+                '}';
+    }
 }

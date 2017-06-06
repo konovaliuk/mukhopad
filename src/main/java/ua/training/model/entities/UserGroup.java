@@ -13,4 +13,11 @@ public enum UserGroup {
     public String getGroupName() {
         return groupName;
     }
+
+    @Override
+    public String toString() {
+        return "UserGroup{" +
+                "groupName='" + groupName + '\'' +
+                '}';
+    }
 }

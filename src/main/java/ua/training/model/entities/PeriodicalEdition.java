@@ -13,6 +13,26 @@ public class PeriodicalEdition {
         this.editionPrice = editionPrice;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        PeriodicalEdition edition = (PeriodicalEdition) o;
+
+        if (getEditionId() != edition.getEditionId()) return false;
+        if (!getEditionName().equals(edition.getEditionName())) return false;
+        return getEditionPrice().equals(edition.getEditionPrice());
+    }
+
+    @Override
+    public int hashCode() {
+        int result = getEditionId();
+        result = 31 * result + getEditionName().hashCode();
+        result = 31 * result + getEditionPrice().hashCode();
+        return result;
+    }
+
     public int getEditionId() {
         return editionId;
     }
@@ -35,5 +55,14 @@ public class PeriodicalEdition {
 
     public void setEditionPrice(BigDecimal editionPrice) {
         this.editionPrice = editionPrice;
+    }
+
+    @Override
+    public String toString() {
+        return "PeriodicalEdition{" +
+                "editionId=" + editionId +
+                ", editionName='" + editionName + '\'' +
+                ", editionPrice=" + editionPrice +
+                '}';
     }
 }
