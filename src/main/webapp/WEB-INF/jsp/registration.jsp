@@ -46,6 +46,7 @@
                            data-error="<fmt:message bundle="${messages}" key="ERROR_INPUT_USERNAME"/>"
                            placeholder="<fmt:message bundle="${messages}" key="USER_LOGIN"/>"
                            class="form-control input-md" required=""
+                           value="<c:if test="${not empty sessionScope.tempUsername}">${sessionScope.tempUsername}</c:if>"
                            type="text">
                     <span class="glyphicon form-control-feedback"></span>
                     <span class="help-block with-errors"></span>
@@ -60,6 +61,7 @@
                            data-error="<fmt:message bundle="${messages}" key="ERROR_INPUT_EMAIL"/>"
                            placeholder="<fmt:message bundle="${messages}" key="USER_EMAIL"/>"
                            class="form-control input-md" required=""
+                           value="<c:if test="${not empty sessionScope.tempEmail}">${sessionScope.tempEmail}</c:if>"
                            type="email">
                     <span class="glyphicon form-control-feedback"></span>
                     <span class="help-block with-errors"></span>
