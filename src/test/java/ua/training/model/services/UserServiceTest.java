@@ -29,12 +29,20 @@ public class UserServiceTest {
     }
 
     @Test
-    public void testSafeInputCharactersAndDashUnderscore() {
+    public void testSafeInputCharactersAndDashUnderscoreInjection() {
         UserService service = UserService.getService();
         String input = "<script>$('body-main')</script><b>Hello World!</b>@$#";
         String actual = service.safeInput(input);
-        String expected = "body-mainHelloWorld";
+        String expected = "body-mainhelloworld";
         Assert.assertEquals(expected, actual);
     }
 
+    @Test
+    public void testSafeInputCharactersAndDashUnderscore() {
+        UserService service = UserService.getService();
+        String input = "Vasya_pupkin-2001";
+        String actual = service.safeInput(input);
+        String expected = "vasya_pupkin-2001";
+        Assert.assertEquals(expected, actual);
+    }
 }

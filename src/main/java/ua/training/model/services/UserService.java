@@ -11,6 +11,10 @@ import ua.training.util.Log;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+/**
+ * UserService is responsible for creating User DTO from data passed by command. Also hashes password
+ * @author Oleksandr Mukhopad
+ */
 public class UserService {
     private static final Logger LOGGER = LogManager.getLogger(UserService.class);
     private static final UserDao DAO = MysqlDaoFactory.getInstance().getUserDao();
@@ -22,6 +26,12 @@ public class UserService {
         return SERVICE;
     }
 
+    /**
+     *
+     * @param login
+     * @param password
+     * @return
+     */
     public boolean login(String login, String password) {
         LOGGER.info(Log.USER_LOGIN);
         password = hashPassword(password);
@@ -36,6 +46,11 @@ public class UserService {
         return DAO.insert(user);
     }
 
+    /**
+     * Simple hashing method that uses symmetrically SHA-256 encryption
+     * @param password user password
+     * @return hashed password in string
+     */
     String hashPassword(String password) {
         String hashedPassword = null;
         try {
@@ -55,6 +70,6 @@ public class UserService {
     }
 
     public String safeInput(String s) {
-        return s.replaceAll("<[^>]*>|[\\s]|[^\\w-]", "");
+        return s.replaceAll("<[^>]*>|[\\s]|[^\\w-]", "").toLowerCase();
     }
 }
