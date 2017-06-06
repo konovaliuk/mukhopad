@@ -12,7 +12,8 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 /**
- * UserService is responsible for creating User DTO from data passed by command. Also hashes password
+ * UserService is responsible for creating User DTO from data passed by command. Also hashes password.
+ * Has no state, so declared as Singleton.
  * @author Oleksandr Mukhopad
  */
 public class UserService {
@@ -27,10 +28,11 @@ public class UserService {
     }
 
     /**
-     *
-     * @param login
-     * @param password
-     * @return
+     * Takes login and password from command, looks for user in database by his username and hashes his password.
+     * Method return true when user exists and his stored password hash equals entered hashed value.
+     * @param login user's name
+     * @param password user's string password
+     * @return false if user wasn't found or if password hashes don't match, true otherwise
      */
     public boolean login(String login, String password) {
         LOGGER.info(Log.USER_LOGIN);
@@ -39,10 +41,17 @@ public class UserService {
         return user != null && user.getPassword().equals(password);
     }
 
+    /**
+     * Takes obtained from user login, email and password,
+     * @param login user login
+     * @param password user's string password
+     * @param email user's email
+     * @return true if user was successfully inserted into database, false otherwise
+     */
     public boolean register(String login, String password, String email) {
         LOGGER.info(Log.USER_REGISTER);
         password = hashPassword(password);
-        User user = new User(safeInput(login), password, email, UserGroup.USER);
+        User user = new User(passwordSafeInput(login), password, email, UserGroup.USER);
         return DAO.insert(user);
     }
 
@@ -69,7 +78,12 @@ public class UserService {
         return hashedPassword;
     }
 
-    public String safeInput(String s) {
-        return s.replaceAll("<[^>]*>|[\\s]|[^\\w-]", "").toLowerCase();
+    /**
+     * Removes all non-latin symbols, all special symbols except "-" and "_", spaces, tabs and html tags.
+     * @param password user's string password
+     * @return new String without invalid symbols in lower case.
+     */
+    String passwordSafeInput(String password) {
+        return password.replaceAll("<[^>]*>|[\\s]|[^\\w-]", "").toLowerCase();
     }
 }

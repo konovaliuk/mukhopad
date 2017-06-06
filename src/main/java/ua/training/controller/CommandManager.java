@@ -11,7 +11,11 @@ import ua.training.util.Log;
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 
-public class CommandManager {
+/**
+ * Command manager fetches "command" property from from request and takes appropriate command from Map.
+ * @author Oleksandr Mukhopad
+ */
+class CommandManager {
     private static final Logger LOGGER = LogManager.getLogger(CommandManager.class);
     private static HashMap<String, Command> commands = new HashMap<>();
     static {
