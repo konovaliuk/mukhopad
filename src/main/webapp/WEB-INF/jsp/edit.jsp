@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib uri="/WEB-INF/custom_tag.tld" prefix="mytag" %>
 <fmt:requestEncoding value="UTF-8" />
 <fmt:setBundle basename="messages" var="messages"/>
 <!DOCTYPE html>
@@ -9,6 +10,7 @@
     <meta name="viewport" content="initial-scale=1, maximum-scale=1">
     <link rel='stylesheet' href='webjars/bootstrap/3.2.0/css/bootstrap.min.css'>
     <title>
+        <mytag:title>
         <c:choose>
             <c:when test="${requestScope.action eq 'insert'}">
                 <fmt:message bundle="${messages}" key="ACTION_ADD"/>
@@ -17,6 +19,7 @@
                 <fmt:message bundle="${messages}" key="ACTION_EDIT"/>
             </c:when>
         </c:choose>
+        </mytag:title>
     </title>
     <c:if test="${empty sessionScope.user}">
         <c:redirect url="/publications"/>

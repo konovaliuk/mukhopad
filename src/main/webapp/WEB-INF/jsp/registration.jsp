@@ -14,7 +14,7 @@
     <c:if test="${not empty sessionScope.user}">
         <c:redirect url="/publications"/>
     </c:if>
-    <title><fmt:message bundle="${messages}" key="REGISTRATION_PAGE"/></title>
+    <title><mytag:title><fmt:message bundle="${messages}" key="REGISTRATION_PAGE"/></mytag:title></title>
 </head>
 <body>
 <div class="container">

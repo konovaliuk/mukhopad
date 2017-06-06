@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib uri="/WEB-INF/custom_tag.tld" prefix="mytag" %>
 <fmt:setBundle basename="messages" var="messages"/>
 <!DOCTYPE html>
 <html>
@@ -13,7 +14,7 @@
     <c:if test="${not empty sessionScope.user}">
         <c:redirect url="/publications"/>
     </c:if>
-    <title><fmt:message bundle="${messages}" key="LOGIN_PAGE"/></title>
+    <title><mytag:title><fmt:message bundle="${messages}" key="LOGIN_PAGE"/></mytag:title></title>
 </head>
 <body>
 <div class="container">
