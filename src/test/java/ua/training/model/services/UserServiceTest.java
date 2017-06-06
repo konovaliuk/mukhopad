@@ -28,4 +28,13 @@ public class UserServiceTest {
         Assert.assertNotEquals(password1, password2);
     }
 
+    @Test
+    public void testSafeInputCharactersAndDashUnderscore() {
+        UserService service = UserService.getService();
+        String input = "<script>$('body-main')</script><b>Hello World!</b>@$#";
+        String actual = service.safeInput(input);
+        String expected = "body-mainHelloWorld";
+        Assert.assertEquals(expected, actual);
+    }
+
 }

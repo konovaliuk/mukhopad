@@ -32,7 +32,7 @@ public class UserService {
     public boolean register(String login, String password, String email) {
         LOGGER.info(Log.USER_REGISTER);
         password = hashPassword(password);
-        User user = new User(login, password, email, UserGroup.USER);
+        User user = new User(safeInput(login), password, email, UserGroup.USER);
         return DAO.insert(user);
     }
 
@@ -52,5 +52,9 @@ public class UserService {
         }
         LOGGER.info(Log.PASSWORD_HASHED);
         return hashedPassword;
+    }
+
+    public String safeInput(String s) {
+        return s.replaceAll("<[^>]*>|[\\s]|[^\\w-]", "");
     }
 }

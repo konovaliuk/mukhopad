@@ -42,7 +42,10 @@
             <div class="form-group">
                 <label class="col-md-4 control-label" for="login"><fmt:message bundle="${messages}" key="USER_LOGIN"/></label>
                 <div class="col-md-4">
-                    <input id="login" name="login" placeholder="<fmt:message bundle="${messages}" key="USER_LOGIN"/>" class="form-control input-md" required=""
+                    <input id="login" name="login" pattern="[_A-Za-z0-9-]{1,20}$" maxlength="20"
+                           data-error="<fmt:message bundle="${messages}" key="ERROR_INPUT_USERNAME"/>"
+                           placeholder="<fmt:message bundle="${messages}" key="USER_LOGIN"/>"
+                           class="form-control input-md" required=""
                            type="text">
                     <span class="glyphicon form-control-feedback"></span>
                     <span class="help-block with-errors"></span>
@@ -53,7 +56,10 @@
             <div class="form-group">
                 <label class="col-md-4 control-label" for="email"><fmt:message bundle="${messages}" key="USER_EMAIL"/></label>
                 <div class="col-md-4">
-                    <input id="email" name="email" placeholder="<fmt:message bundle="${messages}" key="USER_EMAIL"/>" class="form-control input-md" required=""
+                    <input id="email" name="email"
+                           data-error="<fmt:message bundle="${messages}" key="ERROR_INPUT_EMAIL"/>"
+                           placeholder="<fmt:message bundle="${messages}" key="USER_EMAIL"/>"
+                           class="form-control input-md" required=""
                            type="email">
                     <span class="glyphicon form-control-feedback"></span>
                     <span class="help-block with-errors"></span>
@@ -64,7 +70,9 @@
             <div class="form-group">
                 <label class="col-md-4 control-label" for="inputPassword"><fmt:message bundle="${messages}" key="USER_PASSWORD"/></label>
                 <div class="col-md-4">
-                    <input name="password" id="inputPassword" data-minlength="6" placeholder="<fmt:message bundle="${messages}" key="USER_PASSWORD"/>"
+                    <input name="password" id="inputPassword" data-minlength="6"
+                           data-error="<fmt:message bundle="${messages}" key="ERROR_INPUT_PASSWORD"/>"
+                           placeholder="<fmt:message bundle="${messages}" key="USER_PASSWORD"/>"
                            class="form-control input-md" required="" type="password">
                     <span class="glyphicon form-control-feedback"></span>
                     <span class="help-block with-errors"></span>
@@ -76,7 +84,7 @@
                 <label class="col-md-4 control-label" for="confirmPassword"><fmt:message bundle="${messages}" key="CONFIRM_PASSWORD"/></label>
                 <div class="col-md-4">
                     <input id="confirmPassword" name="confirmPassword" data-match="#inputPassword"
-                           data-match-error="<fmt:message bundle="${messages}" key="PASSWORD_MISMATCH_ERROR"/>"
+                           data-error="<fmt:message bundle="${messages}" key="ERROR_INPUT_MISMATCH"/>"
                            placeholder="<fmt:message bundle="${messages}"
                            key="CONFIRM_PASSWORD"/>" class="form-control input-md"
                            required="" type="password">

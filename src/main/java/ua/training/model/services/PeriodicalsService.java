@@ -22,16 +22,20 @@ public class PeriodicalsService {
 
     public boolean addPeriodical(String name, BigDecimal price) {
         LOGGER.info(Log.PERIODICAL_ADD + name);
-        return DAO.insert(new PeriodicalEdition(0, name, price));
+        return DAO.insert(new PeriodicalEdition(0, safeInput(name), price));
     }
 
     public boolean updatePeriodical(int id, String name, BigDecimal price) {
         LOGGER.info(Log.PERIODICAL_UPDATE + name);
-        return DAO.update(new PeriodicalEdition(id, name, price));
+        return DAO.update(new PeriodicalEdition(id, safeInput(name), price));
     }
 
     public boolean deletePeriodical(int id) {
         LOGGER.info(Log.PERIODICAL_DELETE + id);
         return DAO.delete(id);
+    }
+
+    public String safeInput(String s) {
+        return s.replaceAll("<[^>]*>|[@#$%^&*;/|<>\"']+", "");
     }
 }
