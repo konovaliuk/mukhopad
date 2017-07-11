@@ -2,11 +2,11 @@ package ua.training.model.services;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ua.training.model.repository.UserRepository;
-import ua.training.model.repository.mysql.MysqlRepositoryFactory;
 import ua.training.model.dto.UserDTO;
 import ua.training.model.dto.UserGroup;
+import ua.training.model.repository.UserRepository;
 import ua.training.util.Log;
 
 import java.security.MessageDigest;
@@ -20,13 +20,11 @@ import java.security.NoSuchAlgorithmException;
 @Service
 public class UserService {
     private static final Logger LOGGER = LogManager.getLogger(UserService.class);
-    private static final UserRepository REPOSITORY = MysqlRepositoryFactory.getInstance().getUserRepository();
-    private static final UserService SERVICE = new UserService();
+    private UserRepository repository;
 
-    private UserService() {}
-
-    public static UserService getService() {
-        return SERVICE;
+    @Autowired
+    private UserService(UserRepository repository) {
+        this.repository = repository;
     }
 
     /**
@@ -39,7 +37,7 @@ public class UserService {
     public boolean login(String login, String password) {
         LOGGER.info(Log.USER_LOGIN);
         password = hashPassword(password);
-        UserDTO user = REPOSITORY.findByUsername(login);
+        UserDTO user = repository.findByUsername(login);
         return user != null && user.getPassword().equals(password);
     }
 
@@ -54,7 +52,7 @@ public class UserService {
         LOGGER.info(Log.USER_REGISTER);
         password = hashPassword(password);
         UserDTO user = new UserDTO(passwordSafeInput(login), password, email, UserGroup.USER);
-        return REPOSITORY.insert(user);
+        return repository.insert(user);
     }
 
     /**

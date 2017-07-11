@@ -2,10 +2,10 @@ package ua.training.model.services;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ua.training.model.repository.PeriodicalRepository;
-import ua.training.model.repository.mysql.MysqlRepositoryFactory;
 import ua.training.model.dto.PeriodicalEditionDTO;
+import ua.training.model.repository.PeriodicalRepository;
 import ua.training.util.Log;
 
 import java.math.BigDecimal;
@@ -17,13 +17,12 @@ import java.math.BigDecimal;
 @Service
 public class PeriodicalsService {
     private static final Logger LOGGER = LogManager.getLogger(PeriodicalsService.class);
-    private static final PeriodicalRepository REPOSITORY = MysqlRepositoryFactory.getInstance().getPeriodicalRepository();
-    private static final PeriodicalsService SERVICE = new PeriodicalsService();
 
-    private PeriodicalsService() {}
+    private PeriodicalRepository repository;
 
-    public static PeriodicalsService getService() {
-        return SERVICE;
+    @Autowired
+    PeriodicalsService(PeriodicalRepository repository) {
+        this.repository = repository;
     }
 
     /**
@@ -34,7 +33,7 @@ public class PeriodicalsService {
      */
     public boolean addPeriodical(String name, BigDecimal price) {
         LOGGER.info(Log.PERIODICAL_ADD + name);
-        return REPOSITORY.insert(new PeriodicalEditionDTO(0, safeInput(name), price));
+        return repository.insert(new PeriodicalEditionDTO(0, safeInput(name), price));
     }
 
     /**
@@ -47,7 +46,7 @@ public class PeriodicalsService {
      */
     public boolean updatePeriodical(int id, String name, BigDecimal price) {
         LOGGER.info(Log.PERIODICAL_UPDATE + name);
-        return REPOSITORY.update(new PeriodicalEditionDTO(id, safeInput(name), price));
+        return repository.update(new PeriodicalEditionDTO(id, safeInput(name), price));
     }
 
     /**
@@ -57,7 +56,7 @@ public class PeriodicalsService {
      */
     public boolean deletePeriodical(int id) {
         LOGGER.info(Log.PERIODICAL_DELETE + id);
-        return REPOSITORY.delete(id);
+        return repository.delete(id);
     }
 
     /**

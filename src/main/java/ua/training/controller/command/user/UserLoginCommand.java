@@ -8,7 +8,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.*;
 import java.io.IOException;
 
-import static ua.training.controller.SessionManager.*;
+import static ua.training.model.services.SessionService.*;
 
 public class UserLoginCommand implements Command {
     private static final String LOGIN = "login";

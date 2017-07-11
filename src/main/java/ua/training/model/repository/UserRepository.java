@@ -1,9 +1,11 @@
 package ua.training.model.repository;
 
+import org.springframework.stereotype.Repository;
 import ua.training.model.dto.UserDTO;
 
 import java.util.List;
 
+@Repository
 public interface UserRepository {
     /**
      * Finds all Users in database.

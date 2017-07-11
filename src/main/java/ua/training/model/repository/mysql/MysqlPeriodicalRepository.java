@@ -1,6 +1,7 @@
 package ua.training.model.repository.mysql;
 
 import org.apache.logging.log4j.*;
+import org.springframework.stereotype.Repository;
 import ua.training.model.repository.PeriodicalRepository;
 import ua.training.model.dto.PeriodicalEditionDTO;
 
@@ -8,21 +9,13 @@ import java.math.BigDecimal;
 import java.sql.*;
 import java.util.*;
 
+@Repository
 public class MysqlPeriodicalRepository implements PeriodicalRepository {
     private final static Logger LOGGER = LogManager.getLogger(MysqlPeriodicalRepository.class);
 
     private final static int COLUMN_ID = 1;
     private final static int COLUMN_NAME = 2;
     private final static int COLUMN_PRICE = 3;
-
-    private static MysqlPeriodicalRepository PERIODICALS_REPOSITORY = new MysqlPeriodicalRepository();
-
-    private MysqlPeriodicalRepository() {
-    }
-
-    static MysqlPeriodicalRepository getInstance() {
-        return PERIODICALS_REPOSITORY;
-    }
 
     @Override
     public List<PeriodicalEditionDTO> findAll() {
@@ -91,8 +84,8 @@ public class MysqlPeriodicalRepository implements PeriodicalRepository {
             connection = MysqlDatasource.getConnection();
             statement = connection.prepareStatement(
                     "INSERT INTO periodical_editions (edition_name, subscription_price) VALUES (?,?)");
-            statement.setString(COLUMN_NAME-1, pe.getEditionName());
-            statement.setBigDecimal(COLUMN_PRICE-1, pe.getEditionPrice());
+            statement.setString(COLUMN_NAME - 1, pe.getEditionName());
+            statement.setBigDecimal(COLUMN_PRICE - 1, pe.getEditionPrice());
             statement.executeUpdate();
             return true;
         } catch (SQLException e) {
@@ -111,9 +104,9 @@ public class MysqlPeriodicalRepository implements PeriodicalRepository {
             connection = MysqlDatasource.getConnection();
             statement = connection.prepareStatement(
                     "UPDATE periodical_editions SET edition_name = ?, subscription_price = ? WHERE edition_id = ?");
-            statement.setString(COLUMN_NAME-1, pe.getEditionName());
-            statement.setBigDecimal(COLUMN_PRICE-1, pe.getEditionPrice());
-            statement.setInt(COLUMN_ID+2, pe.getEditionId());
+            statement.setString(COLUMN_NAME - 1, pe.getEditionName());
+            statement.setBigDecimal(COLUMN_PRICE - 1, pe.getEditionPrice());
+            statement.setInt(COLUMN_ID + 2, pe.getEditionId());
             statement.executeUpdate();
             return true;
         } catch (SQLException e) {

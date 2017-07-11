@@ -1,13 +1,16 @@
 package ua.training.model.repository.mysql;
 
 import org.apache.logging.log4j.*;
+import org.springframework.stereotype.Repository;
 import ua.training.model.repository.TransactionRepository;
 import ua.training.model.dto.*;
+import ua.training.model.repository.UserRepository;
 
 import java.math.BigDecimal;
 import java.sql.*;
 import java.util.*;
 
+@Repository
 public class MysqlTransactionRepository implements TransactionRepository {
     private static final Logger LOGGER = LogManager.getLogger(MysqlTransactionRepository.class);
 
@@ -16,13 +19,10 @@ public class MysqlTransactionRepository implements TransactionRepository {
     private final static int COLUMN_TIME = 3;
     private final static int COLUMN_TOTAL_PRICE = 4;
 
-    private final static MysqlTransactionRepository TRANSACTION_REPOSITORY = new MysqlTransactionRepository();
+    UserRepository userRepository;
 
-    private MysqlTransactionRepository() {
-    }
-
-    static MysqlTransactionRepository getInstance() {
-        return TRANSACTION_REPOSITORY;
+    MysqlTransactionRepository(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
 
     @Override
@@ -143,7 +143,7 @@ public class MysqlTransactionRepository implements TransactionRepository {
         String username = resultSet.getString(COLUMN_USER);
         Timestamp date = resultSet.getTimestamp(COLUMN_TIME);
         BigDecimal totalPrice = resultSet.getBigDecimal(COLUMN_TOTAL_PRICE);
-        UserDTO user = MysqlUserRepository.getInstance().findByUsername(username);
+        UserDTO user = userRepository.findByUsername(username);
         return new TransactionDTO(transactionId, user, date, totalPrice);
     }
 }

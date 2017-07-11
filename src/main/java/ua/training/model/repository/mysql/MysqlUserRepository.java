@@ -1,12 +1,14 @@
 package ua.training.model.repository.mysql;
 
 import org.apache.logging.log4j.*;
+import org.springframework.stereotype.Repository;
 import ua.training.model.repository.UserRepository;
 import ua.training.model.dto.*;
 
 import java.sql.*;
 import java.util.*;
 
+@Repository
 public class MysqlUserRepository implements UserRepository {
     private static final Logger LOGGER = LogManager.getLogger(MysqlUserRepository.class);
 
@@ -17,15 +19,6 @@ public class MysqlUserRepository implements UserRepository {
 
     private final static String BASE_SQL_USER_QUERY
             = "SELECT users.username, users.password, users.email, groups.group_name FROM users, groups WHERE users.user_group_id = groups.group_id ";
-
-    private final static MysqlUserRepository USER_REPOSITORY = new MysqlUserRepository();
-
-    private MysqlUserRepository() {
-    }
-
-    static MysqlUserRepository getInstance() {
-        return USER_REPOSITORY;
-    }
 
     @Override
     public List<UserDTO> findAll() {

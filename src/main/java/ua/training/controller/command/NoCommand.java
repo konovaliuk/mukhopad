@@ -1,6 +1,6 @@
 package ua.training.controller.command;
 
-import ua.training.controller.SessionManager;
+import ua.training.model.services.SessionService;
 import ua.training.model.dto.UserDTO;
 import ua.training.util.*;
 
@@ -14,7 +14,7 @@ public class NoCommand implements Command {
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         UserDTO user = (UserDTO) request.getSession().getAttribute(SESSION_USER);
         if (user != null) {
-            return SessionManager.loadUserDataToSession(request, user.getUsername());
+            return SessionService.loadUserDataToSession(request, user.getUsername());
         } else {
             return Message.error(request, Message.ILLEGAL_ACCESS_ERROR, Page.LOGIN);
         }

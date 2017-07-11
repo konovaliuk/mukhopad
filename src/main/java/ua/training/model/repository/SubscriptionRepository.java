@@ -1,5 +1,6 @@
 package ua.training.model.repository;
 
+import org.springframework.stereotype.Repository;
 import ua.training.model.dto.SubscriptionDTO;
 
 import java.util.List;
@@ -9,6 +10,7 @@ import java.util.List;
  *
  * @author Olksandr Mukhopad
  */
+@Repository
 public interface SubscriptionRepository {
     /**
      * Finds all Subscriptions of certain user by his username.
@@ -29,7 +31,7 @@ public interface SubscriptionRepository {
      * @param transactionId id of edition
      * @return List of subscriptions
      */
-    List<SubscriptionDTO> findByTransactionNumber(int transactionId);
+    List<SubscriptionDTO> findByTransactionId(int transactionId);
 
     /**
      * Tries to insert subscription into database;

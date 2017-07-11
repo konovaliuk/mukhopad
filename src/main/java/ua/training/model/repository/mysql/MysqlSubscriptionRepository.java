@@ -1,28 +1,41 @@
 package ua.training.model.repository.mysql;
 
-import org.apache.logging.log4j.*;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+import ua.training.model.dto.PeriodicalEditionDTO;
+import ua.training.model.dto.SubscriptionDTO;
+import ua.training.model.dto.TransactionDTO;
+import ua.training.model.dto.UserDTO;
+import ua.training.model.repository.PeriodicalRepository;
 import ua.training.model.repository.SubscriptionRepository;
-import ua.training.model.dto.*;
+import ua.training.model.repository.TransactionRepository;
+import ua.training.model.repository.UserRepository;
 
 import java.sql.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
+@Repository
 public class MysqlSubscriptionRepository implements SubscriptionRepository {
     private final static Logger LOGGER = LogManager.getLogger(MysqlSubscriptionRepository.class);
+
+    private UserRepository userRepository;
+    private PeriodicalRepository periodicalRepository;
+    private TransactionRepository transactionRepository;
+
+    @Autowired
+    MysqlSubscriptionRepository(UserRepository ur, PeriodicalRepository pr, TransactionRepository tr) {
+        this.userRepository = ur;
+        this.periodicalRepository = pr;
+        this.transactionRepository = tr;
+    }
 
     private final static int COLUMN_USERNAME = 1;
     private final static int COLUMN_EDITION_ID = 2;
     private final static int COLUMN_TRANSACTION = 3;
     private final static int COLUMN_EXPIRATION_DATE = 4;
-
-    private final static MysqlSubscriptionRepository SUBSCRIPTION_REPOSITORY = new MysqlSubscriptionRepository();
-
-    private MysqlSubscriptionRepository() {
-    }
-
-    static MysqlSubscriptionRepository getInstance() {
-        return SUBSCRIPTION_REPOSITORY;
-    }
 
     @Override
     public List<SubscriptionDTO> findByUsername(String username) {
@@ -65,7 +78,7 @@ public class MysqlSubscriptionRepository implements SubscriptionRepository {
     }
 
     @Override
-    public List<SubscriptionDTO> findByTransactionNumber(int transactionId) {
+    public List<SubscriptionDTO> findByTransactionId(int transactionId) {
         Connection connection = null;
         PreparedStatement statement = null;
         ResultSet resultSet = null;
@@ -93,13 +106,7 @@ public class MysqlSubscriptionRepository implements SubscriptionRepository {
     @Override
     public boolean update(SubscriptionDTO subscription) {
         return updateSubscriptionByQuery(subscription,
-                new StringBuilder(100)
-                        .append("UPDATE user_subscriptions SET ")
-                        .append("users_username = ?, ")
-                        .append("periodicals_edition_id = ?, ")
-                        .append("transactions_transaction_id = ?, ")
-                        .append("expiration_date = ?")
-                        .toString());
+                "UPDATE user_subscriptions SET users_username = ?, periodicals_edition_id = ?, transactions_transaction_id = ?, expiration_date = ?");
     }
 
     private List<SubscriptionDTO> resultToList(ResultSet resultSet) throws SQLException {
@@ -116,13 +123,13 @@ public class MysqlSubscriptionRepository implements SubscriptionRepository {
         if (resultSet.isBeforeFirst()) resultSet.next();
 
         String username = resultSet.getString(COLUMN_USERNAME);
-        UserDTO user = MysqlUserRepository.getInstance().findByUsername(username);
+        UserDTO user = userRepository.findByUsername(username);
 
         int editionId = resultSet.getInt(COLUMN_EDITION_ID);
-        PeriodicalEditionDTO edition = MysqlPeriodicalRepository.getInstance().findById(editionId);
+        PeriodicalEditionDTO edition = periodicalRepository.findById(editionId);
 
         int transactionId = resultSet.getInt(COLUMN_TRANSACTION);
-        TransactionDTO transaction = MysqlTransactionRepository.getInstance().findById(transactionId);
+        TransactionDTO transaction = transactionRepository.findById(transactionId);
 
         Timestamp expirationDate = resultSet.getTimestamp(COLUMN_EXPIRATION_DATE);
         return new SubscriptionDTO(user, edition, transaction, expirationDate);

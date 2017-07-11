@@ -1,5 +1,6 @@
 package ua.training.model.repository;
 
+import org.springframework.stereotype.Repository;
 import ua.training.model.dto.TransactionDTO;
 
 import java.util.List;
@@ -9,6 +10,7 @@ import java.util.List;
  *
  * @author Olksandr Mukhopad
  */
+@Repository
 public interface TransactionRepository {
     /**
      * Finds all Transactions in database.

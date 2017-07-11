@@ -1,6 +1,6 @@
 package ua.training.controller.command.user;
 
-import ua.training.controller.SessionManager;
+import ua.training.model.services.SessionService;
 import ua.training.controller.command.Command;
 import ua.training.model.repository.PeriodicalRepository;
 import ua.training.model.repository.mysql.MysqlRepositoryFactory;
@@ -26,7 +26,7 @@ public class UserSubscribeCommand implements Command {
 
         if(SubscriptionService.getService()
                 .subscribeUser(user, edition, plan)){
-            SessionManager.loadSubscriptionData(request, user);
+            SessionService.loadSubscriptionData(request, user);
             return Message.success(request, Message.USER_SUBSCRIBED, Page.MAIN);
         } else {
             return Message.error(request, Message.SUBSCRIPTION_ERROR, Page.MAIN);

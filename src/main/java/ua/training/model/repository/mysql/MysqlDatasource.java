@@ -1,10 +1,16 @@
 package ua.training.model.repository.mysql;
 
-import org.apache.logging.log4j.*;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-import javax.naming.*;
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 import javax.sql.DataSource;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 class MysqlDatasource {
     private static final Logger LOGGER = LogManager.getLogger(MysqlDatasource.class);
