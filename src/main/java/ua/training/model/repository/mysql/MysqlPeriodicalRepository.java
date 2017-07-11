@@ -1,31 +1,31 @@
-package ua.training.model.dao.mysql;
+package ua.training.model.repository.mysql;
 
 import org.apache.logging.log4j.*;
-import ua.training.model.dao.PeriodicalDao;
-import ua.training.model.entities.PeriodicalEdition;
+import ua.training.model.repository.PeriodicalRepository;
+import ua.training.model.dto.PeriodicalEditionDTO;
 
 import java.math.BigDecimal;
 import java.sql.*;
 import java.util.*;
 
-public class MysqlPeriodicalDao implements PeriodicalDao {
-    private final static Logger LOGGER = LogManager.getLogger(MysqlPeriodicalDao.class);
+public class MysqlPeriodicalRepository implements PeriodicalRepository {
+    private final static Logger LOGGER = LogManager.getLogger(MysqlPeriodicalRepository.class);
 
     private final static int COLUMN_ID = 1;
     private final static int COLUMN_NAME = 2;
     private final static int COLUMN_PRICE = 3;
 
-    private static MysqlPeriodicalDao PERIODICALS_DAO = new MysqlPeriodicalDao();
+    private static MysqlPeriodicalRepository PERIODICALS_REPOSITORY = new MysqlPeriodicalRepository();
 
-    private MysqlPeriodicalDao() {
+    private MysqlPeriodicalRepository() {
     }
 
-    static MysqlPeriodicalDao getInstance() {
-        return PERIODICALS_DAO;
+    static MysqlPeriodicalRepository getInstance() {
+        return PERIODICALS_REPOSITORY;
     }
 
     @Override
-    public List<PeriodicalEdition> findAll() {
+    public List<PeriodicalEditionDTO> findAll() {
         Connection connection = null;
         PreparedStatement statement = null;
         ResultSet resultSet = null;
@@ -44,7 +44,7 @@ public class MysqlPeriodicalDao implements PeriodicalDao {
     }
 
     @Override
-    public PeriodicalEdition findByName(String name) {
+    public PeriodicalEditionDTO findByName(String name) {
         Connection connection = null;
         PreparedStatement statement = null;
         ResultSet resultSet = null;
@@ -64,7 +64,7 @@ public class MysqlPeriodicalDao implements PeriodicalDao {
     }
 
     @Override
-    public PeriodicalEdition findById(int editionId) {
+    public PeriodicalEditionDTO findById(int editionId) {
         Connection connection = null;
         PreparedStatement statement = null;
         ResultSet resultSet = null;
@@ -84,7 +84,7 @@ public class MysqlPeriodicalDao implements PeriodicalDao {
     }
 
     @Override
-    public boolean insert(PeriodicalEdition pe) {
+    public boolean insert(PeriodicalEditionDTO pe) {
         Connection connection = null;
         PreparedStatement statement = null;
         try {
@@ -104,7 +104,7 @@ public class MysqlPeriodicalDao implements PeriodicalDao {
     }
 
     @Override
-    public boolean update(PeriodicalEdition pe) {
+    public boolean update(PeriodicalEditionDTO pe) {
         Connection connection = null;
         PreparedStatement statement = null;
         try {
@@ -141,21 +141,21 @@ public class MysqlPeriodicalDao implements PeriodicalDao {
         return false;
     }
 
-    private List<PeriodicalEdition> resultToList(ResultSet resultSet) throws SQLException {
-        List<PeriodicalEdition> list = new ArrayList<>();
+    private List<PeriodicalEditionDTO> resultToList(ResultSet resultSet) throws SQLException {
+        List<PeriodicalEditionDTO> list = new ArrayList<>();
         while (resultSet.next()) {
-            PeriodicalEdition subscription = createPeriodicalFromResult(resultSet);
+            PeriodicalEditionDTO subscription = createPeriodicalFromResult(resultSet);
             list.add(subscription);
         }
         return list;
     }
 
-    private PeriodicalEdition createPeriodicalFromResult(ResultSet resultSet) throws SQLException {
+    private PeriodicalEditionDTO createPeriodicalFromResult(ResultSet resultSet) throws SQLException {
         if (resultSet.isBeforeFirst()) resultSet.next();
 
         int editionId = resultSet.getInt(COLUMN_ID);
         String editionName = resultSet.getString(COLUMN_NAME);
         BigDecimal editionPrice = resultSet.getBigDecimal(COLUMN_PRICE);
-        return new PeriodicalEdition(editionId, editionName, editionPrice);
+        return new PeriodicalEditionDTO(editionId, editionName, editionPrice);
     }
 }

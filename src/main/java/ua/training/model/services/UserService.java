@@ -2,10 +2,11 @@ package ua.training.model.services;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import ua.training.model.dao.UserDao;
-import ua.training.model.dao.mysql.MysqlDaoFactory;
-import ua.training.model.entities.User;
-import ua.training.model.entities.UserGroup;
+import org.springframework.stereotype.Service;
+import ua.training.model.repository.UserRepository;
+import ua.training.model.repository.mysql.MysqlRepositoryFactory;
+import ua.training.model.dto.UserDTO;
+import ua.training.model.dto.UserGroup;
 import ua.training.util.Log;
 
 import java.security.MessageDigest;
@@ -16,9 +17,10 @@ import java.security.NoSuchAlgorithmException;
  * Has no state, so declared as Singleton.
  * @author Oleksandr Mukhopad
  */
+@Service
 public class UserService {
     private static final Logger LOGGER = LogManager.getLogger(UserService.class);
-    private static final UserDao DAO = MysqlDaoFactory.getInstance().getUserDao();
+    private static final UserRepository REPOSITORY = MysqlRepositoryFactory.getInstance().getUserRepository();
     private static final UserService SERVICE = new UserService();
 
     private UserService() {}
@@ -37,7 +39,7 @@ public class UserService {
     public boolean login(String login, String password) {
         LOGGER.info(Log.USER_LOGIN);
         password = hashPassword(password);
-        User user = DAO.findByUsername(login);
+        UserDTO user = REPOSITORY.findByUsername(login);
         return user != null && user.getPassword().equals(password);
     }
 
@@ -51,8 +53,8 @@ public class UserService {
     public boolean register(String login, String password, String email) {
         LOGGER.info(Log.USER_REGISTER);
         password = hashPassword(password);
-        User user = new User(passwordSafeInput(login), password, email, UserGroup.USER);
-        return DAO.insert(user);
+        UserDTO user = new UserDTO(passwordSafeInput(login), password, email, UserGroup.USER);
+        return REPOSITORY.insert(user);
     }
 
     /**

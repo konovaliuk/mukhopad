@@ -1,9 +1,9 @@
 package ua.training.controller.command.redirect;
 
 import ua.training.controller.command.Command;
-import ua.training.model.dao.PeriodicalDao;
-import ua.training.model.dao.mysql.MysqlDaoFactory;
-import ua.training.model.entities.PeriodicalEdition;
+import ua.training.model.repository.PeriodicalRepository;
+import ua.training.model.repository.mysql.MysqlRepositoryFactory;
+import ua.training.model.dto.PeriodicalEditionDTO;
 import ua.training.util.Page;
 
 import javax.servlet.ServletException;
@@ -18,15 +18,15 @@ public class RedirectEditionUpdateCommand implements Command {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        PeriodicalEdition edition = getEdition(request);
+        PeriodicalEditionDTO edition = getEdition(request);
         request.setAttribute(EDITION, edition);
         request.setAttribute(ACTION_PARAM, ACTION);
         return Page.get(Page.EDIT);
     }
 
-    private PeriodicalEdition getEdition(HttpServletRequest request) {
+    private PeriodicalEditionDTO getEdition(HttpServletRequest request) {
         int editionId = Integer.parseInt(request.getParameter(EDITION));
-        PeriodicalDao periodicalDao = MysqlDaoFactory.getInstance().getPeriodicalDao();
-        return periodicalDao.findById(editionId);
+        PeriodicalRepository periodicalRepository = MysqlRepositoryFactory.getInstance().getPeriodicalRepository();
+        return periodicalRepository.findById(editionId);
     }
 }

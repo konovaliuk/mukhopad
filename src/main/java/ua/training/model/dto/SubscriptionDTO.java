@@ -1,14 +1,14 @@
-package ua.training.model.entities;
+package ua.training.model.dto;
 
 import java.sql.Timestamp;
 
-public class Subscription {
-    private User user;
-    private PeriodicalEdition edition;
-    private Transaction transaction;
+public class SubscriptionDTO {
+    private UserDTO user;
+    private PeriodicalEditionDTO edition;
+    private TransactionDTO transaction;
     private Timestamp expirationDate;
 
-    public Subscription(User user, PeriodicalEdition edition, Transaction transaction, Timestamp expirationDate) {
+    public SubscriptionDTO(UserDTO user, PeriodicalEditionDTO edition, TransactionDTO transaction, Timestamp expirationDate) {
         this.user = user;
         this.edition = edition;
         this.transaction = transaction;
@@ -20,7 +20,7 @@ public class Subscription {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Subscription that = (Subscription) o;
+        SubscriptionDTO that = (SubscriptionDTO) o;
 
         if (!getUser().equals(that.getUser())) return false;
         if (!getEdition().equals(that.getEdition())) return false;
@@ -37,27 +37,27 @@ public class Subscription {
         return result;
     }
 
-    public User getUser() {
+    public UserDTO getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(UserDTO user) {
         this.user = user;
     }
 
-    public PeriodicalEdition getEdition() {
+    public PeriodicalEditionDTO getEdition() {
         return edition;
     }
 
-    public void setEdition(PeriodicalEdition edition) {
+    public void setEdition(PeriodicalEditionDTO edition) {
         this.edition = edition;
     }
 
-    public Transaction getTransaction() {
+    public TransactionDTO getTransaction() {
         return transaction;
     }
 
-    public void setTransaction(Transaction transaction) {
+    public void setTransaction(TransactionDTO transaction) {
         this.transaction = transaction;
     }
 

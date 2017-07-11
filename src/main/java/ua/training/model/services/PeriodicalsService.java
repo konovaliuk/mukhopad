@@ -2,20 +2,22 @@ package ua.training.model.services;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import ua.training.model.dao.PeriodicalDao;
-import ua.training.model.dao.mysql.MysqlDaoFactory;
-import ua.training.model.entities.PeriodicalEdition;
+import org.springframework.stereotype.Service;
+import ua.training.model.repository.PeriodicalRepository;
+import ua.training.model.repository.mysql.MysqlRepositoryFactory;
+import ua.training.model.dto.PeriodicalEditionDTO;
 import ua.training.util.Log;
 
 import java.math.BigDecimal;
 
 /**
- * Accepts controller fetched input data, warp it into PeriodicalEdition object and pass to DAO.
+ * Accepts controller fetched input data, warp it into PeriodicalEdition object and pass to REPOSITORY.
  * @author Oleksandr Mukhopad
  */
+@Service
 public class PeriodicalsService {
     private static final Logger LOGGER = LogManager.getLogger(PeriodicalsService.class);
-    private static final PeriodicalDao DAO = MysqlDaoFactory.getInstance().getPeriodicalDao();
+    private static final PeriodicalRepository REPOSITORY = MysqlRepositoryFactory.getInstance().getPeriodicalRepository();
     private static final PeriodicalsService SERVICE = new PeriodicalsService();
 
     private PeriodicalsService() {}
@@ -25,19 +27,19 @@ public class PeriodicalsService {
     }
 
     /**
-     * Takes name and price of edition, warps it into DTO and passes to DAO for insertion.
+     * Takes name and price of edition, warps it into DTO and passes to REPOSITORY for insertion.
      * @param name name of periodical
      * @param price periodical price
      * @return true if periodical was inserted successfully, false otherwise
      */
     public boolean addPeriodical(String name, BigDecimal price) {
         LOGGER.info(Log.PERIODICAL_ADD + name);
-        return DAO.insert(new PeriodicalEdition(0, safeInput(name), price));
+        return REPOSITORY.insert(new PeriodicalEditionDTO(0, safeInput(name), price));
     }
 
     /**
      * Takes and id, existing edition, new name and price,
-     * warps it into DTO and passes to DAO for update.
+     * warps it into DTO and passes to REPOSITORY for update.
      * @param id periodical unique id
      * @param name name of periodical
      * @param price periodical price
@@ -45,17 +47,17 @@ public class PeriodicalsService {
      */
     public boolean updatePeriodical(int id, String name, BigDecimal price) {
         LOGGER.info(Log.PERIODICAL_UPDATE + name);
-        return DAO.update(new PeriodicalEdition(id, safeInput(name), price));
+        return REPOSITORY.update(new PeriodicalEditionDTO(id, safeInput(name), price));
     }
 
     /**
-     * Takes an id of existing periodical and passess it to DAO for deletion.
+     * Takes an id of existing periodical and passess it to REPOSITORY for deletion.
      * @param id periodical unique id
      * @return true if periodical was inserted successfully, false otherwise
      */
     public boolean deletePeriodical(int id) {
         LOGGER.info(Log.PERIODICAL_DELETE + id);
-        return DAO.delete(id);
+        return REPOSITORY.delete(id);
     }
 
     /**

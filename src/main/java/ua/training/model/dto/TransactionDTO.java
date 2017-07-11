@@ -1,15 +1,15 @@
-package ua.training.model.entities;
+package ua.training.model.dto;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 
-public class Transaction {
+public class TransactionDTO {
     private int transactionId;
-    private User user;
+    private UserDTO user;
     private Timestamp transactionTime;
     private BigDecimal totalPrice;
 
-    public Transaction(int transactionId, User user, Timestamp transactionTime, BigDecimal totalPrice) {
+    public TransactionDTO(int transactionId, UserDTO user, Timestamp transactionTime, BigDecimal totalPrice) {
         this.transactionId = transactionId;
         this.user = user;
         this.transactionTime = transactionTime;
@@ -21,7 +21,7 @@ public class Transaction {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Transaction that = (Transaction) o;
+        TransactionDTO that = (TransactionDTO) o;
 
         if (getTransactionId() != that.getTransactionId()) return false;
         if (!getUser().equals(that.getUser())) return false;
@@ -42,7 +42,7 @@ public class Transaction {
         return transactionId;
     }
 
-    public User getUser() {
+    public UserDTO getUser() {
         return user;
     }
 

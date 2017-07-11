@@ -1,33 +1,33 @@
-package ua.training.model.dao;
+package ua.training.model.repository;
 
-import ua.training.model.entities.User;
+import ua.training.model.dto.UserDTO;
 
 import java.util.List;
 
-public interface UserDao {
+public interface UserRepository {
     /**
      * Finds all Users in database.
      * @return user
      */
-    List<User> findAll();
+    List<UserDTO> findAll();
 
     /**
      * Finds certain User by its unique username.
      * @param username user's name
      * @return user
      */
-    User findByUsername(String username);
+    UserDTO findByUsername(String username);
 
     /**
      * Finds certain User by its unique email.
      * @param email user email
      * @return user
      */
-    User findByEmail(String email);
+    UserDTO findByEmail(String email);
 
-    boolean insert(User user);
+    boolean insert(UserDTO user);
 
-    boolean update(User user);
+    boolean update(UserDTO user);
 
-    boolean delete(User user);
+    boolean delete(UserDTO user);
 }

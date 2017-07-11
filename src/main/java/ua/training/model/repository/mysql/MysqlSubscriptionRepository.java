@@ -1,31 +1,31 @@
-package ua.training.model.dao.mysql;
+package ua.training.model.repository.mysql;
 
 import org.apache.logging.log4j.*;
-import ua.training.model.dao.SubscriptionDao;
-import ua.training.model.entities.*;
+import ua.training.model.repository.SubscriptionRepository;
+import ua.training.model.dto.*;
 
 import java.sql.*;
 import java.util.*;
 
-public class MysqlSubscriptionDao implements SubscriptionDao {
-    private final static Logger LOGGER = LogManager.getLogger(MysqlSubscriptionDao.class);
+public class MysqlSubscriptionRepository implements SubscriptionRepository {
+    private final static Logger LOGGER = LogManager.getLogger(MysqlSubscriptionRepository.class);
 
     private final static int COLUMN_USERNAME = 1;
     private final static int COLUMN_EDITION_ID = 2;
     private final static int COLUMN_TRANSACTION = 3;
     private final static int COLUMN_EXPIRATION_DATE = 4;
 
-    private final static MysqlSubscriptionDao SUBSCRIPTION_DAO = new MysqlSubscriptionDao();
+    private final static MysqlSubscriptionRepository SUBSCRIPTION_REPOSITORY = new MysqlSubscriptionRepository();
 
-    private MysqlSubscriptionDao() {
+    private MysqlSubscriptionRepository() {
     }
 
-    static MysqlSubscriptionDao getInstance() {
-        return SUBSCRIPTION_DAO;
+    static MysqlSubscriptionRepository getInstance() {
+        return SUBSCRIPTION_REPOSITORY;
     }
 
     @Override
-    public List<Subscription> findByUsername(String username) {
+    public List<SubscriptionDTO> findByUsername(String username) {
         Connection connection = null;
         PreparedStatement statement = null;
         ResultSet resultSet = null;
@@ -45,7 +45,7 @@ public class MysqlSubscriptionDao implements SubscriptionDao {
     }
 
     @Override
-    public List<Subscription> findByPeriodical(int periodicalId) {
+    public List<SubscriptionDTO> findByPeriodical(int periodicalId) {
         Connection connection = null;
         PreparedStatement statement = null;
         ResultSet resultSet = null;
@@ -65,7 +65,7 @@ public class MysqlSubscriptionDao implements SubscriptionDao {
     }
 
     @Override
-    public List<Subscription> findByTransactionNumber(int transactionId) {
+    public List<SubscriptionDTO> findByTransactionNumber(int transactionId) {
         Connection connection = null;
         PreparedStatement statement = null;
         ResultSet resultSet = null;
@@ -85,13 +85,13 @@ public class MysqlSubscriptionDao implements SubscriptionDao {
     }
 
     @Override
-    public boolean insert(Subscription subscription) {
+    public boolean insert(SubscriptionDTO subscription) {
         return updateSubscriptionByQuery(subscription,
                 "INSERT INTO user_subscriptions VALUES (?, ?,?,?)");
     }
 
     @Override
-    public boolean update(Subscription subscription) {
+    public boolean update(SubscriptionDTO subscription) {
         return updateSubscriptionByQuery(subscription,
                 new StringBuilder(100)
                         .append("UPDATE user_subscriptions SET ")
@@ -102,36 +102,36 @@ public class MysqlSubscriptionDao implements SubscriptionDao {
                         .toString());
     }
 
-    private List<Subscription> resultToList(ResultSet resultSet) throws SQLException {
-        List<Subscription> list = new ArrayList<>();
+    private List<SubscriptionDTO> resultToList(ResultSet resultSet) throws SQLException {
+        List<SubscriptionDTO> list = new ArrayList<>();
         while (resultSet.next()) {
-            Subscription subscription = createSubscriptionFromResult(resultSet);
+            SubscriptionDTO subscription = createSubscriptionFromResult(resultSet);
             list.add(subscription);
         }
         resultSet.close();
         return list;
     }
 
-    private Subscription createSubscriptionFromResult(ResultSet resultSet) throws SQLException {
+    private SubscriptionDTO createSubscriptionFromResult(ResultSet resultSet) throws SQLException {
         if (resultSet.isBeforeFirst()) resultSet.next();
 
         String username = resultSet.getString(COLUMN_USERNAME);
-        User user = MysqlUserDao.getInstance().findByUsername(username);
+        UserDTO user = MysqlUserRepository.getInstance().findByUsername(username);
 
         int editionId = resultSet.getInt(COLUMN_EDITION_ID);
-        PeriodicalEdition edition = MysqlPeriodicalDao.getInstance().findById(editionId);
+        PeriodicalEditionDTO edition = MysqlPeriodicalRepository.getInstance().findById(editionId);
 
         int transactionId = resultSet.getInt(COLUMN_TRANSACTION);
-        Transaction transaction = MysqlTransactionDao.getInstance().findById(transactionId);
+        TransactionDTO transaction = MysqlTransactionRepository.getInstance().findById(transactionId);
 
         Timestamp expirationDate = resultSet.getTimestamp(COLUMN_EXPIRATION_DATE);
-        return new Subscription(user, edition, transaction, expirationDate);
+        return new SubscriptionDTO(user, edition, transaction, expirationDate);
     }
 
-    private boolean updateSubscriptionByQuery(Subscription subscription, String query) {
-        User user = subscription.getUser();
-        PeriodicalEdition pe = subscription.getEdition();
-        Transaction ta = subscription.getTransaction();
+    private boolean updateSubscriptionByQuery(SubscriptionDTO subscription, String query) {
+        UserDTO user = subscription.getUser();
+        PeriodicalEditionDTO pe = subscription.getEdition();
+        TransactionDTO ta = subscription.getTransaction();
         Timestamp expDate = subscription.getExpirationDate();
 
         Connection connection = null;

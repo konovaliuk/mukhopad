@@ -1,6 +1,6 @@
-package ua.training.model.dao;
+package ua.training.model.repository;
 
-import ua.training.model.entities.Transaction;
+import ua.training.model.dto.TransactionDTO;
 
 import java.util.List;
 
@@ -9,26 +9,26 @@ import java.util.List;
  *
  * @author Olksandr Mukhopad
  */
-public interface TransactionDao {
+public interface TransactionRepository {
     /**
      * Finds all Transactions in database.
      * @return List of transactions.
      */
-    List<Transaction> findAll();
+    List<TransactionDTO> findAll();
 
     /**
      * Finds all Transactions of certain user by his username.
      * @param username name of user
      * @return List of transactions.
      */
-    List<Transaction> findByUsername(String username);
+    List<TransactionDTO> findByUsername(String username);
 
     /**
      * Finds all Transactions of certain user by his username.
      * @param transactionId id of transaction
      * @return List of transactions.
      */
-    Transaction findById(int transactionId);
+    TransactionDTO findById(int transactionId);
 
     /**
      * Returns size of table
@@ -41,5 +41,5 @@ public interface TransactionDao {
      * @param transaction transaction
      * @return true if insertion was successful, false otherwise
      */
-    boolean insert(Transaction transaction);
+    boolean insert(TransactionDTO transaction);
 }

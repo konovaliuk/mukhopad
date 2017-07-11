@@ -2,11 +2,11 @@ package ua.training.controller;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import ua.training.model.dao.SubscriptionDao;
-import ua.training.model.dao.UserDao;
-import ua.training.model.dao.mysql.MysqlDaoFactory;
-import ua.training.model.entities.Subscription;
-import ua.training.model.entities.User;
+import ua.training.model.repository.SubscriptionRepository;
+import ua.training.model.repository.UserRepository;
+import ua.training.model.repository.mysql.MysqlRepositoryFactory;
+import ua.training.model.dto.SubscriptionDTO;
+import ua.training.model.dto.UserDTO;
 import ua.training.util.Log;
 import ua.training.util.Page;
 
@@ -23,15 +23,15 @@ public class SessionManager {
     private static final String SESSION_PERIODICALS = "subscriptions";
 
     /**
-     * Uploads user data the session by invoking user DAO and binding it to session parameter.
+     * Uploads user data the session by invoking user REPOSITORY and binding it to session parameter.
      * @param request http request from servlet
      * @param login user login as string
      * @return absolute address of main page.
      */
     public static String loadUserDataToSession(HttpServletRequest request, String login) {
         LOGGER.info(Log.LOADING_SESSION_DATA);
-        UserDao userDao = MysqlDaoFactory.getInstance().getUserDao();
-        User user = userDao.findByUsername(login);
+        UserRepository userRepository = MysqlRepositoryFactory.getInstance().getUserRepository();
+        UserDTO user = userRepository.findByUsername(login);
         request.getSession().setAttribute(SESSION_USER, user);
 
         loadSubscriptionData(request, user);
@@ -39,15 +39,15 @@ public class SessionManager {
     }
 
     /**
-     * Uploads user subscriptions data by invoking subscription DAO and finding
+     * Uploads user subscriptions data by invoking subscription REPOSITORY and finding
      * all user's subscriptions by his username and binding it to session parameter.
      * @param request http request from servlet
      * @param user warped user object
      */
-    public static void loadSubscriptionData(HttpServletRequest request, User user) {
+    public static void loadSubscriptionData(HttpServletRequest request, UserDTO user) {
         LOGGER.info(Log.LOADING_SUBSCRIPTION_DATA);
-        SubscriptionDao subscriptionDao = MysqlDaoFactory.getInstance().getSubscriptionDao();
-        List<Subscription> subscriptions = subscriptionDao.findByUsername(user.getUsername());
+        SubscriptionRepository subscriptionRepository = MysqlRepositoryFactory.getInstance().getSubscriptionRepository();
+        List<SubscriptionDTO> subscriptions = subscriptionRepository.findByUsername(user.getUsername());
         request.getSession().setAttribute(SESSION_PERIODICALS, subscriptions);
     }
 }

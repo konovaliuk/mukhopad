@@ -1,4 +1,4 @@
-package ua.training.model.dao.mysql;
+package ua.training.model.repository.mysql;
 
 import org.apache.logging.log4j.*;
 

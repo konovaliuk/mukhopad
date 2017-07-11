@@ -1,9 +1,10 @@
 package ua.training.model.services;
 
 import org.apache.logging.log4j.Logger;
-import ua.training.model.dao.TransactionDao;
-import ua.training.model.dao.mysql.MysqlDaoFactory;
-import ua.training.model.entities.*;
+import org.springframework.stereotype.Service;
+import ua.training.model.repository.TransactionRepository;
+import ua.training.model.repository.mysql.MysqlRepositoryFactory;
+import ua.training.model.dto.*;
 import ua.training.util.Log;
 
 import java.math.BigDecimal;
@@ -15,6 +16,7 @@ import java.util.Calendar;
  * and transaction. Has no state, so designed as Singleton.
  * @author Oleksandr Mukhopad
  */
+@Service
 public class SubscriptionService {
     private static final Logger LOGGER = org.apache.logging.log4j.LogManager.getLogger(SubscriptionService.class);
     private static final SubscriptionService SERVICE = new SubscriptionService();
@@ -27,21 +29,21 @@ public class SubscriptionService {
 
     /**
      * Creates Subscription from passed parameters plus invokes methods
-     * which calculate overall price and expiration date. Passes subscription to DAO
+     * which calculate overall price and expiration date. Passes subscription to REPOSITORY
      * and return result of insertion.
      * @param user current user
      * @param edition periodical edition
      * @param plan subscription plan
      * @return true if subscription was inserted successfully, false otherwise
      */
-    public boolean subscribeUser(User user, PeriodicalEdition edition, SubscriptionPlan plan) {
+    public boolean subscribeUser(UserDTO user, PeriodicalEditionDTO edition, SubscriptionPlanDTO plan) {
         Timestamp currentTime = new Timestamp(System.currentTimeMillis());
-        Transaction transaction = doTransaction(user, currentTime, edition, plan);
+        TransactionDTO transaction = doTransaction(user, currentTime, edition, plan);
         Timestamp expirationDate = calculateExpirationDate(currentTime, plan);
 
-        Subscription subscription = new Subscription(user, edition, transaction, expirationDate);
-        return MysqlDaoFactory.getInstance()
-                .getSubscriptionDao().insert(subscription);
+        SubscriptionDTO subscription = new SubscriptionDTO(user, edition, transaction, expirationDate);
+        return MysqlRepositoryFactory.getInstance()
+                .getSubscriptionRepository().insert(subscription);
     }
 
     /**
@@ -52,12 +54,12 @@ public class SubscriptionService {
      * @param plan subscription plan
      * @return created Transaction
      */
-    private Transaction doTransaction(User user, Timestamp currentTime, PeriodicalEdition edition, SubscriptionPlan plan) {
+    private TransactionDTO doTransaction(UserDTO user, Timestamp currentTime, PeriodicalEditionDTO edition, SubscriptionPlanDTO plan) {
         BigDecimal totalPrice = calculateTotalPrice(edition, plan);
-        TransactionDao transactionDao = MysqlDaoFactory.getInstance().getTransactionDao();
-        Transaction transaction = new Transaction(transactionDao.tableSize() + 1, user, currentTime, totalPrice);
+        TransactionRepository transactionRepository = MysqlRepositoryFactory.getInstance().getTransactionRepository();
+        TransactionDTO transaction = new TransactionDTO(transactionRepository.tableSize() + 1, user, currentTime, totalPrice);
         LOGGER.info(Log.TRANSACTION_CREATED);
-        transactionDao.insert(transaction);
+        transactionRepository.insert(transaction);
         return transaction;
     }
 
@@ -67,7 +69,7 @@ public class SubscriptionService {
      * @param plan subscription plan
      * @return Timestamp with estimated expiration date
      */
-    private Timestamp calculateExpirationDate(Timestamp dateOfSubscription, SubscriptionPlan plan) {
+    private Timestamp calculateExpirationDate(Timestamp dateOfSubscription, SubscriptionPlanDTO plan) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(dateOfSubscription);
         calendar.add(Calendar.MONTH, plan.getAmountOfMonths());
@@ -83,7 +85,7 @@ public class SubscriptionService {
      * @param plan subscription plan
      * @return total price
      */
-    public BigDecimal calculateTotalPrice(PeriodicalEdition edition, SubscriptionPlan plan) {
+    public BigDecimal calculateTotalPrice(PeriodicalEditionDTO edition, SubscriptionPlanDTO plan) {
         int editionPrice = edition.getEditionPrice().movePointRight(2).intValue();
         int totalPrice = (int) (editionPrice * plan.getAmountOfMonths() * plan.getRate());
         return BigDecimal.valueOf(totalPrice).movePointLeft(2);

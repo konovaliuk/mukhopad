@@ -1,8 +1,8 @@
-package ua.training.model.entities;
+package ua.training.model.dto;
 
 import ua.training.util.Message;
 
-public enum SubscriptionPlan {
+public enum SubscriptionPlanDTO {
     ONE_MONTH("ONE_MONTH", 1, 1, Message.EDITION_PLAN_ONE),
     THREE_MONTHS("THREE_MONTHS", 3, 0.9, Message.EDITION_PLAN_THREE),
     SIX_MONTHS("SIX_MONTHS", 6, 0.85, Message.EDITION_PLAN_SIX),
@@ -13,7 +13,7 @@ public enum SubscriptionPlan {
     private double rate;
     private String description;
 
-    SubscriptionPlan(String name, int amountOfMonths, double rate, String description) {
+    SubscriptionPlanDTO(String name, int amountOfMonths, double rate, String description) {
         this.name = name;
         this.amountOfMonths = amountOfMonths;
         this.rate = rate;

@@ -1,6 +1,6 @@
-package ua.training.model.dao;
+package ua.training.model.repository;
 
-import ua.training.model.entities.PeriodicalEdition;
+import ua.training.model.dto.PeriodicalEditionDTO;
 
 import java.util.List;
 
@@ -9,40 +9,40 @@ import java.util.List;
  *
  * @author Olksandr Mukhopad
  */
-public interface PeriodicalDao {
+public interface PeriodicalRepository {
     /**
      * Finds all PeriodicalEditions in database.
      * @return list of all editions
      */
-    List<PeriodicalEdition> findAll();
+    List<PeriodicalEditionDTO> findAll();
 
     /**
      * Finds certain PeriodicalEdition by its unique id.
      * @param editionId id of edition
      * @return periodical edition
      */
-    PeriodicalEdition findById(int editionId);
+    PeriodicalEditionDTO findById(int editionId);
 
     /**
      * Finds certain PeriodicalEdition by its unique name.
      * @param Name name of the edition
      * @return periodical edition
      */
-    PeriodicalEdition findByName(String Name);
+    PeriodicalEditionDTO findByName(String Name);
 
     /**
      * Tries to insert PeriodicalEdition into database
      * @param edition Periodical edition
      * @return true if insertion was successful, false otherwise
      */
-    boolean insert(PeriodicalEdition edition);
+    boolean insert(PeriodicalEditionDTO edition);
 
     /**
      * Tries to update PeriodicalEdition in database
      * @param edition Periodical edition
      * @return true if update was successful, false otherwise
      */
-    boolean update(PeriodicalEdition edition);
+    boolean update(PeriodicalEditionDTO edition);
 
     /**
      * Tries to delete PeriodicalEdition from database

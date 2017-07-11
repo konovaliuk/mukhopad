@@ -2,9 +2,9 @@ package ua.training.controller.command.user;
 
 import ua.training.controller.SessionManager;
 import ua.training.controller.command.Command;
-import ua.training.model.dao.PeriodicalDao;
-import ua.training.model.dao.mysql.MysqlDaoFactory;
-import ua.training.model.entities.*;
+import ua.training.model.repository.PeriodicalRepository;
+import ua.training.model.repository.mysql.MysqlRepositoryFactory;
+import ua.training.model.dto.*;
 import ua.training.model.services.SubscriptionService;
 import ua.training.util.*;
 
@@ -20,9 +20,9 @@ public class UserSubscribeCommand implements Command {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        User user = (User) request.getSession().getAttribute(SESSION_USER);
-        PeriodicalEdition edition = getEdition(request);
-        SubscriptionPlan plan = getPlan(request);
+        UserDTO user = (UserDTO) request.getSession().getAttribute(SESSION_USER);
+        PeriodicalEditionDTO edition = getEdition(request);
+        SubscriptionPlanDTO plan = getPlan(request);
 
         if(SubscriptionService.getService()
                 .subscribeUser(user, edition, plan)){
@@ -33,15 +33,15 @@ public class UserSubscribeCommand implements Command {
         }
     }
 
-    private PeriodicalEdition getEdition(HttpServletRequest request) {
+    private PeriodicalEditionDTO getEdition(HttpServletRequest request) {
         int editionId = Integer.parseInt(request.getParameter(EDITION));
-        PeriodicalDao periodicalDao = MysqlDaoFactory.getInstance().getPeriodicalDao();
-        return periodicalDao.findById(editionId);
+        PeriodicalRepository periodicalRepository = MysqlRepositoryFactory.getInstance().getPeriodicalRepository();
+        return periodicalRepository.findById(editionId);
     }
 
-    private SubscriptionPlan getPlan(HttpServletRequest request) {
+    private SubscriptionPlanDTO getPlan(HttpServletRequest request) {
         String planName = request.getParameter(PLAN);
-        return SubscriptionPlan.valueOf(planName);
+        return SubscriptionPlanDTO.valueOf(planName);
     }
 
 

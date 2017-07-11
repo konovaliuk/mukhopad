@@ -1,4 +1,4 @@
-package ua.training.model.entities;
+package ua.training.model.dto;
 
 public enum UserGroup {
     USER("USER"),

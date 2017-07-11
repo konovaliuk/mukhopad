@@ -1,9 +1,9 @@
 package ua.training.controller.command.redirect;
 
 import ua.training.controller.command.Command;
-import ua.training.model.dao.PeriodicalDao;
-import ua.training.model.dao.mysql.MysqlDaoFactory;
-import ua.training.model.entities.*;
+import ua.training.model.repository.PeriodicalRepository;
+import ua.training.model.repository.mysql.MysqlRepositoryFactory;
+import ua.training.model.dto.*;
 import ua.training.model.services.SubscriptionService;
 import ua.training.util.Page;
 
@@ -25,10 +25,10 @@ public class RedirectCheckoutCommand implements Command {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        SubscriptionPlan plan = getPlan(request);
+        SubscriptionPlanDTO plan = getPlan(request);
         request.setAttribute(PLAN, plan);
 
-        PeriodicalEdition edition =  getEdition(request);
+        PeriodicalEditionDTO edition =  getEdition(request);
         request.setAttribute(EDITION, edition);
 
         BigDecimal totalPrice =
@@ -43,10 +43,10 @@ public class RedirectCheckoutCommand implements Command {
         return Page.get(Page.CHECKOUT);
     }
 
-    private String userAlreadySubscribed(HttpServletRequest request, PeriodicalEdition edition) {
-        List<Subscription> userSubscriptions =
-                (List<Subscription>) request.getSession().getAttribute(SESSION_PERIODICALS);
-        for(Subscription s : userSubscriptions) {
+    private String userAlreadySubscribed(HttpServletRequest request, PeriodicalEditionDTO edition) {
+        List<SubscriptionDTO> userSubscriptions =
+                (List<SubscriptionDTO>) request.getSession().getAttribute(SESSION_PERIODICALS);
+        for(SubscriptionDTO s : userSubscriptions) {
             String currentEditionName = s.getEdition().getEditionName();
             if (currentEditionName.equals(edition.getEditionName())){
                 return new SimpleDateFormat("yyyy.MM.dd HH:mm:ss").format(s.getExpirationDate());
@@ -55,14 +55,14 @@ public class RedirectCheckoutCommand implements Command {
         return null;
     }
 
-    private PeriodicalEdition getEdition(HttpServletRequest request) {
+    private PeriodicalEditionDTO getEdition(HttpServletRequest request) {
         int editionId = Integer.parseInt(request.getParameter(EDITION));
-        PeriodicalDao periodicalDao = MysqlDaoFactory.getInstance().getPeriodicalDao();
-        return periodicalDao.findById(editionId);
+        PeriodicalRepository periodicalRepository = MysqlRepositoryFactory.getInstance().getPeriodicalRepository();
+        return periodicalRepository.findById(editionId);
     }
 
-    private SubscriptionPlan getPlan(HttpServletRequest request) {
+    private SubscriptionPlanDTO getPlan(HttpServletRequest request) {
         String planName = request.getParameter(PLAN);
-        return SubscriptionPlan.valueOf(planName);
+        return SubscriptionPlanDTO.valueOf(planName);
     }
 }

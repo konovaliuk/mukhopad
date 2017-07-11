@@ -2,16 +2,16 @@ package ua.training.model.services;
 
 import org.junit.Assert;
 import org.junit.Test;
-import ua.training.model.entities.PeriodicalEdition;
-import ua.training.model.entities.SubscriptionPlan;
+import ua.training.model.dto.PeriodicalEditionDTO;
+import ua.training.model.dto.SubscriptionPlanDTO;
 
 import java.math.BigDecimal;
 
 public class SubscriptionServiceTest {
     @Test
     public void calculateTotalPrice() {
-        PeriodicalEdition edition = new PeriodicalEdition(1, "Foo", new BigDecimal("14.99"));
-        SubscriptionPlan plan = SubscriptionPlan.SIX_MONTHS;
+        PeriodicalEditionDTO edition = new PeriodicalEditionDTO(1, "Foo", new BigDecimal("14.99"));
+        SubscriptionPlanDTO plan = SubscriptionPlanDTO.SIX_MONTHS;
 
         BigDecimal actual = SubscriptionService.getService()
                 .calculateTotalPrice(edition, plan);

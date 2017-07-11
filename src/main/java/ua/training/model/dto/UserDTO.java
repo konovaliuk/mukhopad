@@ -1,12 +1,12 @@
-package ua.training.model.entities;
+package ua.training.model.dto;
 
-public class User {
+public class UserDTO {
     private String username;
     private String password;
     private String email;
     private UserGroup group;
 
-    public User(String username, String password, String email, UserGroup group) {
+    public UserDTO(String username, String password, String email, UserGroup group) {
         this.username = username;
         this.password = password;
         this.email = email;
@@ -18,7 +18,7 @@ public class User {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        User user = (User) o;
+        UserDTO user = (UserDTO) o;
 
         if (!getUsername().equals(user.getUsername())) return false;
         if (!getPassword().equals(user.getPassword())) return false;

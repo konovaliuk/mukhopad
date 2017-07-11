@@ -1,7 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
-<%@ taglib uri="/WEB-INF/custom_tag.tld" prefix="mytag" %>
 <fmt:requestEncoding value="UTF-8" />
 <fmt:setBundle basename="messages" var="messages"/>
 <!DOCTYPE html>
@@ -12,7 +11,6 @@
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <title>
-        <mytag:title>
         <c:choose>
             <c:when test="${requestScope.action eq 'insert'}">
                 <fmt:message bundle="${messages}" key="ACTION_ADD"/>
@@ -21,7 +19,6 @@
                 <fmt:message bundle="${messages}" key="ACTION_EDIT"/>
             </c:when>
         </c:choose>
-        </mytag:title>
     </title>
     <c:if test="${empty sessionScope.user}">
         <c:redirect url="/publications"/>

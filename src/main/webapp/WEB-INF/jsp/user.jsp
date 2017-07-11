@@ -1,7 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
-<%@ taglib uri="/WEB-INF/custom_tag.tld" prefix="mytag" %>
 <fmt:requestEncoding value="UTF-8"/>
 <fmt:setBundle basename="messages" var="messages"/>
 <html>
@@ -9,7 +8,7 @@
     <head>
         <meta name="viewport" content="initial-scale=1, maximum-scale=1">
         <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-        <title><mytag:title><fmt:message bundle="${messages}" key="MY_PAGE"/></mytag:title></title>
+        <title><fmt:message bundle="${messages}" key="MY_PAGE"/></title>
         <c:if test="${empty sessionScope.user}">
             <c:redirect url="/publications"/>
         </c:if>

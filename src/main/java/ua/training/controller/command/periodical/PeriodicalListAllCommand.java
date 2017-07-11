@@ -2,9 +2,9 @@ package ua.training.controller.command.periodical;
 
 
 import ua.training.controller.command.Command;
-import ua.training.model.dao.PeriodicalDao;
-import ua.training.model.dao.mysql.MysqlDaoFactory;
-import ua.training.model.entities.PeriodicalEdition;
+import ua.training.model.repository.PeriodicalRepository;
+import ua.training.model.repository.mysql.MysqlRepositoryFactory;
+import ua.training.model.dto.PeriodicalEditionDTO;
 import ua.training.util.Page;
 
 import javax.servlet.ServletException;
@@ -18,8 +18,8 @@ public class PeriodicalListAllCommand implements Command {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        PeriodicalDao dao = MysqlDaoFactory.getInstance().getPeriodicalDao();
-        List<PeriodicalEdition> edition = dao.findAll();
+        PeriodicalRepository repository = MysqlRepositoryFactory.getInstance().getPeriodicalRepository();
+        List<PeriodicalEditionDTO> edition = repository.findAll();
             request.setAttribute(PERIODICALS_PARAM, edition);
 
         return Page.get(Page.MAIN);

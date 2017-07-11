@@ -1,13 +1,13 @@
-package ua.training.model.entities;
+package ua.training.model.dto;
 
 import java.math.BigDecimal;
 
-public class PeriodicalEdition {
+public class PeriodicalEditionDTO {
     private int editionId;
     private String editionName;
     private BigDecimal editionPrice;
 
-    public PeriodicalEdition(int editionId, String editionName, BigDecimal editionPrice) {
+    public PeriodicalEditionDTO(int editionId, String editionName, BigDecimal editionPrice) {
         this.editionId = editionId;
         this.editionName = editionName;
         this.editionPrice = editionPrice;
@@ -18,7 +18,7 @@ public class PeriodicalEdition {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        PeriodicalEdition edition = (PeriodicalEdition) o;
+        PeriodicalEditionDTO edition = (PeriodicalEditionDTO) o;
 
         if (getEditionId() != edition.getEditionId()) return false;
         if (!getEditionName().equals(edition.getEditionName())) return false;

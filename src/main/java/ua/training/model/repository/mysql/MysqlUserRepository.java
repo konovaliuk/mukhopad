@@ -1,14 +1,14 @@
-package ua.training.model.dao.mysql;
+package ua.training.model.repository.mysql;
 
 import org.apache.logging.log4j.*;
-import ua.training.model.dao.UserDao;
-import ua.training.model.entities.*;
+import ua.training.model.repository.UserRepository;
+import ua.training.model.dto.*;
 
 import java.sql.*;
 import java.util.*;
 
-public class MysqlUserDao implements UserDao {
-    private static final Logger LOGGER = LogManager.getLogger(MysqlUserDao.class);
+public class MysqlUserRepository implements UserRepository {
+    private static final Logger LOGGER = LogManager.getLogger(MysqlUserRepository.class);
 
     private final static int COLUMN_USERNAME = 1;
     private final static int COLUMN_PASSWORD = 2;
@@ -18,17 +18,17 @@ public class MysqlUserDao implements UserDao {
     private final static String BASE_SQL_USER_QUERY
             = "SELECT users.username, users.password, users.email, groups.group_name FROM users, groups WHERE users.user_group_id = groups.group_id ";
 
-    private final static MysqlUserDao USER_DAO = new MysqlUserDao();
+    private final static MysqlUserRepository USER_REPOSITORY = new MysqlUserRepository();
 
-    private MysqlUserDao() {
+    private MysqlUserRepository() {
     }
 
-    static MysqlUserDao getInstance() {
-        return USER_DAO;
+    static MysqlUserRepository getInstance() {
+        return USER_REPOSITORY;
     }
 
     @Override
-    public List<User> findAll() {
+    public List<UserDTO> findAll() {
         Connection connection = null;
         ResultSet resultSet = null;
         Statement statement = null;
@@ -46,7 +46,7 @@ public class MysqlUserDao implements UserDao {
     }
 
     @Override
-    public User findByUsername(String username) {
+    public UserDTO findByUsername(String username) {
         Connection connection = null;
         PreparedStatement statement = null;
         ResultSet resultSet = null;
@@ -66,7 +66,7 @@ public class MysqlUserDao implements UserDao {
     }
 
     @Override
-    public User findByEmail(String email) {
+    public UserDTO findByEmail(String email) {
         Connection connection = null;
         PreparedStatement statement = null;
         ResultSet resultSet = null;
@@ -86,7 +86,7 @@ public class MysqlUserDao implements UserDao {
     }
 
     @Override
-    public boolean insert(User user) {
+    public boolean insert(UserDTO user) {
         Connection connection = null;
         PreparedStatement statement = null;
 
@@ -110,7 +110,7 @@ public class MysqlUserDao implements UserDao {
     }
 
     @Override
-    public boolean update(User user) {
+    public boolean update(UserDTO user) {
         Connection connection = null;
         PreparedStatement statement = null;
         try {
@@ -133,7 +133,7 @@ public class MysqlUserDao implements UserDao {
     }
 
     @Override
-    public boolean delete(User user) {
+    public boolean delete(UserDTO user) {
         Connection connection = null;
         PreparedStatement statement = null;
         try {
@@ -151,16 +151,16 @@ public class MysqlUserDao implements UserDao {
         return false;
     }
 
-    private List<User> resultToList(ResultSet resultSet) throws SQLException {
-        List<User> list = new ArrayList<>();
+    private List<UserDTO> resultToList(ResultSet resultSet) throws SQLException {
+        List<UserDTO> list = new ArrayList<>();
         while (resultSet.next()) {
-            User user = createUserFromResult(resultSet);
+            UserDTO user = createUserFromResult(resultSet);
             list.add(user);
         }
         return list;
     }
 
-    private User createUserFromResult(ResultSet resultSet) throws SQLException {
+    private UserDTO createUserFromResult(ResultSet resultSet) throws SQLException {
         if (resultSet.isBeforeFirst()) resultSet.next();
 
         String username = resultSet.getString(COLUMN_USERNAME);
@@ -169,6 +169,6 @@ public class MysqlUserDao implements UserDao {
         String groupName = resultSet.getString(4);
 
         UserGroup group = UserGroup.valueOf(groupName.toUpperCase());
-        return new User(username, password, email, group);
+        return new UserDTO(username, password, email, group);
     }
 }

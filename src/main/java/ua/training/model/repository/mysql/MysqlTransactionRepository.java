@@ -1,32 +1,32 @@
-package ua.training.model.dao.mysql;
+package ua.training.model.repository.mysql;
 
 import org.apache.logging.log4j.*;
-import ua.training.model.dao.TransactionDao;
-import ua.training.model.entities.*;
+import ua.training.model.repository.TransactionRepository;
+import ua.training.model.dto.*;
 
 import java.math.BigDecimal;
 import java.sql.*;
 import java.util.*;
 
-public class MysqlTransactionDao implements TransactionDao {
-    private static final Logger LOGGER = LogManager.getLogger(MysqlTransactionDao.class);
+public class MysqlTransactionRepository implements TransactionRepository {
+    private static final Logger LOGGER = LogManager.getLogger(MysqlTransactionRepository.class);
 
     private final static int COLUMN_ID = 1;
     private final static int COLUMN_USER = 2;
     private final static int COLUMN_TIME = 3;
     private final static int COLUMN_TOTAL_PRICE = 4;
 
-    private final static MysqlTransactionDao TRANSACTION_DAO = new MysqlTransactionDao();
+    private final static MysqlTransactionRepository TRANSACTION_REPOSITORY = new MysqlTransactionRepository();
 
-    private MysqlTransactionDao() {
+    private MysqlTransactionRepository() {
     }
 
-    static MysqlTransactionDao getInstance() {
-        return TRANSACTION_DAO;
+    static MysqlTransactionRepository getInstance() {
+        return TRANSACTION_REPOSITORY;
     }
 
     @Override
-    public List<Transaction> findAll() {
+    public List<TransactionDTO> findAll() {
         Connection connection = null;
         Statement statement = null;
         ResultSet resultSet = null;
@@ -45,7 +45,7 @@ public class MysqlTransactionDao implements TransactionDao {
     }
 
     @Override
-    public List<Transaction> findByUsername(String username) {
+    public List<TransactionDTO> findByUsername(String username) {
         Connection connection = null;
         PreparedStatement statement = null;
         ResultSet resultSet = null;
@@ -65,7 +65,7 @@ public class MysqlTransactionDao implements TransactionDao {
     }
 
     @Override
-    public Transaction findById(int id) {
+    public TransactionDTO findById(int id) {
         Connection connection = null;
         PreparedStatement statement = null;
         ResultSet resultSet = null;
@@ -85,7 +85,7 @@ public class MysqlTransactionDao implements TransactionDao {
     }
 
     @Override
-    public boolean insert(Transaction transaction) {
+    public boolean insert(TransactionDTO transaction) {
         Connection connection = null;
         PreparedStatement statement = null;
         try {
@@ -126,24 +126,24 @@ public class MysqlTransactionDao implements TransactionDao {
         }
     }
 
-    private List<Transaction> resultToList(ResultSet resultSet) throws SQLException {
-        List<Transaction> list = new ArrayList<>();
+    private List<TransactionDTO> resultToList(ResultSet resultSet) throws SQLException {
+        List<TransactionDTO> list = new ArrayList<>();
         while (resultSet.next()) {
-            Transaction transaction = createTransactionFromResult(resultSet);
+            TransactionDTO transaction = createTransactionFromResult(resultSet);
             list.add(transaction);
         }
         resultSet.close();
         return list;
     }
 
-    private Transaction createTransactionFromResult(ResultSet resultSet) throws SQLException {
+    private TransactionDTO createTransactionFromResult(ResultSet resultSet) throws SQLException {
         if (resultSet.isBeforeFirst()) resultSet.next();
 
         int transactionId = resultSet.getInt(COLUMN_ID);
         String username = resultSet.getString(COLUMN_USER);
         Timestamp date = resultSet.getTimestamp(COLUMN_TIME);
         BigDecimal totalPrice = resultSet.getBigDecimal(COLUMN_TOTAL_PRICE);
-        User user = MysqlUserDao.getInstance().findByUsername(username);
-        return new Transaction(transactionId, user, date, totalPrice);
+        UserDTO user = MysqlUserRepository.getInstance().findByUsername(username);
+        return new TransactionDTO(transactionId, user, date, totalPrice);
     }
 }
