@@ -40,7 +40,8 @@ public class SubscriptionService {
         Timestamp expirationDate = calculateExpirationDate(currentTime, plan);
 
         Subscription subscription = new Subscription(user, edition, transaction, expirationDate);
-        return MysqlDaoFactory.getInstance().getSubscriptionDao().insert(subscription);
+        return MysqlDaoFactory.getInstance()
+                .getSubscriptionDao().insert(subscription);
     }
 
     /**
@@ -87,5 +88,4 @@ public class SubscriptionService {
         int totalPrice = (int) (editionPrice * plan.getAmountOfMonths() * plan.getRate());
         return BigDecimal.valueOf(totalPrice).movePointLeft(2);
     }
-
 }

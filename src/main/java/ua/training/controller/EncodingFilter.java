@@ -22,7 +22,6 @@ public class EncodingFilter implements Filter {
         if (encodingParam != null) {
             encoding = encodingParam;
         }
-
     }
 
     @Override

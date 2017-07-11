@@ -15,7 +15,7 @@ http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
     </servlet-mapping>
     <session-config>
         <session-timeout>
-            1
+            30
         </session-timeout>
     </session-config>
     <resource-ref>

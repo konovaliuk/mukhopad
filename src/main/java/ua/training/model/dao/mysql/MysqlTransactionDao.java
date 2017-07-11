@@ -34,7 +34,7 @@ public class MysqlTransactionDao implements TransactionDao {
             connection = MysqlDatasource.getConnection();
             statement = connection.createStatement();
             resultSet = statement.executeQuery(
-                    "SELECT * FROM transactions");
+                    "SELECT * FROM transactions ORDER BY transaction_Id DESC");
             return resultToList(resultSet);
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());

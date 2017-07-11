@@ -13,7 +13,6 @@ import java.util.List;
 
 public class RedirectAdminPageCommand implements Command {
     private static final String TRANSACTIONS_PARAM = "transactions";
-
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         TransactionDao dao = MysqlDaoFactory.getInstance().getTransactionDao();

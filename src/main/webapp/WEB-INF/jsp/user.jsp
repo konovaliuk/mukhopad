@@ -49,20 +49,20 @@
                 <table class="table table-striped table-hover table-bordered">
                     <c:choose>
                         <c:when test="${not empty sessionScope.subscriptions}">
-                                <thead>
-                                <tr>
-                                    <th><fmt:message bundle="${messages}" key="EDITION_NAME"/></th>
-                                    <th><fmt:message bundle="${messages}" key="EXPIRATION_DATE"/></th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <c:forEach items="${sessionScope.subscriptions}" var="item">
+                            <thead>
+                            <tr>
+                                <th><fmt:message bundle="${messages}" key="EDITION_NAME"/></th>
+                                <th><fmt:message bundle="${messages}" key="EXPIRATION_DATE"/></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <c:forEach items="${sessionScope.subscriptions}" var="item">
                                 <tr>
                                     <td>${item.edition.editionName}</td>
                                     <td>${item.expirationDate}</td>
                                 </tr>
                             </c:forEach>
-                                </tbody>
+                            </tbody>
                         </c:when>
                         <c:otherwise>
                             <fmt:message bundle="${messages}" key="NO_SUBSCRIPTIONS"/>
@@ -72,23 +72,54 @@
             </c:when>
             <c:otherwise>
                 <table class="table table-striped table-hover table-bordered">
-                        <thead>
-                        <tr>
-                            <th><fmt:message bundle="${messages}" key="USER_LOGIN"/></th>
-                            <th><fmt:message bundle="${messages}" key="PURCHASE_TOTAL_PRICE"/></th>
-                            <th><fmt:message bundle="${messages}" key="TRANSACTION_TIME"/></th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <c:forEach items="${requestScope.transactions}" var="item">
-                        <tr>
-                            <td>${item.user.username}</td>
-                            <td>$${item.totalPrice}</td>
-                            <td>${item.transactionTime}</td>
-                        </tr>
-                        </c:forEach>
-                        </tbody>
+
+                <c:set var="transactionPerPage" value="5"/>
+                <c:choose>
+                    <c:when test="${not empty param.page}"><c:set var="page" value="${param.page}"/></c:when>
+                    <c:otherwise><c:set var="page" value="0"/></c:otherwise>
+                </c:choose>
+                <fmt:formatNumber var="numberOfPages"
+                                  value="${requestScope.transactions.size() / transactionPerPage - 1}"
+                                  maxFractionDigits="0"/>
+                <thead>
+                <tr>
+                    <th><fmt:message bundle="${messages}" key="USER_LOGIN"/></th>
+                    <th><fmt:message bundle="${messages}" key="PURCHASE_TOTAL_PRICE"/></th>
+                    <th><fmt:message bundle="${messages}" key="TRANSACTION_TIME"/></th>
+                </tr>
+                </thead>
+                <tbody>
+                <c:forEach items="${transactions}"
+                           begin="${transactionPerPage * page}"
+                           end="${transactionPerPage * (page+1) - 1}" var="item">
+                    <tr>
+                        <td>${item.user.username}</td>
+                        <td>$${item.totalPrice}</td>
+                        <td>${item.transactionTime}</td>
+                    </tr>
+                </c:forEach>
+                </tbody>
                 </table>
+                <div class="btn-group" id="pages">
+                    <c:forEach begin="0" end="${numberOfPages}" var="i">
+                        <c:choose>
+                        <c:when test='${i == page}'>
+                            <c:set var="active" value="btn btn-primary"/>
+                        </c:when>
+                            <c:otherwise>
+                                <c:set var="active" value="btn btn-default"/>
+                            </c:otherwise>
+                        </c:choose>
+                        <input class="${active}" data-target="#pages" type="submit" value="${i+1}" form="page${i}">
+                    </c:forEach>
+                    <c:forEach begin="0" end="${numberOfPages}" var="i">
+                        <form method="post" action="publications" id="page${i}">
+                            <input type="hidden" name="command" value="redirectAdminPage">
+                            <input type="hidden" name="page" value="${i}">
+                        </form>
+                    </c:forEach>
+                </div>
+                </div>
             </c:otherwise>
         </c:choose>
         <form method="POST" action="publications">
