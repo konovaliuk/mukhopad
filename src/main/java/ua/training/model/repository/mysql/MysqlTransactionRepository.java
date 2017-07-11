@@ -1,6 +1,8 @@
 package ua.training.model.repository.mysql;
 
 import org.apache.logging.log4j.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import ua.training.model.repository.TransactionRepository;
 import ua.training.model.dto.*;
@@ -19,111 +21,53 @@ public class MysqlTransactionRepository implements TransactionRepository {
     private final static int COLUMN_TIME = 3;
     private final static int COLUMN_TOTAL_PRICE = 4;
 
-    UserRepository userRepository;
+    private UserRepository userRepository;
 
+    @Autowired
+    JdbcTemplate jdbcTemplate;
+
+    @Autowired
     MysqlTransactionRepository(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
     @Override
     public List<TransactionDTO> findAll() {
-        Connection connection = null;
-        Statement statement = null;
-        ResultSet resultSet = null;
-        try {
-            connection = MysqlDatasource.getConnection();
-            statement = connection.createStatement();
-            resultSet = statement.executeQuery(
-                    "SELECT * FROM transactions ORDER BY transaction_Id DESC");
-            return resultToList(resultSet);
-        } catch (SQLException e) {
-            LOGGER.error(e.getMessage());
-        } finally {
-            MysqlDatasource.close(connection, statement, resultSet);
-        }
-        return null;
+        String query = "SELECT * FROM transactions ORDER BY transaction_Id DESC";
+        return jdbcTemplate.query(query, this::resultToList);
     }
 
     @Override
     public List<TransactionDTO> findByUsername(String username) {
-        Connection connection = null;
-        PreparedStatement statement = null;
-        ResultSet resultSet = null;
-        try {
-            connection = MysqlDatasource.getConnection();
-            statement = connection.prepareStatement(
-                    "SELECT * FROM transactions WHERE transactions_username = ?");
-            statement.setString(1, username);
-            resultSet = statement.executeQuery();
-            return resultToList(resultSet);
-        } catch (SQLException e) {
-            LOGGER.error(e.getMessage());
-        } finally {
-            MysqlDatasource.close(connection, statement, resultSet);
-        }
-        return null;
+        String query = "SELECT * FROM transactions WHERE transactions_username = ?" + username;
+        return jdbcTemplate.query(query, this::resultToList);
     }
 
     @Override
     public TransactionDTO findById(int id) {
-        Connection connection = null;
-        PreparedStatement statement = null;
-        ResultSet resultSet = null;
-        try {
-            connection = MysqlDatasource.getConnection();
-            statement = connection.prepareStatement(
-                    "SELECT * FROM transactions WHERE transaction_id = ?");
-            statement.setInt(1, id);
-            resultSet = statement.executeQuery();
-            return createTransactionFromResult(resultSet);
-        } catch (SQLException e) {
-            LOGGER.error(e.getMessage());
-        } finally {
-            MysqlDatasource.close(connection, statement, resultSet);
-        }
-        return null;
+        String query = "SELECT * FROM transactions WHERE transaction_id = ?";
+        return jdbcTemplate.query(query, this::createTransactionFromResult);
     }
 
     @Override
     public boolean insert(TransactionDTO transaction) {
-        Connection connection = null;
-        PreparedStatement statement = null;
+
         try {
-            connection = MysqlDatasource.getConnection();
-            statement = connection.prepareStatement(
-                    " INSERT INTO transactions (transactions_username, transaction_time, totall_price) VALUES (?,?,?)");
-            statement.setString(COLUMN_USER - 1 , transaction.getUser().getUsername());
-            statement.setTimestamp(COLUMN_TIME - 1, transaction.getTransactionTime());
-            statement.setBigDecimal(COLUMN_TOTAL_PRICE - 1, transaction.getTotalPrice());
-            statement.executeUpdate();
+            jdbcTemplate.update(
+                    " INSERT INTO transactions (transactions_username, transaction_time, totall_price) VALUES (?,?,?)",
+                    transaction.getUser().getUsername(),
+                    transaction.getTransactionTime(),
+                    transaction.getTotalPrice()
+            );
             return true;
-        } catch (SQLException e) {
+        } catch (RuntimeException e) {
             LOGGER.error(e.getMessage());
-        } finally {
-            MysqlDatasource.close(connection, statement);
         }
         return false;
     }
 
     public int tableSize() {
-        Connection connection = null;
-        Statement statement = null;
-        ResultSet resultSet = null;
-        try {
-            connection = MysqlDatasource.getConnection();
-            statement = connection.createStatement();
-            resultSet = statement.executeQuery("SELECT count(*) FROM transactions");
-            int size = 0;
-            while (resultSet.next()){
-                size = resultSet.getInt(1);
-            }
-            return size;
-        } catch (SQLException e) {
-            LOGGER.error(e.getMessage());
-            return 0;
-        } finally {
-            MysqlDatasource.close(connection, statement, resultSet);
-        }
+        return findAll().size();
     }
 
     private List<TransactionDTO> resultToList(ResultSet resultSet) throws SQLException {

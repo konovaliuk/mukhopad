@@ -3,6 +3,7 @@ package ua.training.model.repository.mysql;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import ua.training.model.dto.PeriodicalEditionDTO;
 import ua.training.model.dto.SubscriptionDTO;
@@ -26,6 +27,9 @@ public class MysqlSubscriptionRepository implements SubscriptionRepository {
     private TransactionRepository transactionRepository;
 
     @Autowired
+    private JdbcTemplate jdbcTemplate;
+
+    @Autowired
     MysqlSubscriptionRepository(UserRepository ur, PeriodicalRepository pr, TransactionRepository tr) {
         this.userRepository = ur;
         this.periodicalRepository = pr;
@@ -39,62 +43,20 @@ public class MysqlSubscriptionRepository implements SubscriptionRepository {
 
     @Override
     public List<SubscriptionDTO> findByUsername(String username) {
-        Connection connection = null;
-        PreparedStatement statement = null;
-        ResultSet resultSet = null;
-        try {
-            connection = MysqlDatasource.getConnection();
-            statement = connection.prepareStatement(
-                    "SELECT * FROM user_subscriptions WHERE users_username = ?");
-            statement.setString(1, username);
-            resultSet = statement.executeQuery();
-            return resultToList(resultSet);
-        } catch (SQLException e) {
-            LOGGER.error(e.getMessage());
-        } finally {
-            MysqlDatasource.close(connection, statement, resultSet);
-        }
-        return null;
+        String query = "SELECT * FROM user_subscriptions WHERE users_username = ?" + username;
+        return jdbcTemplate.query(query, this::resultToList);
     }
 
     @Override
     public List<SubscriptionDTO> findByPeriodical(int periodicalId) {
-        Connection connection = null;
-        PreparedStatement statement = null;
-        ResultSet resultSet = null;
-        try {
-            connection = MysqlDatasource.getConnection();
-            statement = connection.prepareStatement(
-                    "SELECT * FROM user_subscriptions WHERE pereodicals_edition_id = ?");
-            statement.setInt(1, periodicalId);
-            resultSet = statement.executeQuery();
-            return resultToList(resultSet);
-        } catch (SQLException e) {
-            LOGGER.error(e.getMessage());
-        } finally {
-            MysqlDatasource.close(connection, statement, resultSet);
-        }
-        return null;
+        String query = "SELECT * FROM user_subscriptions WHERE pereodicals_edition_id = ?" + periodicalId;
+        return jdbcTemplate.query(query, this::resultToList);
     }
 
     @Override
     public List<SubscriptionDTO> findByTransactionId(int transactionId) {
-        Connection connection = null;
-        PreparedStatement statement = null;
-        ResultSet resultSet = null;
-        try {
-            connection = MysqlDatasource.getConnection();
-            statement = connection.prepareStatement(
-                    "SELECT * FROM user_subscriptions WHERE transactions_transaction_id = ?");
-            statement.setInt(1, transactionId);
-            resultSet = statement.executeQuery();
-            return resultToList(resultSet);
-        } catch (SQLException e) {
-            LOGGER.error(e.getMessage());
-        } finally {
-            MysqlDatasource.close(connection, statement, resultSet);
-        }
-        return null;
+        String query = "SELECT * FROM user_subscriptions WHERE transactions_transaction_id = ?" + transactionId;
+        return jdbcTemplate.query(query, this::resultToList);
     }
 
     @Override
@@ -140,22 +102,11 @@ public class MysqlSubscriptionRepository implements SubscriptionRepository {
         PeriodicalEditionDTO pe = subscription.getEdition();
         TransactionDTO ta = subscription.getTransaction();
         Timestamp expDate = subscription.getExpirationDate();
-
-        Connection connection = null;
-        PreparedStatement statement = null;
         try {
-            connection = MysqlDatasource.getConnection();
-            statement = connection.prepareStatement(query);
-            statement.setString(COLUMN_USERNAME, user.getUsername());
-            statement.setInt(COLUMN_EDITION_ID, pe.getEditionId());
-            statement.setInt(COLUMN_TRANSACTION, ta.getTransactionId());
-            statement.setTimestamp(COLUMN_EXPIRATION_DATE, expDate);
-            statement.executeUpdate();
+            jdbcTemplate.update(query, user.getUsername(), pe.getEditionId(), ta.getTransactionId(), expDate);
             return true;
-        } catch (SQLException e) {
+        } catch (RuntimeException e) {
             LOGGER.error(e.getMessage());
-        } finally {
-            MysqlDatasource.close(connection, statement);
         }
         return false;
     }
